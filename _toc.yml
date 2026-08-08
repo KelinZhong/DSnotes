@@ -1,0 +1,69 @@
+format: jb-book
+root: intro
+chapters:
+  - file: Python Data Libs/Python_Data_Libs
+    title: Python Data Library & Data Manipulation
+    sections:
+      - file: Python Data Libs/Reference_Pandas
+      - file: Python Data Libs/Reference_NumPy
+      - file: Python Data Libs/DM_Basic
+      - file: Python Data Libs/DM_Intermediate
+      - file: Python Data Libs/DM_Advanced
+      - file: Python Data Libs/Reference_Sampling
+      - file: Python Data Libs/Reference_Inference
+
+  - file: Metrics/metrics0
+    title: Business Metrics
+    sections:
+      - file: Metrics/metrics_Python
+      - file: Metrics/metrics_SQL
+
+  - file: Machine Learning/ML0
+    title: Machine Learning Notes
+    sections:
+      - file: Machine Learning/ML1_how_models_learn
+      - file: Machine Learning/ML2_model_evaluation
+      - file: Machine Learning/ML3_data_preparation
+      - file: Machine Learning/ML4_unsupervised_learning
+      - file: Machine Learning/ML5_tree_based_models
+      - file: Machine Learning/ML6_similarity_boundaries
+
+  - file: Experiment/exp0
+    title: Experiment in Python
+    sections:
+      - file: Experiment/Exp_Design
+      - file: Experiment/Exp_Analysis
+      - file: Experiment/Exp_Beyond_AB
+
+  - file: Causal ML/cml0
+    title: Causal Machine Learning Notes
+    sections:
+      - file: Causal ML/cml1_foundations
+      - file: Causal ML/cml2_experiments
+      - file: Causal ML/cml3_observational
+      - file: Causal ML/cml4_identification
+      - file: Causal ML/cml5_cate_metalearners
+      - file: Causal ML/cml6_uplift_modeling
+      - file: Causal ML/cml7_causal_forests
+      - file: Causal ML/cml8_endtoend
+
+  - file: Data Science Workflow/ds0
+    title: Data Science Workflow
+    sections:
+      - file: Data Science Workflow/ds1_problem_framing
+      - file: Data Science Workflow/ds2_eda
+      - file: Data Science Workflow/ds3_analytics
+      - file: Data Science Workflow/ds4_features
+      - file: Data Science Workflow/ds5_modeling
+      - file: Data Science Workflow/ds6_validation
+      - file: Data Science Workflow/ds7_deployment
+      - file: Data Science Workflow/ds8_communication
+      - file: Data Science Workflow/ds9_analytics_case_study
+      - file: Data Science Workflow/ds10_ml_case_study
+
+  - file: Business Decisions/bd0_overview
+    title: Business Decisions on Model Results
+    sections:
+      - file: Business Decisions/bd1_evaluating_results
+      - file: Business Decisions/bd2_cost_benefit
+      - file: Business Decisions/bd3_shipping_decision

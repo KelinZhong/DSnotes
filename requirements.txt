@@ -1,0 +1,18 @@
+# Build tooling
+jupyter-book
+ipykernel
+pydata-sphinx-theme
+
+# Imports found in the notebooks that execute during the build
+# (Experiment, Causal ML, Business Decisions, Data Science Workflow ds0-ds6/ds8,
+#  Python Data Libs landing + Sampling/Inference references)
+numpy
+pandas
+matplotlib
+scipy
+scikit-learn
+statsmodels
+networkx
+mlflow
+econml
+causalml

@@ -1,0 +1,47 @@
+title: Data Science Interview Prep
+author: Kelin Zhong
+repository:
+  url: https://github.com/KelinZhong/ds-interview-prep
+
+execute:
+  execute_notebooks: "force"
+  exclude_patterns:
+    - "Python Data Libs/DM_*.ipynb"
+    - "Python Data Libs/Reference_Pandas.ipynb"
+    - "Python Data Libs/Reference_NumPy.ipynb"
+    - "Metrics/*"
+    - "Machine Learning/*"
+    # NOTE: the original patterns used "DS7_/DS9_/DS10_" (uppercase), which
+    # never matched the lowercase ds7_/ds9_/ds10_ filenames on the
+    # case-sensitive CI runner — so these notebooks were silently being
+    # executed. Fixed to lowercase here so they are actually skipped.
+    - "Data Science Workflow/ds7_*.ipynb"
+    - "Data Science Workflow/ds9_*.ipynb"
+    - "Data Science Workflow/ds10_*.ipynb"
+
+html:
+  use_repository_button: true
+  home_page_in_navbar: true
+
+sphinx:
+  config:
+    html_theme: pydata_sphinx_theme
+    html_theme_options:
+      # 1. Rename the "More" button to "Topics"
+      header_dropdown_text: "Topics"
+
+      # 2. Force all top-level chapters into the "Topics" dropdown
+      header_links_before_dropdown: 0
+
+      # 3. Keep the sidebar behavior from the original book
+      primary_sidebar_end: ["page-toc"]
+      secondary_sidebar_items: []
+
+      # 4. Sidebar behavior settings
+      collapse_navigation: false
+      show_nav_level: 2
+      navigation_depth: 4
+
+      # 5. Navbar layout
+      navbar_center: ["navbar-nav"] # This ensures the "Topics" button appears
+      navbar_end: ["theme-switcher", "navbar-icon-links"]
