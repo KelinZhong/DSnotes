@@ -10,14 +10,14 @@ execute:
     - "Python Data Libs/Reference_Pandas.ipynb"
     - "Python Data Libs/Reference_NumPy.ipynb"
     - "Metrics/*"
-    - "Machine Learning/*"
+    # - "Machine Learning/*"
     # NOTE: the original patterns used "DS7_/DS9_/DS10_" (uppercase), which
     # never matched the lowercase ds7_/ds9_/ds10_ filenames on the
     # case-sensitive CI runner — so these notebooks were silently being
     # executed. Fixed to lowercase here so they are actually skipped.
-    - "Data Science Workflow/ds7_*.ipynb"
-    - "Data Science Workflow/ds9_*.ipynb"
-    - "Data Science Workflow/ds10_*.ipynb"
+    # - "Data Science Workflow/ds7_*.ipynb"
+    # - "Data Science Workflow/ds9_*.ipynb"
+    # - "Data Science Workflow/ds10_*.ipynb"
 
 html:
   use_repository_button: true
