@@ -4,8 +4,6 @@ ipykernel
 pydata-sphinx-theme
 
 # Imports found in the notebooks that execute during the build
-# (Experiment, Causal ML, Business Decisions, Data Science Workflow ds0-ds6/ds8,
-#  Python Data Libs landing + Sampling/Inference references)
 numpy
 pandas
 matplotlib
@@ -16,3 +14,14 @@ networkx
 mlflow
 econml
 causalml
+
+# Needed since Machine Learning/* now executes
+umap-learn      # ML3_data_preparation
+xgboost         # ML5_tree_based_models
+lightgbm        # ML5_tree_based_models
+catboost        # ML5_tree_based_models
+
+# Needed since ds7_deployment now executes (don't rely on it arriving
+# transitively via mlflow)
+fastapi
+uvicorn
