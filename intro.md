@@ -2,6 +2,8 @@
 
 Personal study guides, cheatsheets, and references covering the full data science interview loop — from the pandas coding round to product-sense and shipping decisions.
 
+To read other notes, visite [Study Notes](https://kelinzhong.github.io/StudyNotes/).
+
 ## Contents
 
 - **Python Data Library & Data Manipulation** - pandas/NumPy references, data manipulation drills (basic → advanced), and sampling & statistical inference references
