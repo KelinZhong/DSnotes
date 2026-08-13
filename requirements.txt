@@ -1,27 +1,38 @@
-# Build tooling
-jupyter-book
+# ─── Build tooling ────────────────────────────────────────────────────────────
+jupyter-book<2
 ipykernel
 pydata-sphinx-theme
+ghp-import
 
-# Imports found in the notebooks that execute during the build
+# ─── Core scientific stack ────────────────────────────────────────────────────
+# Used by essentially every executing notebook.
 numpy
 pandas
 matplotlib
 scipy
 scikit-learn
 statsmodels
-networkx
-mlflow
-econml
-causalml
 
-# Needed since Machine Learning/* now executes
-umap-learn      # ML3_data_preparation
-xgboost         # ML5_tree_based_models
-lightgbm        # ML5_tree_based_models
-catboost        # ML5_tree_based_models
+# ─── Chapter-specific ─────────────────────────────────────────────────────────
+networkx        # Causal ML: DAGs (cml4_identification)
+mlflow          # DS Workflow: experiment tracking (ds5_modeling)
+econml          # Causal ML: DML / meta-learners (cml5)
+causalml        # Causal ML: uplift modeling (cml6)
 
-# Needed since ds7_deployment now executes (don't rely on it arriving
-# transitively via mlflow)
-fastapi
-uvicorn
+umap-learn      # ML: ML3_data_preparation
+xgboost         # ML: ML5_tree_based_models
+lightgbm        # ML: ML5_tree_based_models
+catboost        # ML: ML5_tree_based_models
+
+fastapi         # DS Workflow: ds7_deployment serving pattern
+uvicorn         # DS Workflow: ds7_deployment serving pattern
+
+# ─── Notes ────────────────────────────────────────────────────────────────────
+# _config.yml no longer excludes anything from execution. Previously
+# "Python Data Libs/DM_*", Reference_Pandas, Reference_NumPy and Metrics/* were
+# skipped, but they carried stored outputs on only 2-3 of their 10-13 code
+# cells, so the site rendered those chapters as code with no results. They now
+# execute at build time and need nothing beyond numpy/pandas/matplotlib above.
+#
+# ML7_imbalance_calibration deliberately implements SMOTE from scratch rather
+# than depending on imbalanced-learn, so it adds no new requirement.

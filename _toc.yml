@@ -27,6 +27,7 @@ chapters:
       - file: Machine Learning/ML4_unsupervised_learning
       - file: Machine Learning/ML5_tree_based_models
       - file: Machine Learning/ML6_similarity_boundaries
+      - file: Machine Learning/ML7_imbalance_calibration
 
   - file: Experiment/exp0
     title: Experiment in Python

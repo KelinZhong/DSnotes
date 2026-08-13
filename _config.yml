@@ -1,7 +1,8 @@
 title: Data Science Interview Prep
 author: Kelin Zhong
 repository:
-  url: https://github.com/KelinZhong/ds-interview-prep
+  url: https://github.com/KelinZhong/DSnotes
+  branch: main
 
 execute:
   execute_notebooks: "force"
@@ -10,14 +11,17 @@ execute:
   # 30-second default per-cell timeout and kill the build. 300s gives headroom
   # for all training cells (ML5's boosting cells included).
   timeout: 300
-  exclude_patterns:
-    - "Python Data Libs/DM_*.ipynb"
-    - "Python Data Libs/Reference_Pandas.ipynb"
-    - "Python Data Libs/Reference_NumPy.ipynb"
-    - "Metrics/*"
+  # Nothing is excluded any more. Previously "Python Data Libs/DM_*",
+  # Reference_Pandas, Reference_NumPy and Metrics/* were skipped from
+  # execution, but those notebooks carried stored outputs on only 2-3 of their
+  # 10-13 code cells -- so the published site rendered the pandas/NumPy drills
+  # as code with no results at all. Executing them costs ~1 min of build time
+  # and guarantees every cell in the coding-round chapters shows real output.
+  allow_errors: false
 
 html:
   use_repository_button: true
+  use_issues_button: true
   home_page_in_navbar: true
 
 sphinx:
