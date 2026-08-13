@@ -1,0 +1,1487 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>NumPy — Technical Reference &#8212; Data Science Interview Prep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Python Data Libs/Reference_NumPy';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data Manipulation — Basic" href="DM_Basic.html" />
+    <link rel="prev" title="Pandas — Technical Reference" href="Reference_Pandas.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Science Interview Prep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    Topics
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Reference_Pandas.html">Pandas — Technical Reference</a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">NumPy — Technical Reference</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="DM_Basic.html">Data Manipulation — Basic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DM_Intermediate.html">Data Manipulation — Intermediate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DM_Advanced.html">Data Manipulation — Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Reference_Sampling.html">Sampling Methods – DS Interview Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Reference_Inference.html">Statistical Inference – DS Interview Reference</a></li>
+
+
+
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">NumPy — Technical Reference</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-index">Quick Index</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use">When to Use</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#array-creation">§1 — Array Creation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#array-properties-dtypes">§2 — Array Properties &amp; dtypes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#indexing-slicing">§3 — Indexing &amp; Slicing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reshaping-stacking">§4 — Reshaping &amp; Stacking</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#math-aggregations">§5 — Math &amp; Aggregations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#broadcasting">§6 — Broadcasting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-algebra">§7 — Linear Algebra</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#random-simulation">§8 — Random &amp; Simulation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance">§9 — Performance</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-guide">Decision Guide</a></li>
+</ul>
+
+  </nav></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../intro.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="Python_Data_Libs.html" class="nav-link">Python Data Libraries</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">NumPy — Technical Reference</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="numpy-technical-reference">
+<h1>NumPy — Technical Reference<a class="headerlink" href="#numpy-technical-reference" title="Link to this heading">#</a></h1>
+<section id="quick-index">
+<h2>Quick Index<a class="headerlink" href="#quick-index" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Pattern</p></th>
+<th class="head text-left"><p>When to use</p></th>
+<th class="head text-left"><p>Section</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Array creation</p></td>
+<td class="text-left"><p>Build arrays from scratch or data</p></td>
+<td class="text-left"><p>§1</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Array properties &amp; dtypes</p></td>
+<td class="text-left"><p>Inspect shape, type, memory</p></td>
+<td class="text-left"><p>§2</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Indexing &amp; slicing</p></td>
+<td class="text-left"><p>Subset arrays in 1D / 2D / nD</p></td>
+<td class="text-left"><p>§3</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Reshaping &amp; stacking</p></td>
+<td class="text-left"><p>Change dimensions, combine arrays</p></td>
+<td class="text-left"><p>§4</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Math &amp; aggregations</p></td>
+<td class="text-left"><p>Element-wise ops, reductions</p></td>
+<td class="text-left"><p>§5</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Broadcasting</p></td>
+<td class="text-left"><p>Operations on arrays of different shapes</p></td>
+<td class="text-left"><p>§6</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Linear algebra</p></td>
+<td class="text-left"><p>Matrix ops, decompositions, solvers</p></td>
+<td class="text-left"><p>§7</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Random &amp; simulation</p></td>
+<td class="text-left"><p>Sampling, seeding, distributions</p></td>
+<td class="text-left"><p>§8</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Performance</p></td>
+<td class="text-left"><p>Views vs copies, vectorization</p></td>
+<td class="text-left"><p>§9</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="when-to-use">
+<h2>When to Use<a class="headerlink" href="#when-to-use" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Signal</p></th>
+<th class="head text-left"><p>NumPy method to reach for</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Create an array of zeros / ones</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.zeros()</span></code>, <code class="docutils literal notranslate"><span class="pre">np.ones()</span></code>, <code class="docutils literal notranslate"><span class="pre">np.full()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Evenly spaced values</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.arange()</span></code> (step-based) or <code class="docutils literal notranslate"><span class="pre">np.linspace()</span></code> (count-based)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Filter elements by condition</p></td>
+<td class="text-left"><p>Boolean indexing or <code class="docutils literal notranslate"><span class="pre">np.where()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Apply condition element-wise</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.where(cond,</span> <span class="pre">x,</span> <span class="pre">y)</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Aggregate across an axis</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.sum(axis=)</span></code>, <code class="docutils literal notranslate"><span class="pre">.mean(axis=)</span></code>, <code class="docutils literal notranslate"><span class="pre">.max(axis=)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Reshape without copying</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.reshape()</span></code> or <code class="docutils literal notranslate"><span class="pre">.T</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Stack arrays side by side</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.hstack()</span></code> or <code class="docutils literal notranslate"><span class="pre">np.concatenate(axis=1)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Stack arrays top to bottom</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.vstack()</span></code> or <code class="docutils literal notranslate"><span class="pre">np.concatenate(axis=0)</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Matrix multiplication</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#64;</span> <span class="pre">B</span></code> or <code class="docutils literal notranslate"><span class="pre">np.dot(A,</span> <span class="pre">B)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Solve linear system Ax = b</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.linalg.solve(A,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Generate reproducible random data</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.random.seed()</span></code> then <code class="docutils literal notranslate"><span class="pre">np.random.*</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Check if operation creates a copy</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.base</span></code> attribute — <code class="docutils literal notranslate"><span class="pre">None</span></code> means it is a copy</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="array-creation">
+<h2>§1 — Array Creation<a class="headerlink" href="#array-creation" title="Link to this heading">#</a></h2>
+<p>Every NumPy workflow starts here. Know which constructor to reach for and what dtype it produces by default.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># From Python data</span>
+<span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>                             <span class="c1"># 1D array, dtype inferred</span>
+<span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>                       <span class="c1"># 2D array (matrix)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>                <span class="c1"># force dtype</span>
+
+<span class="c1"># Filled arrays</span>
+<span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>                                <span class="c1"># 3×4 array of 0.0 (float64 by default)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>                                 <span class="c1"># 3×4 array of 1.0</span>
+<span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="mi">7</span><span class="p">)</span>                              <span class="c1"># 3×4 array filled with 7</span>
+<span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>                                       <span class="c1"># 4×4 identity matrix</span>
+<span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>                                <span class="c1"># uninitialized (fast, values are garbage)</span>
+
+<span class="c1"># Range arrays</span>
+<span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>                             <span class="c1"># [0, 2, 4, 6, 8] — like Python range(), step-based</span>
+<span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>                            <span class="c1"># [0, 0.25, 0.5, 0.75, 1.0] — N evenly spaced points</span>
+
+<span class="c1"># From existing array</span>
+<span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>                              <span class="c1"># same shape and dtype as arr, filled with 0</span>
+<span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>                                    <span class="c1"># explicit copy</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong><code class="docutils literal notranslate"><span class="pre">np.arange</span></code> vs <code class="docutils literal notranslate"><span class="pre">np.linspace</span></code>:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>Control</p></th>
+<th class="head text-left"><p>Endpoint included</p></th>
+<th class="head text-left"><p>Use when</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.arange(start,</span> <span class="pre">stop,</span> <span class="pre">step)</span></code></p></td>
+<td class="text-left"><p>Step size</p></td>
+<td class="text-left"><p>❌ No</p></td>
+<td class="text-left"><p>You know the step</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.linspace(start,</span> <span class="pre">stop,</span> <span class="pre">n)</span></code></p></td>
+<td class="text-left"><p>Count</p></td>
+<td class="text-left"><p>✅ Yes</p></td>
+<td class="text-left"><p>You know how many points</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">np.zeros(3,</span> <span class="pre">4)</span></code> raises <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> — shape must be a tuple: <code class="docutils literal notranslate"><span class="pre">np.zeros((3,</span> <span class="pre">4))</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.arange</span></code> with float steps accumulates floating point error — use <code class="docutils literal notranslate"><span class="pre">np.linspace</span></code> for floats</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.empty</span></code> looks initialized but contains arbitrary memory values — never use it when you need zeros</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="array-properties-dtypes">
+<h2>§2 — Array Properties &amp; dtypes<a class="headerlink" href="#array-properties-dtypes" title="Link to this heading">#</a></h2>
+<p>Always check shape and dtype before operating. Silent dtype coercion and shape mismatches are the most common source of bugs.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+
+<span class="c1"># Shape and dimensions</span>
+<span class="n">a</span><span class="o">.</span><span class="n">shape</span>          <span class="c1"># (2, 3) — (rows, cols)</span>
+<span class="n">a</span><span class="o">.</span><span class="n">ndim</span>           <span class="c1"># 2 — number of dimensions</span>
+<span class="n">a</span><span class="o">.</span><span class="n">size</span>           <span class="c1"># 6 — total number of elements</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>           <span class="c1"># 2 — length of first dimension only</span>
+
+<span class="c1"># Dtype</span>
+<span class="n">a</span><span class="o">.</span><span class="n">dtype</span>          <span class="c1"># dtype(&#39;int64&#39;)</span>
+<span class="n">a</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>  <span class="c1"># cast to float64</span>
+<span class="n">a</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>  <span class="c1"># cast to 32-bit int (halves memory)</span>
+
+<span class="c1"># Memory</span>
+<span class="n">a</span><span class="o">.</span><span class="n">nbytes</span>         <span class="c1"># total bytes: size * itemsize</span>
+<span class="n">a</span><span class="o">.</span><span class="n">itemsize</span>       <span class="c1"># bytes per element</span>
+
+<span class="c1"># Common dtypes</span>
+<span class="c1"># float64  — default for floats, highest precision</span>
+<span class="c1"># float32  — half the memory, enough for most ML tasks</span>
+<span class="c1"># int64    — default for integers</span>
+<span class="c1"># int32    — half the memory</span>
+<span class="c1"># bool     — True/False, 1 byte per element</span>
+<span class="c1"># complex128 — complex numbers</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Mixing int and float arrays — NumPy upcasts silently: <code class="docutils literal notranslate"><span class="pre">np.array([1,</span> <span class="pre">2])</span> <span class="pre">+</span> <span class="pre">np.array([0.5])</span></code> returns <code class="docutils literal notranslate"><span class="pre">float64</span></code></p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">len(a)</span></code> on a 2D array — returns the number of rows, not total elements; use <code class="docutils literal notranslate"><span class="pre">a.size</span></code> for total count</p></li>
+<li><p>Forgetting that <code class="docutils literal notranslate"><span class="pre">astype()</span></code> returns a new array — the original is unchanged unless you reassign</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="indexing-slicing">
+<h2>§3 — Indexing &amp; Slicing<a class="headerlink" href="#indexing-slicing" title="Link to this heading">#</a></h2>
+<p>NumPy slices return <strong>views</strong> (not copies) by default. Modifying a slice modifies the original. Use <code class="docutils literal notranslate"><span class="pre">.copy()</span></code> when you need independence.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]])</span>
+
+<span class="c1"># 1D indexing</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>             <span class="c1"># first element / first row</span>
+<span class="n">a</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>            <span class="c1"># last element / last row</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>           <span class="c1"># rows 1 and 2 (end exclusive)</span>
+<span class="n">a</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span>           <span class="c1"># every other row</span>
+
+<span class="c1"># 2D indexing — [row, col]</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>          <span class="c1"># row 1, col 2 → 6</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>          <span class="c1"># entire first row → [1, 2, 3]</span>
+<span class="n">a</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>          <span class="c1"># entire second column → [2, 5, 8]</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>      <span class="c1"># submatrix: rows 0–1, cols 1–2</span>
+
+<span class="c1"># Boolean indexing — filter elements by condition</span>
+<span class="n">a</span><span class="p">[</span><span class="n">a</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">]</span>                         <span class="c1"># → [6, 7, 8, 9] (1D result, flattened)</span>
+<span class="n">a</span><span class="p">[(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">a</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="p">)]</span>             <span class="c1"># AND condition</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">a</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">3</span>               <span class="c1"># boolean mask on first column</span>
+<span class="n">a</span><span class="p">[</span><span class="n">rows</span><span class="p">]</span>                          <span class="c1"># select rows where first col &gt; 3</span>
+
+<span class="c1"># Fancy indexing — select with an array of indices</span>
+<span class="n">a</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>                        <span class="c1"># rows 0 and 2 → returns a copy (not a view!)</span>
+<span class="n">a</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>                     <span class="c1"># columns 0 and 2</span>
+<span class="n">a</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>                <span class="c1"># elements (0,1) and (1,2) → [2, 6]</span>
+
+<span class="c1"># np.where — conditional element selection (returns indices or values)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span>                  <span class="c1"># returns (row_indices, col_indices) tuple</span>
+<span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>            <span class="c1"># if &gt; 5 keep value, else 0 (same shape as a)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="s1">&#39;low&#39;</span><span class="p">)</span>   <span class="c1"># string labels</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>View vs Copy — critical distinction:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Operation</p></th>
+<th class="head text-left"><p>Returns</p></th>
+<th class="head text-left"><p>Modifying changes original?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Basic slicing <code class="docutils literal notranslate"><span class="pre">a[0:2]</span></code></p></td>
+<td class="text-left"><p>View</p></td>
+<td class="text-left"><p>✅ Yes</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Boolean indexing <code class="docutils literal notranslate"><span class="pre">a[a</span> <span class="pre">&gt;</span> <span class="pre">0]</span></code></p></td>
+<td class="text-left"><p>Copy</p></td>
+<td class="text-left"><p>❌ No</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Fancy indexing <code class="docutils literal notranslate"><span class="pre">a[[0,</span> <span class="pre">1]]</span></code></p></td>
+<td class="text-left"><p>Copy</p></td>
+<td class="text-left"><p>❌ No</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Check with <code class="docutils literal notranslate"><span class="pre">arr.base</span></code> — if <code class="docutils literal notranslate"><span class="pre">None</span></code>, it’s a copy; if it points to another array, it’s a view.</p>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Expecting a copy from slicing — <code class="docutils literal notranslate"><span class="pre">b</span> <span class="pre">=</span> <span class="pre">a[0:2]</span></code> then <code class="docutils literal notranslate"><span class="pre">b[0]</span> <span class="pre">=</span> <span class="pre">99</span></code> modifies <code class="docutils literal notranslate"><span class="pre">a</span></code> too</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> / <code class="docutils literal notranslate"><span class="pre">|</span></code> without parentheses in boolean indexing — operator precedence causes wrong results</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.where(condition)</span></code> with one argument returns indices, not values — use <code class="docutils literal notranslate"><span class="pre">np.where(cond,</span> <span class="pre">x,</span> <span class="pre">y)</span></code> for value substitution</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="reshaping-stacking">
+<h2>§4 — Reshaping &amp; Stacking<a class="headerlink" href="#reshaping-stacking" title="Link to this heading">#</a></h2>
+<p>Reshape is a view when possible (no data copy). Use stacking to combine arrays along existing or new axes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>                <span class="c1"># [0, 1, ..., 11]</span>
+
+<span class="c1"># Reshape</span>
+<span class="n">a</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>                  <span class="c1"># 3 rows × 4 cols — total elements must match</span>
+<span class="n">a</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>                 <span class="c1"># -1 infers the missing dimension (→ 3×4)</span>
+<span class="n">a</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>                 <span class="c1"># column vector: (12, 1)</span>
+<span class="n">a</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>                 <span class="c1"># row vector: (1, 12)</span>
+
+<span class="c1"># Transpose</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">T</span>                              <span class="c1"># (4, 3) — swaps all axes</span>
+<span class="n">m</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>                <span class="c1"># equivalent for 2D; use for nD with explicit axis order</span>
+
+<span class="c1"># Flatten — always returns a copy</span>
+<span class="n">m</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>                      <span class="c1"># (12,) — 1D copy</span>
+<span class="n">m</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>                        <span class="c1"># (12,) — 1D view if possible (prefer over flatten)</span>
+
+<span class="c1"># Add / remove dimensions</span>
+<span class="n">a</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>                 <span class="c1"># (1, 12) — add axis at position 0</span>
+<span class="n">a</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>                 <span class="c1"># (12, 1) — add axis at position 1</span>
+<span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>     <span class="c1"># remove size-1 dimensions → (12,)</span>
+
+<span class="c1"># Stacking</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>                <span class="c1"># vertical stack → shape (2, 3)  — stack as rows</span>
+<span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>                <span class="c1"># horizontal stack → shape (6,)  — concatenate 1D</span>
+<span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>          <span class="c1"># stack 1D arrays as columns → shape (3, 2)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>   <span class="c1"># general — works on any axis</span>
+<span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>         <span class="c1"># new axis stack → shape (2, 3)</span>
+
+<span class="c1"># Split</span>
+<span class="n">np</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>                   <span class="c1"># split into 3 equal parts</span>
+<span class="n">np</span><span class="o">.</span><span class="n">array_split</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>             <span class="c1"># allow unequal splits</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong><code class="docutils literal notranslate"><span class="pre">np.stack</span></code> vs <code class="docutils literal notranslate"><span class="pre">np.concatenate</span></code> vs <code class="docutils literal notranslate"><span class="pre">np.vstack</span></code>:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>Creates new axis?</p></th>
+<th class="head text-left"><p>Use when</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.stack</span></code></p></td>
+<td class="text-left"><p>✅ Yes</p></td>
+<td class="text-left"><p>Combining along a <em>new</em> axis (e.g. batch dimension)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.concatenate</span></code></p></td>
+<td class="text-left"><p>❌ No</p></td>
+<td class="text-left"><p>Combining along an <em>existing</em> axis</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.vstack</span></code> / <code class="docutils literal notranslate"><span class="pre">np.hstack</span></code></p></td>
+<td class="text-left"><p>❌ No</p></td>
+<td class="text-left"><p>Shorthand for common concatenation patterns</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">reshape</span></code> fails if element count doesn’t match — always verify <code class="docutils literal notranslate"><span class="pre">a.size</span></code> before reshaping</p></li>
+<li><p>Confusing <code class="docutils literal notranslate"><span class="pre">np.stack</span></code> (new axis) with <code class="docutils literal notranslate"><span class="pre">np.concatenate</span></code> (existing axis) — stack of two (3,4) arrays gives (2,3,4); concatenate gives (6,4)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">flatten()</span></code> always copies; <code class="docutils literal notranslate"><span class="pre">ravel()</span></code> returns a view when possible — prefer <code class="docutils literal notranslate"><span class="pre">ravel()</span></code> for performance</p></li>
+</ul>
+<p><strong><code class="docutils literal notranslate"><span class="pre">reshape</span></code> vs <code class="docutils literal notranslate"><span class="pre">resize</span></code>, and <code class="docutils literal notranslate"><span class="pre">repeat</span></code> vs <code class="docutils literal notranslate"><span class="pre">tile</span></code>:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>What it does</p></th>
+<th class="head text-left"><p>Element count</p></th>
+<th class="head text-left"><p>Returns</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">a.reshape(r,</span> <span class="pre">c)</span></code></p></td>
+<td class="text-left"><p>reinterpret same data in a new shape</p></td>
+<td class="text-left"><p>must stay the same</p></td>
+<td class="text-left"><p>view when possible</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.resize(a,</span> <span class="pre">shape)</span></code></p></td>
+<td class="text-left"><p>force a new shape, repeating/truncating data</p></td>
+<td class="text-left"><p>may change</p></td>
+<td class="text-left"><p>new array (copy)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.repeat(a,</span> <span class="pre">n)</span></code></p></td>
+<td class="text-left"><p>repeat <strong>each element</strong> n times</p></td>
+<td class="text-left"><p>grows</p></td>
+<td class="text-left"><p>new array</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.tile(a,</span> <span class="pre">n)</span></code></p></td>
+<td class="text-left"><p>repeat the <strong>whole array</strong> n times</p></td>
+<td class="text-left"><p>grows</p></td>
+<td class="text-left"><p>new array</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;repeat(x, 2):&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>   <span class="c1"># each element</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;tile(x, 2)  :&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>     <span class="c1"># whole array</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>repeat(x, 2): [1 1 2 2 3 3]
+tile(x, 2)  : [1 2 3 1 2 3]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="math-aggregations">
+<h2>§5 — Math &amp; Aggregations<a class="headerlink" href="#math-aggregations" title="Link to this heading">#</a></h2>
+<p>All operations are element-wise by default. Use the <code class="docutils literal notranslate"><span class="pre">axis</span></code> parameter to reduce along a specific dimension.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+
+<span class="c1"># Element-wise arithmetic</span>
+<span class="n">a</span> <span class="o">+</span> <span class="mi">10</span>                           <span class="c1"># add scalar to every element</span>
+<span class="n">a</span> <span class="o">*</span> <span class="mi">2</span>                            <span class="c1"># multiply every element</span>
+<span class="n">a</span> <span class="o">**</span> <span class="mi">2</span>                           <span class="c1"># square every element</span>
+<span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>                       <span class="c1"># square root element-wise</span>
+<span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>                        <span class="c1"># e^x element-wise</span>
+<span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>                        <span class="c1"># natural log element-wise</span>
+<span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>                        <span class="c1"># absolute value</span>
+
+<span class="c1"># Aggregations — default: reduce entire array to scalar</span>
+<span class="n">a</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>                          <span class="c1"># sum of all elements</span>
+<span class="n">a</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>                         <span class="c1"># mean of all elements</span>
+<span class="n">a</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>                          <span class="c1"># standard deviation</span>
+<span class="n">a</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>                       <span class="c1"># index of minimum element (flattened)</span>
+<span class="n">a</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>                       <span class="c1"># index of maximum element (flattened)</span>
+
+<span class="c1"># Aggregations along an axis</span>
+<span class="n">a</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>                    <span class="c1"># sum down rows → result shape (3,)  — one value per column</span>
+<span class="n">a</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>                    <span class="c1"># sum across cols → result shape (2,) — one value per row</span>
+<span class="n">a</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>    <span class="c1"># keepdims=True → shape (2,1) instead of (2,) — useful for broadcasting</span>
+
+<span class="c1"># Cumulative</span>
+<span class="n">a</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>                 <span class="c1"># running total along each row</span>
+<span class="n">a</span><span class="o">.</span><span class="n">cumprod</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>                <span class="c1"># running product down each column</span>
+
+<span class="c1"># Matrix operations</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]])</span>
+
+<span class="n">A</span> <span class="o">*</span> <span class="n">B</span>                            <span class="c1"># element-wise multiplication (NOT matrix multiply)</span>
+<span class="n">A</span> <span class="o">@</span> <span class="n">B</span>                            <span class="c1"># matrix multiplication — same as np.dot(A, B)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>                     <span class="c1"># matrix multiplication (also works for 1D dot product)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">inner</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>                   <span class="c1"># inner product</span>
+<span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">B</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>   <span class="c1"># outer product</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong><code class="docutils literal notranslate"><span class="pre">axis</span></code> mental model:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">axis=0</span></code> → collapse rows (reduce “down”) → result has shape of one row</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">axis=1</span></code> → collapse columns (reduce “across”) → result has shape of one column</p></li>
+<li><p>Think: the axis you name is the axis that <strong>disappears</strong>.</p></li>
+</ul>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">*</span> <span class="pre">B</span></code> is element-wise, not matrix multiplication — use <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#64;</span> <span class="pre">B</span></code> for matrix multiply</p></li>
+<li><p>Forgetting <code class="docutils literal notranslate"><span class="pre">keepdims=True</span></code> when broadcasting a reduction back against the original — shape mismatch errors</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.dot</span></code> on 2D arrays is matrix multiply, but on 1D arrays it’s dot product — behavior differs by input shape</p></li>
+</ul>
+<p><strong><code class="docutils literal notranslate"><span class="pre">np.dot</span></code> vs <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> (matmul) vs <code class="docutils literal notranslate"><span class="pre">np.inner</span></code>:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>1-D inputs</p></th>
+<th class="head text-left"><p>2-D inputs</p></th>
+<th class="head text-left"><p>≥3-D (batched)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#64;</span> <span class="pre">B</span></code> / <code class="docutils literal notranslate"><span class="pre">np.matmul</span></code></p></td>
+<td class="text-left"><p>dot product (scalar)</p></td>
+<td class="text-left"><p>matrix multiply</p></td>
+<td class="text-left"><p>✅ broadcasts over batch dims</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.dot(A,</span> <span class="pre">B)</span></code></p></td>
+<td class="text-left"><p>dot product (scalar)</p></td>
+<td class="text-left"><p>matrix multiply</p></td>
+<td class="text-left"><p>❌ NOT batched — sums over a different axis pair</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.inner(A,</span> <span class="pre">B)</span></code></p></td>
+<td class="text-left"><p>dot product (scalar)</p></td>
+<td class="text-left"><p>contracts <strong>last</strong> axes (= <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#64;</span> <span class="pre">B.T</span></code>)</p></td>
+<td class="text-left"><p>—</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Prefer <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> — it’s the readable, batch-aware default. <code class="docutils literal notranslate"><span class="pre">np.dot</span></code> and <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> agree for 1-D and 2-D but diverge for ≥3-D.</p>
+<p><strong><code class="docutils literal notranslate"><span class="pre">==</span></code> vs <code class="docutils literal notranslate"><span class="pre">np.array_equal</span></code> vs <code class="docutils literal notranslate"><span class="pre">np.allclose</span></code>:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>Returns</p></th>
+<th class="head text-left"><p>Float-safe?</p></th>
+<th class="head text-left"><p>Use when</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">==</span> <span class="pre">b</span></code></p></td>
+<td class="text-left"><p>elementwise boolean array</p></td>
+<td class="text-left"><p>❌</p></td>
+<td class="text-left"><p>You want a per-element mask</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.array_equal(a,</span> <span class="pre">b)</span></code></p></td>
+<td class="text-left"><p>single bool, <strong>exact</strong></p></td>
+<td class="text-left"><p>❌</p></td>
+<td class="text-left"><p>Integer / exact equality</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.allclose(a,</span> <span class="pre">b)</span></code></p></td>
+<td class="text-left"><p>single bool, <strong>tolerance</strong></p></td>
+<td class="text-left"><p>✅</p></td>
+<td class="text-left"><p>Comparing floats (always use this)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="c1"># dot vs matmul on batched (3-D) input</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">3</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(P @ Q).shape   :&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">P</span> <span class="o">@</span> <span class="n">Q</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>     <span class="c1"># batched -&gt; (2,2,2)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;np.dot(P,Q).shape:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">P</span><span class="p">,</span><span class="n">Q</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="c1"># NOT batched -&gt; (2,2,2,2)</span>
+
+<span class="c1"># float comparison trap</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="o">+</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]);</span> <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;a == b        :&quot;</span><span class="p">,</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;array_equal   :&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;allclose      :&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(P @ Q).shape   : (2, 2, 2)
+np.dot(P,Q).shape: (2, 2, 2, 2)
+a == b        : [False  True]
+array_equal   : False
+allclose      : True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="broadcasting">
+<h2>§6 — Broadcasting<a class="headerlink" href="#broadcasting" title="Link to this heading">#</a></h2>
+<p>Broadcasting lets NumPy operate on arrays of different shapes without copying data. It follows a strict set of rules — misunderstanding them is the most common source of shape errors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Broadcasting rules (applied right-to-left on shapes):</span>
+<span class="c1"># 1. If arrays have different ndim, prepend 1s to the shorter shape</span>
+<span class="c1"># 2. Arrays with size 1 along a dimension are stretched to match the other</span>
+<span class="c1"># 3. If sizes differ and neither is 1, raises ValueError</span>
+
+<span class="c1"># Scalar broadcast — always works</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>    <span class="c1"># shape (2, 3)</span>
+<span class="n">a</span> <span class="o">+</span> <span class="mi">10</span>                                   <span class="c1"># 10 broadcasts to (2, 3)</span>
+
+<span class="c1"># 1D broadcast against 2D</span>
+<span class="n">row</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>             <span class="c1"># shape (3,) → treated as (1, 3)</span>
+<span class="n">a</span> <span class="o">+</span> <span class="n">row</span>                                  <span class="c1"># (2,3) + (1,3) → (2,3) — adds row to each row of a</span>
+
+<span class="n">col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">20</span><span class="p">]])</span>             <span class="c1"># shape (2, 1)</span>
+<span class="n">a</span> <span class="o">+</span> <span class="n">col</span>                                  <span class="c1"># (2,3) + (2,1) → (2,3) — adds col to each column of a</span>
+
+<span class="c1"># Common pattern: normalize each row (subtract row mean)</span>
+<span class="n">a</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>        <span class="c1"># (2,3) - (2,1) → broadcasts correctly</span>
+<span class="c1"># Without keepdims: a.mean(axis=1) has shape (2,) → (2,3) - (2,) raises ValueError</span>
+
+<span class="c1"># Outer product via broadcasting</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>                 <span class="c1"># shape (3,)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span>                  <span class="c1"># shape (2,)</span>
+<span class="n">x</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">y</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>     <span class="c1"># (1,3) * (2,1) → (2,3)</span>
+
+<span class="c1"># Shape compatibility examples</span>
+<span class="c1"># (2, 3) + (3,)     → OK   — (3,) treated as (1, 3)</span>
+<span class="c1"># (2, 3) + (2, 1)   → OK   — (2, 1) stretches to (2, 3)</span>
+<span class="c1"># (2, 3) + (2,)     → ERROR — (2,) treated as (1, 2), incompatible with dim 3</span>
+<span class="c1"># (2, 3) + (2, 4)   → ERROR — 3 and 4 incompatible, neither is 1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Broadcasting shape rules — quick reference:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Shapes</p></th>
+<th class="head text-left"><p>Compatible?</p></th>
+<th class="head text-left"><p>Result shape</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">3)</span></code> + <code class="docutils literal notranslate"><span class="pre">(3,)</span></code></p></td>
+<td class="text-left"><p>✅</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">3)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">3)</span></code> + <code class="docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">1)</span></code></p></td>
+<td class="text-left"><p>✅</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">3)</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">3)</span></code> + <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">3)</span></code></p></td>
+<td class="text-left"><p>✅</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">3)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">3)</span></code> + <code class="docutils literal notranslate"><span class="pre">(2,)</span></code></p></td>
+<td class="text-left"><p>❌</p></td>
+<td class="text-left"><p>—</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">3)</span></code> + <code class="docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">4)</span></code></p></td>
+<td class="text-left"><p>❌</p></td>
+<td class="text-left"><p>—</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Subtracting a row mean without <code class="docutils literal notranslate"><span class="pre">keepdims=True</span></code> — result shape is <code class="docutils literal notranslate"><span class="pre">(n,)</span></code> not <code class="docutils literal notranslate"><span class="pre">(n,</span> <span class="pre">1)</span></code>, causing a dimension mismatch</p></li>
+<li><p>Assuming broadcasting copies data — it doesn’t; it uses strides to simulate the stretched shape</p></li>
+<li><p>Shape <code class="docutils literal notranslate"><span class="pre">(2,)</span></code> and shape <code class="docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">1)</span></code> are different — always add <code class="docutils literal notranslate"><span class="pre">newaxis</span></code> or <code class="docutils literal notranslate"><span class="pre">reshape</span></code> to control which axis stretches</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="linear-algebra">
+<h2>§7 — Linear Algebra<a class="headerlink" href="#linear-algebra" title="Link to this heading">#</a></h2>
+<p>All linear algebra lives in <code class="docutils literal notranslate"><span class="pre">np.linalg</span></code>. Critical for quantitative analyst roles and ML. Always check that your matrix is square / full-rank before inverting.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>   <span class="c1"># a GENERAL (non-symmetric) matrix</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">A</span> <span class="o">@</span> <span class="n">A</span><span class="o">.</span><span class="n">T</span>                      <span class="c1"># build a SYMMETRIC, positive-definite matrix for eigh/cholesky</span>
+
+<span class="c1"># Basic matrix properties</span>
+<span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>                 <span class="c1"># determinant — 0 means singular (not invertible)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_rank</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>         <span class="c1"># rank</span>
+<span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>                      <span class="c1"># sum of diagonal elements</span>
+<span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>                       <span class="c1"># extract diagonal as 1D array</span>
+<span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>               <span class="c1"># create diagonal matrix from 1D array</span>
+
+<span class="c1"># Inverse</span>
+<span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>                 <span class="c1"># A^{-1} — only for square, non-singular matrices</span>
+
+<span class="c1"># Solve linear system Ax = b — preferred over inv(A) @ b (more numerically stable)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>        <span class="c1"># finds x such that Ax = b</span>
+
+<span class="c1"># Norms</span>
+<span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>                <span class="c1"># L2 norm (Euclidean) of a vector</span>
+<span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="s1">&#39;fro&#39;</span><span class="p">)</span>         <span class="c1"># Frobenius norm of a matrix</span>
+<span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>         <span class="c1"># L1 norm</span>
+
+<span class="c1"># Eigenvalues and eigenvectors</span>
+<span class="n">eigenvalues</span><span class="p">,</span> <span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>   <span class="c1"># GENERAL matrix — use for any square matrix</span>
+<span class="n">eigenvalues</span><span class="p">,</span> <span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>  <span class="c1"># SYMMETRIC matrix only — pass S, not A (see §7 note)</span>
+
+<span class="c1"># Singular Value Decomposition — A = U @ diag(S) @ Vt</span>
+<span class="n">U</span><span class="p">,</span> <span class="n">sv</span><span class="p">,</span> <span class="n">Vt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>     <span class="c1"># sv is 1D array of singular values (descending)</span>
+
+<span class="c1"># Least squares — solve over-determined system (more equations than unknowns)</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">residuals</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">s_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="c1"># Cholesky decomposition — L @ L.T = S (requires SYMMETRIC positive-definite — pass S, not A)</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong><code class="docutils literal notranslate"><span class="pre">np.linalg.solve</span></code> vs <code class="docutils literal notranslate"><span class="pre">np.linalg.inv</span></code>:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>Speed</p></th>
+<th class="head text-left"><p>Numerical stability</p></th>
+<th class="head text-left"><p>Use when</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.linalg.solve(A,</span> <span class="pre">b)</span></code></p></td>
+<td class="text-left"><p>Faster</p></td>
+<td class="text-left"><p>✅ Better</p></td>
+<td class="text-left"><p>Solving Ax = b</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.linalg.inv(A)</span> <span class="pre">&#64;</span> <span class="pre">b</span></code></p></td>
+<td class="text-left"><p>Slower</p></td>
+<td class="text-left"><p>❌ Worse</p></td>
+<td class="text-left"><p>Only when you need A⁻¹ explicitly</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong><code class="docutils literal notranslate"><span class="pre">np.linalg.eig</span></code> vs <code class="docutils literal notranslate"><span class="pre">np.linalg.eigh</span></code>:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>Valid input</p></th>
+<th class="head text-left"><p>Output</p></th>
+<th class="head text-left"><p>Use when</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.linalg.eig(A)</span></code></p></td>
+<td class="text-left"><p>Any square matrix</p></td>
+<td class="text-left"><p>Possibly complex, unordered</p></td>
+<td class="text-left"><p>General matrix</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.linalg.eigh(S)</span></code></p></td>
+<td class="text-left"><p><strong>Symmetric / Hermitian only</strong></p></td>
+<td class="text-left"><p>Real, ascending order</p></td>
+<td class="text-left"><p>Symmetric matrix — faster &amp; stable</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>⚠️ <code class="docutils literal notranslate"><span class="pre">eigh</span></code> reads only one triangle and <strong>assumes</strong> symmetry — it returns a <em>wrong answer with no error</em> on a non-symmetric matrix. Only pass it a matrix you know is symmetric (e.g. a covariance matrix, or <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#64;</span> <span class="pre">A.T</span></code>).</p>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Calling <code class="docutils literal notranslate"><span class="pre">np.linalg.inv</span></code> on a singular matrix — raises <code class="docutils literal notranslate"><span class="pre">LinAlgError</span></code>; check <code class="docutils literal notranslate"><span class="pre">np.linalg.det(A)</span> <span class="pre">!=</span> <span class="pre">0</span></code> first</p></li>
+<li><p>Passing a <strong>non-symmetric</strong> matrix to <code class="docutils literal notranslate"><span class="pre">eigh</span></code> (or <code class="docutils literal notranslate"><span class="pre">cholesky</span></code>) — <code class="docutils literal notranslate"><span class="pre">eigh</span></code> silently returns wrong eigenvalues; <code class="docutils literal notranslate"><span class="pre">cholesky</span></code> raises <code class="docutils literal notranslate"><span class="pre">LinAlgError</span></code>. Use <code class="docutils literal notranslate"><span class="pre">eig</span></code> for general matrices; reserve <code class="docutils literal notranslate"><span class="pre">eigh</span></code>/<code class="docutils literal notranslate"><span class="pre">cholesky</span></code> for symmetric (positive-definite) input</p></li>
+<li><p>Forgetting that <code class="docutils literal notranslate"><span class="pre">SVD</span></code> returns <code class="docutils literal notranslate"><span class="pre">Vt</span></code> (transposed V), not <code class="docutils literal notranslate"><span class="pre">V</span></code> — <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">≈</span> <span class="pre">U</span> <span class="pre">&#64;</span> <span class="pre">np.diag(S)</span> <span class="pre">&#64;</span> <span class="pre">Vt</span></code>, not <code class="docutils literal notranslate"><span class="pre">&#64;</span> <span class="pre">V</span></code></p></li>
+</ul>
+<p><strong>Verified — why <code class="docutils literal notranslate"><span class="pre">eigh</span></code> needs a symmetric matrix:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>   <span class="c1"># non-symmetric</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">A</span> <span class="o">@</span> <span class="n">A</span><span class="o">.</span><span class="n">T</span>                      <span class="c1"># symmetric, positive-definite</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;S symmetric? &quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">S</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;eig(S) :&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">S</span><span class="p">)[</span><span class="mi">0</span><span class="p">]))</span>   <span class="c1"># correct</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;eigh(S):&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">S</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>           <span class="c1"># correct (ascending)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;eig(A) :&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">A</span><span class="p">)[</span><span class="mi">0</span><span class="p">]))</span>   <span class="c1"># correct for general A</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;eigh(A):&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">A</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot; &lt;- WRONG, A is not symmetric&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>S symmetric?  True
+eig(S) : [2.56579058e-02 3.89743421e+01]
+eigh(S): [2.56579058e-02 3.89743421e+01]
+eig(A) : [0.20871215 4.79128785]
+eigh(A): [-2.52493781  7.52493781]  &lt;- WRONG, A is not symmetric
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="random-simulation">
+<h2>§8 — Random &amp; Simulation<a class="headerlink" href="#random-simulation" title="Link to this heading">#</a></h2>
+<p>Use <code class="docutils literal notranslate"><span class="pre">np.random.default_rng()</span></code> for the modern API (reproducible and thread-safe). The legacy <code class="docutils literal notranslate"><span class="pre">np.random.seed()</span></code> still works but is discouraged in new code.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Modern API — recommended</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>     <span class="c1"># create a Generator with fixed seed</span>
+
+<span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>                        <span class="c1"># uniform [0, 1) — shape (3, 4)</span>
+<span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>         <span class="c1"># integers in [0, 10)</span>
+<span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,))</span>  <span class="c1"># normal distribution μ=0, σ=1</span>
+<span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,))</span>  <span class="c1"># uniform distribution</span>
+<span class="n">rng</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,))</span>  <span class="c1"># binomial distribution</span>
+<span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>        <span class="c1"># sample with replacement</span>
+<span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># sample without replacement</span>
+<span class="n">rng</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>                          <span class="c1"># in-place shuffle</span>
+<span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>                      <span class="c1"># shuffled copy (original unchanged)</span>
+
+<span class="c1"># Legacy API — still common in older code</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>                        <span class="c1"># set global seed</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>                      <span class="c1"># uniform [0, 1)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>                     <span class="c1"># standard normal</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>    <span class="c1"># integers in [0, 10)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>      <span class="c1"># sample with replacement</span>
+
+<span class="c1"># Monte Carlo example — estimate π</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">1_000_000</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">inside</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span>
+<span class="n">pi_estimate</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">inside</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>          <span class="c1"># ≈ 3.1416</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Legacy vs modern API:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p><code class="docutils literal notranslate"><span class="pre">np.random.seed()</span></code> (legacy)</p></th>
+<th class="head text-left"><p><code class="docutils literal notranslate"><span class="pre">np.random.default_rng()</span></code> (modern)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Thread-safe</p></td>
+<td class="text-left"><p>❌</p></td>
+<td class="text-left"><p>✅</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Reproducible</p></td>
+<td class="text-left"><p>✅ (global state)</p></td>
+<td class="text-left"><p>✅ (local state)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Recommended</p></td>
+<td class="text-left"><p>❌</p></td>
+<td class="text-left"><p>✅</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">np.random.seed()</span></code> in parallel code — global state causes race conditions; use <code class="docutils literal notranslate"><span class="pre">default_rng</span></code> instead</p></li>
+<li><p>Calling <code class="docutils literal notranslate"><span class="pre">rng.shuffle(arr)</span></code> expecting a return value — it modifies <code class="docutils literal notranslate"><span class="pre">arr</span></code> in-place and returns <code class="docutils literal notranslate"><span class="pre">None</span></code>; use <code class="docutils literal notranslate"><span class="pre">rng.permutation(arr)</span></code> for a copy</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rng.integers(0,</span> <span class="pre">10)</span></code> includes 0, excludes 10 — end is exclusive, same as Python <code class="docutils literal notranslate"><span class="pre">range</span></code></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="performance">
+<h2>§9 — Performance<a class="headerlink" href="#performance" title="Link to this heading">#</a></h2>
+<p>NumPy’s speed comes from vectorized C operations. The moment you introduce a Python loop, you lose that advantage.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Views vs copies — the core memory concept</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>                       <span class="c1"># VIEW — same memory, no copy</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>                <span class="c1"># COPY — independent memory</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">a</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>                    <span class="c1"># COPY — fancy indexing always copies</span>
+<span class="n">b</span><span class="o">.</span><span class="n">base</span> <span class="ow">is</span> <span class="n">a</span>                      <span class="c1"># True — b is a view of a</span>
+<span class="n">c</span><span class="o">.</span><span class="n">base</span> <span class="ow">is</span> <span class="kc">None</span>                   <span class="c1"># True — c is a copy</span>
+
+<span class="c1"># Vectorization — always prefer over loops</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1_000_000</span><span class="p">)</span>
+
+<span class="c1"># Slow — Python loop</span>
+<span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">a</span><span class="p">]</span>       <span class="c1"># ~200ms</span>
+
+<span class="c1"># Fast — vectorized</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">a</span> <span class="o">**</span> <span class="mi">2</span>                   <span class="c1"># ~1ms — 200x faster</span>
+
+<span class="c1"># Prefer built-in ufuncs over math module</span>
+<span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>                        <span class="c1"># fast — C implementation</span>
+<span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>                         <span class="c1"># fast</span>
+<span class="p">[</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">a</span><span class="p">]</span>        <span class="c1"># slow — Python loop + function call overhead</span>
+
+<span class="c1"># Memory layout — C order (row-major) vs Fortran order (col-major)</span>
+<span class="c1"># NumPy default is C order: iterating over rows is faster than columns</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
+<span class="n">a</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>                     <span class="c1"># faster — iterates row by row</span>
+<span class="n">a</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>                     <span class="c1"># slightly slower — iterates column by column</span>
+
+<span class="c1"># Use float32 instead of float64 to halve memory (common in ML)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">a</span><span class="o">.</span><span class="n">nbytes</span>                          <span class="c1"># 4MB vs 8MB for float64</span>
+
+<span class="c1"># np.einsum — compact notation for complex contractions</span>
+<span class="c1"># Equivalent to A @ B:</span>
+<span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ij,jk-&gt;ik&#39;</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>     <span class="c1"># matrix multiply</span>
+<span class="c1"># Batch dot product:</span>
+<span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;bi,bi-&gt;b&#39;</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>      <span class="c1"># dot product per row</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Calling <code class="docutils literal notranslate"><span class="pre">.copy()</span></code> unnecessarily on every slice — views are free; only copy when you need independence</p></li>
+<li><p>Using Python <code class="docutils literal notranslate"><span class="pre">math</span></code> functions inside loops instead of NumPy ufuncs — massive speed penalty</p></li>
+<li><p>Storing float64 when float32 suffices — doubles memory usage with no benefit for most ML tasks- <code class="docutils literal notranslate"><span class="pre">np.vectorize</span></code> is a convenience wrapper, <strong>not</strong> a speedup — it loops in Python under the hood; reach for real vectorized ufuncs/ops instead</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="decision-guide">
+<h1>Decision Guide<a class="headerlink" href="#decision-guide" title="Link to this heading">#</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Creating an array?
+├── From existing data                        → np.array()
+├── All zeros / ones / constant               → np.zeros(), np.ones(), np.full()
+├── Range with fixed step                     → np.arange(start, stop, step)
+├── N evenly spaced points                    → np.linspace(start, stop, n)
+└── Identity matrix                           → np.eye(n)
+
+Indexing / filtering?
+├── Slice by position                         → a[start:stop:step] — returns VIEW
+├── Filter by condition                       → a[a &gt; threshold] — returns COPY
+├── Select by index list                      → a[[0, 2, 4]] — returns COPY
+├── Conditional value substitution            → np.where(cond, x, y)
+└── Need to modify without affecting original → a[...].copy()
+
+Changing shape?
+├── Reshape to known dimensions               → a.reshape(r, c) or a.reshape(r, -1)
+├── Transpose                                 → a.T
+├── Flatten to 1D                             → a.ravel() (view) or a.flatten() (copy)
+└── Add a dimension                           → a[np.newaxis, :] or a[:, np.newaxis]
+
+Combining arrays?
+├── Stack as new rows                         → np.vstack([a, b])
+├── Stack as new columns                      → np.column_stack([a, b])
+├── Along a new axis                          → np.stack([a, b], axis=n)
+└── Along an existing axis                    → np.concatenate([a, b], axis=n)
+
+Aggregating?
+├── Entire array                              → a.sum(), a.mean(), etc.
+├── Collapse rows (one value per column)      → a.sum(axis=0)
+├── Collapse columns (one value per row)      → a.sum(axis=1)
+└── Keep original dimensions                  → a.sum(axis=1, keepdims=True)
+
+Linear algebra?
+├── Matrix multiplication                     → A @ B
+├── Solve Ax = b                              → np.linalg.solve(A, b)
+├── Eigenvalues (general)                     → np.linalg.eig(A)
+├── Eigenvalues (symmetric)                   → np.linalg.eigh(A)
+├── SVD                                       → np.linalg.svd(A)
+└── Inverse (use sparingly)                   → np.linalg.inv(A)
+
+Performance?
+├── Slow Python loop over array               → replace with vectorized op or ufunc
+├── Unexpected data modification via slice    → use .copy() to create independence
+├── High memory usage with floats             → try float32 instead of float64
+└── Complex multi-axis contraction            → np.einsum()
+</pre></div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Python Data Libs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Reference_Pandas.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Pandas — Technical Reference</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="DM_Basic.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Data Manipulation — Basic</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

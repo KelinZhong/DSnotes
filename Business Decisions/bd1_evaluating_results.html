@@ -1,0 +1,997 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How do you evaluate results for a business decision? &#8212; Data Science Interview Prep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Business Decisions/bd1_evaluating_results';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="How do you translate model results into a business case?" href="bd2_cost_benefit.html" />
+    <link rel="prev" title="Business decision on implementing ML models — overview" href="bd0_overview.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Science Interview Prep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    Topics
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Python%20Data%20Libs/Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Python%20Data%20Libs/Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">How do you evaluate results for a business decision?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bd2_cost_benefit.html">How do you translate model results into a business case?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bd3_shipping_decision.html">How do you make the final shipping decision?</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abbreviation-reference">Abbreviation Reference</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-offline-evaluation-results">1. Reading offline evaluation results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-core-gap">The core gap</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#is-the-improvement-statistically-significant">Is the improvement statistically significant?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#is-the-improvement-practically-significant">Is the improvement practically significant?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#is-the-test-set-trustworthy">Is the test set trustworthy?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#slice-analysis-as-a-go-no-go-input">Slice analysis as a go/no-go input</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gotchas">Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-a-b-test-results">2. Reading A/B test results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-0-sample-ratio-mismatch-srm-check-do-this-before-looking-at-any-metric">Step 0: Sample Ratio Mismatch (SRM) check — do this before looking at any metric</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#was-it-pre-registered">Was it pre-registered?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#is-the-primary-metric-improvement-real">Is the primary metric improvement real?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#did-guardrail-metrics-hold">Did guardrail metrics hold?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#novelty-effect-check">Novelty effect check</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#controlled-experiment-using-pre-experiment-data-cuped-context">Controlled-experiment Using Pre-Experiment Data (CUPED) context</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#segment-analysis">Segment analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-causal-model-results">3. Reading causal model results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-core-problem">The core problem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#universal-trust-questions-apply-to-every-causal-method">Universal trust questions — apply to every causal method</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#per-method-trust-checklist">Per-method trust checklist</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-causal-results-are-strong-enough-to-act-on">When causal results are strong enough to act on</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interview-q-a">Interview Q&amp;A</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Gotchas</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../intro.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="bd0_overview.html" class="nav-link">Business decision on implementing ML models — overview</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">How do you evaluate results for a business decision?</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="how-do-you-evaluate-results-for-a-business-decision">
+<h1>How do you evaluate results for a business decision?<a class="headerlink" href="#how-do-you-evaluate-results-for-a-business-decision" title="Link to this heading">#</a></h1>
+<p><strong>Topics:</strong> Offline Evaluation · A/B Test Results · Causal Model Results · Statistical vs Practical Significance · Trust Checklists</p>
+<hr class="docutils" />
+<section id="abbreviation-reference">
+<h2>Abbreviation Reference<a class="headerlink" href="#abbreviation-reference" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Abbreviation</p></th>
+<th class="head"><p>Full Name</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>AUC</p></td>
+<td><p>Area Under the Curve</p></td>
+</tr>
+<tr class="row-odd"><td><p>CATE</p></td>
+<td><p>Conditional Average Treatment Effect</p></td>
+</tr>
+<tr class="row-even"><td><p>CI</p></td>
+<td><p>Confidence Interval</p></td>
+</tr>
+<tr class="row-odd"><td><p>CUPED</p></td>
+<td><p>Controlled-experiment Using Pre-Experiment Data</p></td>
+</tr>
+<tr class="row-even"><td><p>DiD</p></td>
+<td><p>Difference-in-Differences</p></td>
+</tr>
+<tr class="row-odd"><td><p>IV</p></td>
+<td><p>Instrumental Variables</p></td>
+</tr>
+<tr class="row-even"><td><p>MDE</p></td>
+<td><p>Minimum Detectable Effect</p></td>
+</tr>
+<tr class="row-odd"><td><p>ML</p></td>
+<td><p>Machine Learning</p></td>
+</tr>
+<tr class="row-even"><td><p>NPS</p></td>
+<td><p>Net Promoter Score</p></td>
+</tr>
+<tr class="row-odd"><td><p>PSM</p></td>
+<td><p>Propensity Score Matching</p></td>
+</tr>
+<tr class="row-even"><td><p>RDD</p></td>
+<td><p>Regression Discontinuity Design</p></td>
+</tr>
+<tr class="row-odd"><td><p>RMSE</p></td>
+<td><p>Root Mean Squared Error</p></td>
+</tr>
+<tr class="row-even"><td><p>SMD</p></td>
+<td><p>Standardized Mean Difference</p></td>
+</tr>
+<tr class="row-odd"><td><p>SRM</p></td>
+<td><p>Sample Ratio Mismatch</p></td>
+</tr>
+<tr class="row-even"><td><p>SUTVA</p></td>
+<td><p>Stable Unit Treatment Value Assumption</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="reading-offline-evaluation-results">
+<h2>1. Reading offline evaluation results<a class="headerlink" href="#reading-offline-evaluation-results" title="Link to this heading">#</a></h2>
+<section id="the-core-gap">
+<h3>The core gap<a class="headerlink" href="#the-core-gap" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Benchmark performance ≠ real-world validity</p></li>
+<li><p>A model that scores well on a held-out test set can still fail to deliver business value</p></li>
+<li><p>Three questions to ask: Is it statistically significant? Is it practically significant? Is the test set trustworthy?</p></li>
+</ul>
+</section>
+<section id="is-the-improvement-statistically-significant">
+<h3>Is the improvement statistically significant?<a class="headerlink" href="#is-the-improvement-statistically-significant" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Check</p></th>
+<th class="head"><p>What to look for</p></th>
+<th class="head"><p>Red flag</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Test type</p></td>
+<td><p>Paired test (e.g. McNemar’s on a shared test set) — not unpaired</p></td>
+<td><p>Unpaired comparison between two independent runs</p></td>
+</tr>
+<tr class="row-odd"><td><p>Confidence Interval (CI)</p></td>
+<td><p>Report 95% CI around the improvement, not just the point estimate</p></td>
+<td><p>Point estimate only, no uncertainty quantification</p></td>
+</tr>
+<tr class="row-even"><td><p>Multiple comparisons</p></td>
+<td><p>Was this the pre-specified primary metric, or the best of many?</p></td>
+<td><p>“We tried 10 metrics and this one was significant”</p></td>
+</tr>
+<tr class="row-odd"><td><p>Minimum Detectable Effect (MDE)</p></td>
+<td><p>The MDE is <em>derived</em> from sample size, baseline variance, α, and power — not a free dial. Is the effect size that matters ≥ the MDE?</p></td>
+<td><p>True effect of interest is smaller than the MDE → underpowered to detect it, no matter the significance result</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="is-the-improvement-practically-significant">
+<h3>Is the improvement practically significant?<a class="headerlink" href="#is-the-improvement-practically-significant" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Check</p></th>
+<th class="head"><p>What to look for</p></th>
+<th class="head"><p>Red flag</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Effect size vs. business threshold</p></td>
+<td><p>Does the improvement exceed the minimum lift that justifies cost?</p></td>
+<td><p>Statistically significant but below break-even threshold</p></td>
+</tr>
+<tr class="row-odd"><td><p>Absolute vs. relative improvement</p></td>
+<td><p>Relative gains (“10% better”) hide small absolute gains on low baselines</p></td>
+<td><p>“10% improvement” on a 0.1% baseline = 0.01% absolute gain</p></td>
+</tr>
+<tr class="row-even"><td><p>Tail performance</p></td>
+<td><p>Does the model fail catastrophically on any subgroup?</p></td>
+<td><p>Great average, terrible worst-case</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="is-the-test-set-trustworthy">
+<h3>Is the test set trustworthy?<a class="headerlink" href="#is-the-test-set-trustworthy" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Check</p></th>
+<th class="head"><p>What to look for</p></th>
+<th class="head"><p>Red flag</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Held-out discipline</p></td>
+<td><p>Test set never used during training, validation, or hyperparameter tuning</p></td>
+<td><p>Test set was used to select the final model</p></td>
+</tr>
+<tr class="row-odd"><td><p>Data recency</p></td>
+<td><p>Test set reflects current production distribution</p></td>
+<td><p>Test set is months or years old; distribution has shifted</p></td>
+</tr>
+<tr class="row-even"><td><p>Label quality</p></td>
+<td><p>Labels in test set are clean and consistent with production labels</p></td>
+<td><p>Test labels were generated differently from production labels</p></td>
+</tr>
+<tr class="row-odd"><td><p>Leakage check</p></td>
+<td><p>No features derived from the target or from future information</p></td>
+<td><p>Features computed using data not available at prediction time</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="slice-analysis-as-a-go-no-go-input">
+<h3>Slice analysis as a go/no-go input<a class="headerlink" href="#slice-analysis-as-a-go-no-go-input" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Always break performance down by key segments before making a ship decision</p></li>
+<li><p>A global gain that hurts a critical segment is usually not shippable</p></li>
+<li><p>Segments to always check: new vs. returning users, mobile vs. desktop, geography, user tenure</p></li>
+</ul>
+</section>
+<section id="gotchas">
+<h3>Gotchas<a class="headerlink" href="#gotchas" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Never report only the best metric across many experiments — pre-specify the primary metric</p></li>
+<li><p>A model that wins on AUC can lose on the metric the business actually uses — AUC is threshold-independent and rank-based, so it ignores your actual operating point and calibration</p></li>
+<li><p>Improvement on a stale test set is not evidence of improvement in production</p></li>
+<li><p>The repeated k-fold paired t-test has an inflated false-positive rate because training sets overlap across folds (Dietterich, 1998) — prefer McNemar’s on a held-out set, or 5×2cv</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="reading-a-b-test-results">
+<h2>2. Reading A/B test results<a class="headerlink" href="#reading-a-b-test-results" title="Link to this heading">#</a></h2>
+<section id="step-0-sample-ratio-mismatch-srm-check-do-this-before-looking-at-any-metric">
+<h3>Step 0: Sample Ratio Mismatch (SRM) check — do this before looking at any metric<a class="headerlink" href="#step-0-sample-ratio-mismatch-srm-check-do-this-before-looking-at-any-metric" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Expected split (e.g. 50/50) vs. actual split must match within noise</p></li>
+<li><p>SRM = randomization bug, bot traffic, or logging failure — the result is invalid</p></li>
+<li><p>Use a chi-squared test: p &lt; 0.01 on the split → investigate before proceeding (many teams alarm at a stricter p &lt; 0.001, since SRM checks run continuously and false alarms are costly)</p></li>
+</ul>
+</section>
+<section id="was-it-pre-registered">
+<h3>Was it pre-registered?<a class="headerlink" href="#was-it-pre-registered" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scenario</p></th>
+<th class="head"><p>How to treat the result</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Primary metric defined before launch</p></td>
+<td><p>Treat as confirmatory — can make a ship decision</p></td>
+</tr>
+<tr class="row-odd"><td><p>Primary metric chosen after seeing results</p></td>
+<td><p>Treat as exploratory — needs replication</p></td>
+</tr>
+<tr class="row-even"><td><p>Multiple metrics tested, best one reported</p></td>
+<td><p>Apply Bonferroni correction or treat as exploratory</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="is-the-primary-metric-improvement-real">
+<h3>Is the primary metric improvement real?<a class="headerlink" href="#is-the-primary-metric-improvement-real" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Check</p></th>
+<th class="head"><p>What to look for</p></th>
+<th class="head"><p>Red flag</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Effect size</p></td>
+<td><p>Is the improvement above your pre-defined MDE?</p></td>
+<td><p>Improvement below MDE — test was not powered for this effect</p></td>
+</tr>
+<tr class="row-odd"><td><p>Confidence Interval (CI)</p></td>
+<td><p>Does the 95% CI exclude zero? What is the lower bound?</p></td>
+<td><p>CI includes zero, or lower bound is below business threshold</p></td>
+</tr>
+<tr class="row-even"><td><p>One-sided vs two-sided</p></td>
+<td><p>Use two-sided unless direction was pre-specified</p></td>
+<td><p>Switching to one-sided after seeing data to hit p &lt; 0.05</p></td>
+</tr>
+<tr class="row-odd"><td><p>Peeking</p></td>
+<td><p>Was the result read only at the pre-specified sample size?</p></td>
+<td><p>Test stopped early when it “looked significant”</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="did-guardrail-metrics-hold">
+<h3>Did guardrail metrics hold?<a class="headerlink" href="#did-guardrail-metrics-hold" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Guardrail metrics must be defined before launch</p></li>
+<li><p>Any guardrail regression = pause before shipping, regardless of primary metric result</p></li>
+<li><p>Common guardrails: latency, error rate, 7-day retention, revenue per user</p></li>
+</ul>
+</section>
+<section id="novelty-effect-check">
+<h3>Novelty effect check<a class="headerlink" href="#novelty-effect-check" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Users behave differently when something is new — effect may decay over time</p></li>
+<li><p>Minimum test duration: one full weekly cycle (7 days), ideally two</p></li>
+<li><p>If you have longitudinal data: plot the effect by day — a decaying effect is a warning sign</p></li>
+</ul>
+</section>
+<section id="controlled-experiment-using-pre-experiment-data-cuped-context">
+<h3>Controlled-experiment Using Pre-Experiment Data (CUPED) context<a class="headerlink" href="#controlled-experiment-using-pre-experiment-data-cuped-context" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>CUPED reduces variance using pre-experiment user behavior as a covariate</p></li>
+<li><p>If CUPED was not applied, confidence intervals are wider than necessary — the result may look non-significant when it isn’t</p></li>
+<li><p>If CUPED was applied, confirm the pre-experiment covariate is not correlated with treatment assignment</p></li>
+</ul>
+</section>
+<section id="segment-analysis">
+<h3>Segment analysis<a class="headerlink" href="#segment-analysis" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Does the effect hold across key subgroups (new vs. returning, mobile vs. desktop)?</p></li>
+<li><p>Strong heterogeneity across segments = consider partial rollout to the segments where effect is clear</p></li>
+<li><p>Segment analysis is exploratory — do not use it to “rescue” a failed primary metric</p></li>
+</ul>
+</section>
+<section id="id1">
+<h3>Gotchas<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>A significant result with SRM is not a valid result — fix the SRM first</p></li>
+<li><p>Novelty effects make short tests overestimate long-run impact</p></li>
+<li><p>Segment wins after a global null are hypothesis-generating, not decision-making inputs</p></li>
+<li><p>If you genuinely need to monitor a test continuously, use sequential testing / always-valid p-values (e.g. mSPRT) rather than repeatedly peeking at fixed-horizon p-values</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="reading-causal-model-results">
+<h2>3. Reading causal model results<a class="headerlink" href="#reading-causal-model-results" title="Link to this heading">#</a></h2>
+<section id="the-core-problem">
+<h3>The core problem<a class="headerlink" href="#the-core-problem" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Without randomization, an assumption does the work that randomization would do in an A/B test</p></li>
+<li><p>That assumption is always partially untestable — you can stress-test it but never fully verify it</p></li>
+<li><p>The trustworthiness question is: how much would the assumption need to be violated to overturn the conclusion?</p></li>
+</ul>
+</section>
+<section id="universal-trust-questions-apply-to-every-causal-method">
+<h3>Universal trust questions — apply to every causal method<a class="headerlink" href="#universal-trust-questions-apply-to-every-causal-method" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Question</p></th>
+<th class="head"><p>What to check</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Is the identifying assumption domain-credible?</p></td>
+<td><p>Argue it qualitatively — is there a plausible violation?</p></td>
+</tr>
+<tr class="row-odd"><td><p>Do falsification / placebo tests pass?</p></td>
+<td><p>Placebo outcome, placebo time period, or placebo cutoff should return zero effect</p></td>
+</tr>
+<tr class="row-even"><td><p>How sensitive is the estimate to hidden confounding?</p></td>
+<td><p>Use E-value or Rosenbaum bounds — how strong would an unmeasured confounder need to be to explain away the result?</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="per-method-trust-checklist">
+<h3>Per-method trust checklist<a class="headerlink" href="#per-method-trust-checklist" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Core assumption</p></th>
+<th class="head"><p>Key tests</p></th>
+<th class="head"><p>See</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Uplift model</p></td>
+<td><p>Unconfoundedness — no unmeasured confounders</p></td>
+<td><p>Quintile lift chart monotonic, Qini above diagonal, placebo outcome near zero, propensity overlap check</p></td>
+<td><p><a class="reference internal" href="../Causal%20ML/cml6_uplift_modeling.html"><span class="doc">cml6_uplift_modeling</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Difference-in-Differences (DiD)</p></td>
+<td><p>Parallel trends — treated and control would have moved together without treatment</p></td>
+<td><p>Pre-trend flat across multiple periods, placebo treatment periods show zero effect, event study plot</p></td>
+<td><p><a class="reference internal" href="../Causal%20ML/cml3_observational.html"><span class="doc">cml3_observational</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Instrumental Variables (IV)</p></td>
+<td><p>Relevance + exclusion restriction + independence</p></td>
+<td><p>First-stage F well above 10 (F &gt; 10 only guards against weak-instrument <em>bias</em>, not against distorted inference — Lee, McCrary, Moreira &amp; Porter 2022 require a far higher bar for valid 5% inference); overidentification test passes (only available when over-identified — unavailable in just-identified IV); exclusion restriction argued qualitatively</p></td>
+<td><p><a class="reference internal" href="../Causal%20ML/cml4_identification.html"><span class="doc">cml4_identification</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Regression Discontinuity Design (RDD)</p></td>
+<td><p>No manipulation at the threshold</p></td>
+<td><p>McCrary density test smooth, covariate balance at cutoff, stable across bandwidths and polynomial orders</p></td>
+<td><p><a class="reference internal" href="../Causal%20ML/cml4_identification.html"><span class="doc">cml4_identification</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Propensity Score Matching (PSM)</p></td>
+<td><p>Conditional ignorability — all confounders observed</p></td>
+<td><p>Standardized Mean Difference (SMD) &lt; 0.1 post-matching, common support overlap, Rosenbaum bounds (Γ) high</p></td>
+<td><p><a class="reference internal" href="../Causal%20ML/cml3_observational.html"><span class="doc">cml3_observational</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="when-causal-results-are-strong-enough-to-act-on">
+<h3>When causal results are strong enough to act on<a class="headerlink" href="#when-causal-results-are-strong-enough-to-act-on" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Identifying assumption is domain-credible with no obvious violation</p></li>
+<li><p>All placebo / falsification tests return near-zero effects</p></li>
+<li><p>Sensitivity analysis shows a strong confounder would be needed to overturn the result (high E-value or Γ)</p></li>
+<li><p>Effect direction and magnitude are consistent across alternative specifications</p></li>
+<li><p>Ideally: a small A/B test or natural experiment corroborates the direction</p></li>
+</ul>
+</section>
+<section id="id2">
+<h3>Gotchas<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>A passing falsification test does not prove the assumption holds — it only fails to reject it</p></li>
+<li><p>Causal estimates from observational data are always weaker evidence than a well-run A/B test</p></li>
+<li><p>Use causal models to inform decisions when A/B is infeasible — not as a replacement when A/B is possible</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="interview-q-a">
+<h2>Interview Q&amp;A<a class="headerlink" href="#interview-q-a" title="Link to this heading">#</a></h2>
+<p><strong>Q: An A/B test shows a 2% lift with p = 0.04. Do you ship?</strong>
+A: Not on that alone. I’d check the sequence first: was there a Sample Ratio
+Mismatch, was the primary metric pre-registered, and how many metrics were
+tested? A p of 0.04 across ten metrics is roughly what noise produces. Then I’d
+ask whether 2% clears the <em>practical</em> bar, not just the statistical one — the
+confidence interval matters more than the point estimate here, because if it
+runs from 0.1% to 3.9% the plausible outcomes include “not worth the
+engineering cost.”</p>
+<p><strong>Q: Offline AUC improved from 0.78 to 0.83, but the A/B test was flat. What
+happened?</strong>
+A: Several standard explanations, and I’d work through them in order. Offline
+evaluation measures ranking on historical data; the A/B test measures behaviour
+under a live policy. The gap usually comes from (a) the offline test set
+leaking, (b) the model improving on a segment that rarely gets traffic, (c) the
+decision threshold not being re-tuned so better scores never became different
+actions, or (d) the metric the model optimises not driving the business metric
+the test measures. I’d check (c) first — it is the most common and the cheapest
+to fix.</p>
+<p><strong>Q: A stakeholder says “the model is 92% accurate, let’s launch.”</strong>
+A: I’d ask what the base rate is, because on an imbalanced problem that number
+may be indistinguishable from doing nothing. Then I’d redirect to the operating
+point: at the threshold we would actually deploy, how many true positives do we
+catch and how many false positives does the ops team absorb? That reframes the
+conversation from a model property to a staffing and cost question, which is
+what the launch decision actually turns on.</p>
+<p><strong>Q: Your observational causal estimate says the feature drove +8% retention.
+How much do you trust it?</strong>
+A: It depends entirely on which assumption is doing the work. I’d state the
+identification strategy, then give a robustness number rather than a point
+estimate alone — Rosenbaum bounds, an E-value, or Oster’s δ, depending on the
+method. If the estimate flips under a plausible unmeasured confounder, I’d
+present it as directional evidence and push for an A/B test before committing
+budget.</p>
+<p><strong>Q: When is weaker evidence good enough?</strong>
+A: When the decision is cheap to reverse. A fully reversible change with a
+small blast radius does not need experimental-grade evidence; an irreversible
+one — a pricing change, a migration, anything customer-visible and sticky —
+does. I’d match the strength of evidence to the cost of being wrong rather than
+applying one bar to everything.</p>
+<section id="id3">
+<h3>Gotchas<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>“Statistically significant” and “worth shipping” are different questions; a large sample makes trivial effects significant</p></li>
+<li><p>Segment findings discovered <em>after</em> seeing the results are hypotheses, not conclusions</p></li>
+<li><p>A flat A/B test is evidence of no <em>detectable</em> effect at your power, not evidence of no effect</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Business Decisions"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="bd0_overview.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Business decision on implementing ML models — overview</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="bd2_cost_benefit.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">How do you translate model results into a business case?</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

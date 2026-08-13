@@ -1,0 +1,1606 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Pandas — Technical Reference &#8212; Data Science Interview Prep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Python Data Libs/Reference_Pandas';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NumPy — Technical Reference" href="Reference_NumPy.html" />
+    <link rel="prev" title="Python Data Libraries" href="Python_Data_Libs.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Science Interview Prep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    Topics
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Pandas — Technical Reference</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Reference_NumPy.html">NumPy — Technical Reference</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="DM_Basic.html">Data Manipulation — Basic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DM_Intermediate.html">Data Manipulation — Intermediate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DM_Advanced.html">Data Manipulation — Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Reference_Sampling.html">Sampling Methods – DS Interview Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Reference_Inference.html">Statistical Inference – DS Interview Reference</a></li>
+
+
+
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Pandas — Technical Reference</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-index">Quick Index</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use">When to Use</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-inspection">§1 — Data Inspection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selection-filtering">§2 — Selection &amp; Filtering</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#null-handling">§3 — NULL Handling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-manipulation">§4 — Data Manipulation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#joins-merges">§5 — Joins &amp; Merges</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregation-groupby">§6 — Aggregation &amp; GroupBy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#window-operations">§7 — Window Operations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#date-time">§8 — Date &amp; Time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#string-operations">§9 — String Operations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-o">§10 — I/O</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-tips">§11 — Performance Tips</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-guide">Decision Guide</a></li>
+</ul>
+
+  </nav></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../intro.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="Python_Data_Libs.html" class="nav-link">Python Data Libraries</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Pandas — Technical Reference</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="pandas-technical-reference">
+<h1>Pandas — Technical Reference<a class="headerlink" href="#pandas-technical-reference" title="Link to this heading">#</a></h1>
+<section id="quick-index">
+<h2>Quick Index<a class="headerlink" href="#quick-index" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Pattern</p></th>
+<th class="head text-left"><p>When to use</p></th>
+<th class="head text-left"><p>Section</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Data inspection</p></td>
+<td class="text-left"><p>First look at any DataFrame</p></td>
+<td class="text-left"><p>§1</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Selection &amp; filtering</p></td>
+<td class="text-left"><p>Subset rows and columns</p></td>
+<td class="text-left"><p>§2</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>NULL handling</p></td>
+<td class="text-left"><p>Missing values</p></td>
+<td class="text-left"><p>§3</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Data manipulation</p></td>
+<td class="text-left"><p>Clean, transform, create columns</p></td>
+<td class="text-left"><p>§4</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Joins &amp; merges</p></td>
+<td class="text-left"><p>Combine DataFrames</p></td>
+<td class="text-left"><p>§5</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Aggregation &amp; GroupBy</p></td>
+<td class="text-left"><p>Summarize, reshape, pivot</p></td>
+<td class="text-left"><p>§6</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Window operations</p></td>
+<td class="text-left"><p>Rank, shift, cumulative, rolling</p></td>
+<td class="text-left"><p>§7</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Date &amp; time</p></td>
+<td class="text-left"><p>Date arithmetic, extraction</p></td>
+<td class="text-left"><p>§8</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>String operations</p></td>
+<td class="text-left"><p>Text cleaning and extraction</p></td>
+<td class="text-left"><p>§9</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>I/O</p></td>
+<td class="text-left"><p>Read and write data</p></td>
+<td class="text-left"><p>§10</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Performance tips</p></td>
+<td class="text-left"><p>Speed and memory optimization</p></td>
+<td class="text-left"><p>§11</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="when-to-use">
+<h2>When to Use<a class="headerlink" href="#when-to-use" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Signal</p></th>
+<th class="head text-left"><p>Pandas method to reach for</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>First look at a DataFrame</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.info()</span></code>, <code class="docutils literal notranslate"><span class="pre">.describe()</span></code>, <code class="docutils literal notranslate"><span class="pre">.head()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Filter rows by condition</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.query()</span></code> or boolean indexing</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Select rows and columns by label</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.loc[rows,</span> <span class="pre">cols]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Select rows and columns by position</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.iloc[rows,</span> <span class="pre">cols]</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Replace NULLs</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.fillna()</span></code> or <code class="docutils literal notranslate"><span class="pre">.ffill()</span></code> / <code class="docutils literal notranslate"><span class="pre">.bfill()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Apply condition to create a column</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.where()</span></code> (binary) or <code class="docutils literal notranslate"><span class="pre">np.select()</span></code> (multi)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Summarize with aggregation</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.groupby().agg()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Apply aggregation but keep original shape</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.groupby().transform()</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Rank within a group</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.groupby().rank(method='dense')</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Compare to previous / next row</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.groupby().shift(1)</span></code> / <code class="docutils literal notranslate"><span class="pre">.shift(-1)</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Running total within a group</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.groupby().cumsum()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Pivot rows to columns</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.pivot_table()</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Combine two DataFrames on a key</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.merge()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Find rows with no match</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">merge(...,</span> <span class="pre">how='left',</span> <span class="pre">indicator=True)</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Moving average</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.rolling(n).mean()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Parse date strings</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">pd.to_datetime()</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Extract date parts</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.dt.year</span></code>, <code class="docutils literal notranslate"><span class="pre">.dt.month</span></code>, <code class="docutils literal notranslate"><span class="pre">.dt.dayofweek</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>String pattern match</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.str.contains()</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Extract regex groups from string</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.str.extract()</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="data-inspection">
+<h2>§1 — Data Inspection<a class="headerlink" href="#data-inspection" title="Link to this heading">#</a></h2>
+<p>Always run these first. They tell you shape, dtypes, missing values, and distributions before you touch the data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Shape and preview</span>
+<span class="n">df</span><span class="o">.</span><span class="n">shape</span>                        <span class="c1"># (rows, cols)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>                      <span class="c1"># first 5 rows</span>
+<span class="n">df</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>                      <span class="c1"># last 5 rows</span>
+
+<span class="c1"># Column types and null counts</span>
+<span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>                       <span class="c1"># dtypes + non-null counts per column</span>
+<span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>                       <span class="c1"># just the dtypes</span>
+
+<span class="c1"># Summary statistics</span>
+<span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>                   <span class="c1"># numeric columns: count, mean, std, min, quartiles, max</span>
+<span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>      <span class="c1"># include categorical columns too</span>
+
+<span class="c1"># Cardinality and distributions</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>             <span class="c1"># number of distinct values</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>        <span class="c1"># frequency of each value, sorted descending</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># as proportions (0–1)</span>
+
+<span class="c1"># NULL summary across all columns</span>
+<span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>                 <span class="c1"># null count per column</span>
+<span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>       <span class="c1"># null rate per column</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Skipping <code class="docutils literal notranslate"><span class="pre">.info()</span></code> and assuming dtypes — date columns often load as <code class="docutils literal notranslate"><span class="pre">object</span></code> and need explicit parsing</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">.describe()</span></code> without checking <code class="docutils literal notranslate"><span class="pre">.info()</span></code> first — <code class="docutils literal notranslate"><span class="pre">describe()</span></code> silently skips non-numeric columns unless <code class="docutils literal notranslate"><span class="pre">include='all'</span></code> is set</p></li>
+<li><p>Confusing <code class="docutils literal notranslate"><span class="pre">df['col'].count()</span></code> (excludes NaN) with <code class="docutils literal notranslate"><span class="pre">len(df)</span></code> (includes all rows)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="selection-filtering">
+<h2>§2 — Selection &amp; Filtering<a class="headerlink" href="#selection-filtering" title="Link to this heading">#</a></h2>
+<p>Three distinct tools: <code class="docutils literal notranslate"><span class="pre">[]</span></code> for quick column access, <code class="docutils literal notranslate"><span class="pre">.loc</span></code> for label-based selection, <code class="docutils literal notranslate"><span class="pre">.iloc</span></code> for position-based selection. Always use <code class="docutils literal notranslate"><span class="pre">.loc</span></code> when selecting rows and columns together.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Column selection</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span>                           <span class="c1"># single column → Series</span>
+<span class="n">df</span><span class="p">[[</span><span class="s1">&#39;col1&#39;</span><span class="p">,</span> <span class="s1">&#39;col2&#39;</span><span class="p">]]</span>                <span class="c1"># multiple columns → DataFrame</span>
+
+<span class="c1"># .loc — label-based (rows by index label, cols by name)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>                           <span class="c1"># row with index label 0</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;col1&#39;</span><span class="p">:</span><span class="s1">&#39;col3&#39;</span><span class="p">]</span>          <span class="c1"># rows 0–5, columns col1 through col3 (inclusive)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;col1&#39;</span><span class="p">,</span> <span class="s1">&#39;col2&#39;</span><span class="p">]]</span>      <span class="c1"># filtered rows, specific columns</span>
+
+<span class="c1"># .iloc — position-based (integer index only)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>                          <span class="c1"># first row</span>
+<span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>                   <span class="c1"># first 5 rows, first 3 columns (exclusive end)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>                         <span class="c1"># last row</span>
+
+<span class="c1"># Boolean indexing</span>
+<span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">]</span>                  <span class="c1"># single condition</span>
+<span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;region&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;US&#39;</span><span class="p">)]</span>   <span class="c1"># AND — use &amp; not &#39;and&#39;</span>
+<span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">18</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">65</span><span class="p">)]</span>         <span class="c1"># OR  — use | not &#39;or&#39;</span>
+<span class="n">df</span><span class="p">[</span><span class="o">~</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;inactive&#39;</span><span class="p">)]</span>               <span class="c1"># NOT — use ~</span>
+<span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;platform&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;iOS&#39;</span><span class="p">,</span> <span class="s1">&#39;Android&#39;</span><span class="p">])]</span>     <span class="c1"># IN</span>
+<span class="n">df</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">blocked_ids</span><span class="p">)]</span>            <span class="c1"># NOT IN</span>
+
+<span class="c1"># .query() — readable string syntax</span>
+<span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;age &gt; 30 and region == &#39;US&#39;&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;`column name` &gt; 0&quot;</span><span class="p">)</span>                   <span class="c1"># backticks for column names with spaces</span>
+<span class="n">threshold</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;revenue &gt; @threshold&quot;</span><span class="p">)</span>                <span class="c1"># @ prefix to reference Python variables</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong><code class="docutils literal notranslate"><span class="pre">.loc</span></code> vs <code class="docutils literal notranslate"><span class="pre">.iloc</span></code> vs <code class="docutils literal notranslate"><span class="pre">[]</span></code> comparison:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>Rows</p></th>
+<th class="head text-left"><p>Columns</p></th>
+<th class="head text-left"><p>End inclusive?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">[]</span></code></p></td>
+<td class="text-left"><p>❌ (only with boolean mask)</p></td>
+<td class="text-left"><p>✅ by name</p></td>
+<td class="text-left"><p>n/a</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.loc</span></code></p></td>
+<td class="text-left"><p>✅ by label</p></td>
+<td class="text-left"><p>✅ by name</p></td>
+<td class="text-left"><p>✅ Yes</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.iloc</span></code></p></td>
+<td class="text-left"><p>✅ by position</p></td>
+<td class="text-left"><p>✅ by position</p></td>
+<td class="text-left"><p>❌ No</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">and</span></code> / <code class="docutils literal notranslate"><span class="pre">or</span></code> / <code class="docutils literal notranslate"><span class="pre">not</span></code> instead of <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> / <code class="docutils literal notranslate"><span class="pre">|</span></code> / <code class="docutils literal notranslate"><span class="pre">~</span></code> in boolean indexing — raises <code class="docutils literal notranslate"><span class="pre">ValueError</span></code></p></li>
+<li><p>Forgetting parentheses around each condition: <code class="docutils literal notranslate"><span class="pre">df[df['a']</span> <span class="pre">&gt;</span> <span class="pre">1</span> <span class="pre">&amp;</span> <span class="pre">df['b']</span> <span class="pre">==</span> <span class="pre">2]</span></code> evaluates incorrectly; always wrap each condition</p></li>
+<li><p>Chained indexing <code class="docutils literal notranslate"><span class="pre">df['col'][mask]</span></code> instead of <code class="docutils literal notranslate"><span class="pre">df.loc[mask,</span> <span class="pre">'col']</span></code> — triggers <code class="docutils literal notranslate"><span class="pre">SettingWithCopyWarning</span></code> and may not modify the original</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="null-handling">
+<h2>§3 — NULL Handling<a class="headerlink" href="#null-handling" title="Link to this heading">#</a></h2>
+<p>NULLs affect filtering, aggregation, and joins. Understand the behavior before writing any pipeline.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Detect NULLs</span>
+<span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span>                                       <span class="c1"># IS NULL — element-wise boolean</span>
+<span class="n">df</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>                                      <span class="c1"># IS NOT NULL</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>                          <span class="c1"># count NULLs in a column</span>
+
+<span class="c1"># Fill NULLs</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;salary&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>                          <span class="c1"># IFNULL(salary, 0)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;contact&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;phone&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">&#39;Unknown&#39;</span><span class="p">)</span>  <span class="c1"># COALESCE(phone, email, &#39;Unknown&#39;)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>              <span class="c1"># fill with column mean</span>
+
+<span class="c1"># Forward / backward fill within a group</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">)[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">ffill</span><span class="p">()</span>  <span class="c1"># fill from previous row in group</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">)[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">bfill</span><span class="p">()</span>  <span class="c1"># fill from next row in group</span>
+
+<span class="c1"># Drop rows with NULLs</span>
+<span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>                                     <span class="c1"># drop rows with ANY null</span>
+<span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">])</span>           <span class="c1"># drop rows where specific columns are null</span>
+<span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">how</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>                            <span class="c1"># drop rows where ALL values are null</span>
+
+<span class="c1"># NULL behavior in aggregations</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>     <span class="c1"># NaN ignored (treated as 0 in sum)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>    <span class="c1"># NaN ignored — denominator is non-null count, not len(df)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>   <span class="c1"># excludes NaN</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>             <span class="c1"># includes NaN rows</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">df['col']</span> <span class="pre">==</span> <span class="pre">None</span></code> or <code class="docutils literal notranslate"><span class="pre">df['col']</span> <span class="pre">==</span> <span class="pre">np.nan</span></code> — NaN is never equal to anything, including itself; always use <code class="docutils literal notranslate"><span class="pre">.isna()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fillna(0)</span></code> before <code class="docutils literal notranslate"><span class="pre">.mean()</span></code> when NULLs should be excluded — changes the denominator and deflates the mean</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ffill()</span></code> without sorting first — fills in row order, not logical time order; always <code class="docutils literal notranslate"><span class="pre">sort_values</span></code> before forward filling</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="data-manipulation">
+<h2>§4 — Data Manipulation<a class="headerlink" href="#data-manipulation" title="Link to this heading">#</a></h2>
+<p>Covers column creation, renaming, type casting, and conditional logic — the day-to-day cleaning toolkit.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add / overwrite columns</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;new_col&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>              <span class="c1"># vectorized arithmetic</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">new_col</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">])</span>      <span class="c1"># chainable version</span>
+
+<span class="c1"># Rename columns</span>
+<span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;old&#39;</span><span class="p">:</span> <span class="s1">&#39;new&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;b&#39;</span><span class="p">})</span>   <span class="c1"># rename specific columns</span>
+<span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;col1&#39;</span><span class="p">,</span> <span class="s1">&#39;col2&#39;</span><span class="p">,</span> <span class="s1">&#39;col3&#39;</span><span class="p">]</span>          <span class="c1"># rename all columns at once</span>
+
+<span class="c1"># Drop columns or rows</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;col1&#39;</span><span class="p">,</span> <span class="s1">&#39;col2&#39;</span><span class="p">])</span>              <span class="c1"># drop columns</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>                       <span class="c1"># drop rows by index label</span>
+
+<span class="c1"># Type casting</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>                   <span class="c1"># memory-efficient for low-cardinality strings</span>
+
+<span class="c1"># Conditional logic</span>
+<span class="c1"># np.where — binary (IF/ELSE)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;spender_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;spend&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;High&#39;</span><span class="p">,</span> <span class="s1">&#39;Low&#39;</span><span class="p">)</span>
+
+<span class="c1"># np.select — multi-condition (CASE WHEN equivalent)</span>
+<span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;spend&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;spend&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;High&#39;</span><span class="p">,</span> <span class="s1">&#39;Medium&#39;</span><span class="p">]</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;spender_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">conditions</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;Low&#39;</span><span class="p">)</span>
+
+<span class="c1"># pd.cut — bin continuous values into labeled ranges</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;age_group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">],</span>
+    <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Under 18&#39;</span><span class="p">,</span> <span class="s1">&#39;18-35&#39;</span><span class="p">,</span> <span class="s1">&#39;36-60&#39;</span><span class="p">,</span> <span class="s1">&#39;60+&#39;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># map — replace values using a dictionary (SQL CASE WHEN on discrete values)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;platform_label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;platform_code&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;iOS&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;Android&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;Web&#39;</span><span class="p">})</span>
+
+<span class="c1"># apply — row-wise or column-wise custom function (use sparingly — slow)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>  <span class="c1"># acceptable on strings</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># avoid if vectorized op exists</span>
+
+<span class="c1"># Deduplication</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>                           <span class="c1"># drop fully duplicate rows</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">])</span>         <span class="c1"># keep first occurrence per user_id</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">],</span> <span class="n">keep</span><span class="o">=</span><span class="s1">&#39;last&#39;</span><span class="p">)</span>  <span class="c1"># keep last occurrence</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Conditions in <code class="docutils literal notranslate"><span class="pre">np.select</span></code> are evaluated top to bottom — first matching condition wins; order matters</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">df['col'].map(dict)</span></code> returns NaN for keys not in the dictionary — add <code class="docutils literal notranslate"><span class="pre">.fillna()</span></code> if needed</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">apply(axis=1)</span></code> (row-wise) when a vectorized operation exists — it’s a Python loop and 10–100x slower</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">inplace=True</span></code> does not speed things up and makes chaining impossible — avoid it</p></li>
+</ul>
+<p><strong>Choosing a value-substitution / labeling tool:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>Selects on</p></th>
+<th class="head text-left"><p>Unmatched values become</p></th>
+<th class="head text-left"><p>SQL analogue</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.where(cond,</span> <span class="pre">x,</span> <span class="pre">y)</span></code></p></td>
+<td class="text-left"><p>one boolean condition</p></td>
+<td class="text-left"><p>n/a (binary)</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">IF</span></code> / <code class="docutils literal notranslate"><span class="pre">CASE</span> <span class="pre">WHEN</span> <span class="pre">...</span> <span class="pre">ELSE</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">np.select(conds,</span> <span class="pre">choices,</span> <span class="pre">default)</span></code></p></td>
+<td class="text-left"><p>many conditions (first wins)</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">default</span></code></p></td>
+<td class="text-left"><p>multi-branch <code class="docutils literal notranslate"><span class="pre">CASE</span> <span class="pre">WHEN</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">s.map(dict)</span></code></p></td>
+<td class="text-left"><p>discrete value lookup</p></td>
+<td class="text-left"><p><strong>NaN</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">CASE</span></code> on discrete values</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">s.replace(dict)</span></code></p></td>
+<td class="text-left"><p>discrete value lookup</p></td>
+<td class="text-left"><p><strong>unchanged</strong></p></td>
+<td class="text-left"><p>targeted <code class="docutils literal notranslate"><span class="pre">REPLACE</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">map</span></code>-vs-<code class="docutils literal notranslate"><span class="pre">replace</span></code> split is the gotcha: <code class="docutils literal notranslate"><span class="pre">map</span></code> blanks out keys it doesn’t know, <code class="docutils literal notranslate"><span class="pre">replace</span></code> leaves them alone.</p>
+<p><strong><code class="docutils literal notranslate"><span class="pre">where</span></code> vs <code class="docutils literal notranslate"><span class="pre">mask</span></code> (exact opposites):</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>Keeps original value where</p></th>
+<th class="head text-left"><p>Replaces where</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">s.where(cond,</span> <span class="pre">other)</span></code></p></td>
+<td class="text-left"><p>cond is <strong>True</strong></p></td>
+<td class="text-left"><p>cond is False</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">s.mask(cond,</span> <span class="pre">other)</span></code></p></td>
+<td class="text-left"><p>cond is <strong>False</strong></p></td>
+<td class="text-left"><p>cond is True</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong><code class="docutils literal notranslate"><span class="pre">map</span></code> vs <code class="docutils literal notranslate"><span class="pre">apply</span></code> (on a Series):</strong> use <code class="docutils literal notranslate"><span class="pre">map</span></code> for a dict/Series lookup or simple function (faster, clearer); use <code class="docutils literal notranslate"><span class="pre">apply</span></code> only for arbitrary functions a <code class="docutils literal notranslate"><span class="pre">map</span></code> can’t express.</p>
+<p><strong><code class="docutils literal notranslate"><span class="pre">pd.cut</span></code> vs <code class="docutils literal notranslate"><span class="pre">pd.qcut</span></code>:</strong> <code class="docutils literal notranslate"><span class="pre">cut</span></code> makes equal-<strong>width</strong> bins from edges you supply; <code class="docutils literal notranslate"><span class="pre">qcut</span></code> makes equal-<strong>frequency</strong> (quantile) bins. Use <code class="docutils literal notranslate"><span class="pre">qcut</span></code> for balanced bucket sizes, <code class="docutils literal notranslate"><span class="pre">cut</span></code> when the thresholds carry meaning.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;where(s&gt;20) keeps where TRUE :&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">s</span><span class="o">&gt;</span><span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;mask(s&gt;20)  keeps where FALSE:&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">mask</span><span class="p">(</span><span class="n">s</span><span class="o">&gt;</span><span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+<span class="n">vals</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">100</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">cut  (equal-width) bucket sizes:&quot;</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;qcut (equal-freq)  bucket sizes:&quot;</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">qcut</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>where(s&gt;20) keeps where TRUE : [0, 0, 30, 40]
+mask(s&gt;20)  keeps where FALSE: [10, 20, 0, 0]
+
+cut  (equal-width) bucket sizes: [8, 0, 1]
+qcut (equal-freq)  bucket sizes: [3, 3, 3]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="joins-merges">
+<h2>§5 — Joins &amp; Merges<a class="headerlink" href="#joins-merges" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">.merge()</span></code> is the primary tool — use it for all column-based joins. <code class="docutils literal notranslate"><span class="pre">.join()</span></code> joins on index and is rarely needed.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Basic merge — SQL JOIN equivalents</span>
+<span class="n">A</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>        <span class="c1"># INNER JOIN</span>
+<span class="n">A</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>         <span class="c1"># LEFT JOIN</span>
+<span class="n">A</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>        <span class="c1"># RIGHT JOIN</span>
+<span class="n">A</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span>        <span class="c1"># FULL OUTER JOIN</span>
+
+<span class="c1"># Join on multiple keys</span>
+<span class="n">A</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+<span class="c1"># Join on differently named columns</span>
+<span class="n">A</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
+
+<span class="c1"># Handle overlapping column names</span>
+<span class="n">A</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">suffixes</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;_a&#39;</span><span class="p">,</span> <span class="s1">&#39;_b&#39;</span><span class="p">))</span>
+
+<span class="c1"># Find rows in A with NO match in B — LEFT JOIN ... WHERE B.id IS NULL</span>
+<span class="n">merged</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">indicator</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">no_match</span> <span class="o">=</span> <span class="n">merged</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">merged</span><span class="p">[</span><span class="s1">&#39;_merge&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;left_only&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;_merge&#39;</span><span class="p">)</span>
+
+<span class="c1"># Self join — join a DataFrame to itself</span>
+<span class="n">employees</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">employees</span><span class="p">[[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;manager_id&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;manager_name&#39;</span><span class="p">}),</span>
+    <span class="n">on</span><span class="o">=</span><span class="s1">&#39;manager_id&#39;</span><span class="p">,</span>
+    <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Stack DataFrames vertically — SQL UNION ALL</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df1</span><span class="p">,</span> <span class="n">df2</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>        <span class="c1"># UNION ALL</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df1</span><span class="p">,</span> <span class="n">df2</span><span class="p">])</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>         <span class="c1"># UNION (distinct)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Merging on columns with different dtypes (e.g. <code class="docutils literal notranslate"><span class="pre">int</span></code> vs <code class="docutils literal notranslate"><span class="pre">str</span></code>) — merge silently produces no matches; cast first</p></li>
+<li><p>Forgetting <code class="docutils literal notranslate"><span class="pre">suffixes</span></code> when both DataFrames have overlapping column names — pandas adds <code class="docutils literal notranslate"><span class="pre">_x</span></code> / <code class="docutils literal notranslate"><span class="pre">_y</span></code> by default</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">.join()</span></code> instead of <code class="docutils literal notranslate"><span class="pre">.merge()</span></code> — <code class="docutils literal notranslate"><span class="pre">.join()</span></code> joins on index by default; <code class="docutils literal notranslate"><span class="pre">.merge()</span></code> is almost always what you want</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pd.concat</span></code> without <code class="docutils literal notranslate"><span class="pre">ignore_index=True</span></code> — preserves original indices, causing duplicate index values</p></li>
+</ul>
+<p><strong><code class="docutils literal notranslate"><span class="pre">merge</span></code> vs <code class="docutils literal notranslate"><span class="pre">join</span></code>, and <code class="docutils literal notranslate"><span class="pre">concat</span></code> vs <code class="docutils literal notranslate"><span class="pre">merge</span></code>:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>Aligns on</p></th>
+<th class="head text-left"><p>Default keys</p></th>
+<th class="head text-left"><p>Prefer when</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">A.merge(B,</span> <span class="pre">on='id')</span></code></p></td>
+<td class="text-left"><p><strong>columns</strong></p></td>
+<td class="text-left"><p>none — you specify <code class="docutils literal notranslate"><span class="pre">on</span></code></p></td>
+<td class="text-left"><p>Almost always — explicit, SQL-like, handles renamed keys</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">A.join(B)</span></code></p></td>
+<td class="text-left"><p>the <strong>index</strong></p></td>
+<td class="text-left"><p>the index</p></td>
+<td class="text-left"><p>You’ve set a meaningful index and want to glue several frames on it</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">.join()</span></code> silently aligns by index/position, so if your key is an ordinary column it matches the <strong>wrong rows</strong>. Prefer <code class="docutils literal notranslate"><span class="pre">.merge()</span></code> unless you deliberately set an index.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>Combines by</p></th>
+<th class="head text-left"><p>Use for</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">pd.concat([A,</span> <span class="pre">B])</span></code></p></td>
+<td class="text-left"><p>stacking rows (or columns) — no key matching</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">UNION</span> <span class="pre">ALL</span></code> / gluing partitions</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">A.merge(B,</span> <span class="pre">on=k)</span></code></p></td>
+<td class="text-left"><p>matching a key</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">JOIN</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="s2">&quot;val&quot;</span><span class="p">:[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;b&quot;</span><span class="p">,</span><span class="s2">&quot;c&quot;</span><span class="p">]})</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="s2">&quot;score&quot;</span><span class="p">:[</span><span class="mi">20</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">40</span><span class="p">]})</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;merge on &#39;id&#39; (inner) — matches on the key:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">join — aligns on INDEX, so it pairs the WRONG rows:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">lsuffix</span><span class="o">=</span><span class="s2">&quot;_A&quot;</span><span class="p">,</span> <span class="n">rsuffix</span><span class="o">=</span><span class="s2">&quot;_B&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>merge on &#39;id&#39; (inner) — matches on the key:
+   id val  score
+0   2   b     20
+1   3   c     30
+
+join — aligns on INDEX, so it pairs the WRONG rows:
+   id_A val  id_B  score
+0     1   a     2     20
+1     2   b     3     30
+2     3   c     4     40
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="aggregation-groupby">
+<h2>§6 — Aggregation &amp; GroupBy<a class="headerlink" href="#aggregation-groupby" title="Link to this heading">#</a></h2>
+<p>Three distinct tools with different output shapes: <code class="docutils literal notranslate"><span class="pre">agg</span></code> collapses rows, <code class="docutils literal notranslate"><span class="pre">transform</span></code> preserves shape, <code class="docutils literal notranslate"><span class="pre">pivot_table</span></code> reshapes across two dimensions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># SQL pipeline equivalent</span>
+<span class="c1"># SELECT col1, AGG(col2) FROM t WHERE cond GROUP BY col1 HAVING ... ORDER BY ... LIMIT n</span>
+<span class="n">result</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;condition&#39;</span><span class="p">)</span>                           <span class="c1"># WHERE</span>
+      <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;col1&#39;</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>              <span class="c1"># GROUP BY</span>
+      <span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">agg_col</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;col2&#39;</span><span class="p">,</span> <span class="s1">&#39;sum&#39;</span><span class="p">))</span>                 <span class="c1"># SELECT + aggregate</span>
+      <span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;agg_col &gt; 100&#39;</span><span class="p">)</span>                       <span class="c1"># HAVING</span>
+      <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;col1&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>         <span class="c1"># ORDER BY</span>
+      <span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>                                     <span class="c1"># LIMIT</span>
+<span class="p">)</span>
+
+<span class="c1"># Basic aggregations</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>                                 <span class="c1"># COUNT(*)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>                       <span class="c1"># COUNT(col) — excludes NULLs</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>                 <span class="c1"># COUNT(DISTINCT user_id)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;sales&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>                       <span class="c1"># SUM</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>                      <span class="c1"># AVG</span>
+
+<span class="c1"># Named aggregation in groupby — preferred syntax</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;region&#39;</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+    <span class="n">total_sales</span>  <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;sales&#39;</span><span class="p">,</span>   <span class="s1">&#39;sum&#39;</span><span class="p">),</span>
+    <span class="n">avg_price</span>    <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;price&#39;</span><span class="p">,</span>   <span class="s1">&#39;mean&#39;</span><span class="p">),</span>
+    <span class="n">unique_users</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span> <span class="s1">&#39;nunique&#39;</span><span class="p">),</span>
+    <span class="n">min_score</span>    <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;score&#39;</span><span class="p">,</span>   <span class="s1">&#39;min&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># Conditional aggregation — SUM(CASE WHEN ...) equivalent</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;ios_rev&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;revenue&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;platform&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;iOS&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>        <span class="c1"># else 0</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;ios_rev_excl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;revenue&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;platform&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;iOS&#39;</span><span class="p">)</span>      <span class="c1"># else NaN (excluded from mean)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;region&#39;</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+    <span class="n">ios_total</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;ios_rev&#39;</span><span class="p">,</span>      <span class="s1">&#39;sum&#39;</span><span class="p">),</span>
+    <span class="n">ios_avg</span>   <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;ios_rev_excl&#39;</span><span class="p">,</span> <span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># transform — aggregation that keeps original shape (window function equivalent)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;group_total&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;region&#39;</span><span class="p">)[</span><span class="s1">&#39;revenue&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;pct_of_group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;revenue&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;group_total&#39;</span><span class="p">]</span>
+
+<span class="c1"># pivot_table — GROUP BY across two categorical dimensions</span>
+<span class="n">df</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
+    <span class="n">index</span><span class="o">=</span><span class="s1">&#39;region&#39;</span><span class="p">,</span>                     <span class="c1"># rows</span>
+    <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;platform&#39;</span><span class="p">,</span>                 <span class="c1"># columns</span>
+    <span class="n">values</span><span class="o">=</span><span class="s1">&#39;revenue&#39;</span><span class="p">,</span>                   <span class="c1"># values</span>
+    <span class="n">aggfunc</span><span class="o">=</span><span class="s1">&#39;sum&#39;</span><span class="p">,</span>                      <span class="c1"># aggregation</span>
+    <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span>                        <span class="c1"># replace NaN with 0</span>
+<span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="c1"># crosstab — frequency count only (pivot_table shortcut)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;region&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;platform&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong><code class="docutils literal notranslate"><span class="pre">agg</span></code> vs <code class="docutils literal notranslate"><span class="pre">transform</span></code> vs <code class="docutils literal notranslate"><span class="pre">pivot_table</span></code>:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>Output shape</p></th>
+<th class="head text-left"><p>SQL equivalent</p></th>
+<th class="head text-left"><p>Use when</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">agg</span></code></p></td>
+<td class="text-left"><p>Collapsed (one row per group)</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code></p></td>
+<td class="text-left"><p>You want a summary table</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">transform</span></code></p></td>
+<td class="text-left"><p>Same as input</p></td>
+<td class="text-left"><p>Window function</p></td>
+<td class="text-left"><p>You need the result back on every row</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">pivot_table</span></code></p></td>
+<td class="text-left"><p>Reshaped (groups become columns)</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code> + conditional agg</p></td>
+<td class="text-left"><p>Two categorical dimensions</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Forgetting <code class="docutils literal notranslate"><span class="pre">as_index=False</span></code> in <code class="docutils literal notranslate"><span class="pre">groupby</span></code> — group keys become the index, not columns</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">agg</span></code> when you need <code class="docutils literal notranslate"><span class="pre">transform</span></code> — <code class="docutils literal notranslate"><span class="pre">agg</span></code> collapses rows; you lose the original index</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pivot_table</span></code> without <code class="docutils literal notranslate"><span class="pre">fill_value=0</span></code> — missing combinations produce NaN instead of 0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.agg(['sum',</span> <span class="pre">'mean'])</span></code> with a list produces a MultiIndex — use named aggregation syntax to avoid this</p></li>
+</ul>
+<p><strong><code class="docutils literal notranslate"><span class="pre">pivot</span></code> vs <code class="docutils literal notranslate"><span class="pre">pivot_table</span></code>, and three “count” methods:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>Aggregates duplicates?</p></th>
+<th class="head text-left"><p>Takes <code class="docutils literal notranslate"><span class="pre">aggfunc</span></code>?</p></th>
+<th class="head text-left"><p>Errors on dup keys?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">df.pivot(...)</span></code></p></td>
+<td class="text-left"><p>❌ reshape only</p></td>
+<td class="text-left"><p>❌</p></td>
+<td class="text-left"><p>✅ raises <code class="docutils literal notranslate"><span class="pre">ValueError</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">df.pivot_table(...)</span></code></p></td>
+<td class="text-left"><p>✅</p></td>
+<td class="text-left"><p>✅</p></td>
+<td class="text-left"><p>❌ aggregates them</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">pivot</span></code> only when each index/column pair is already unique; otherwise <code class="docutils literal notranslate"><span class="pre">pivot_table</span></code>.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Method</p></th>
+<th class="head text-left"><p>Counts</p></th>
+<th class="head text-left"><p>SQL equivalent</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">s.value_counts()</span></code></p></td>
+<td class="text-left"><p>rows per distinct <strong>value</strong> of one column</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span> <span class="pre">col</span></code> + <code class="docutils literal notranslate"><span class="pre">COUNT(*)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">df.groupby(k).size()</span></code></p></td>
+<td class="text-left"><p>rows per <strong>group</strong> (includes NaN)</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span> <span class="pre">k</span></code> + <code class="docutils literal notranslate"><span class="pre">COUNT(*)</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">s.nunique()</span></code></p></td>
+<td class="text-left"><p>number of <strong>distinct</strong> values</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">COUNT(DISTINCT</span> <span class="pre">col)</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong><code class="docutils literal notranslate"><span class="pre">drop_duplicates</span></code> vs <code class="docutils literal notranslate"><span class="pre">groupby().first()</span></code>:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>Keeps</p></th>
+<th class="head text-left"><p>Other columns</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">df.drop_duplicates(subset=k)</span></code></p></td>
+<td class="text-left"><p>first row per key</p></td>
+<td class="text-left"><p>kept as-is from that row</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">df.groupby(k).first()</span></code></p></td>
+<td class="text-left"><p>first non-null per column per group</p></td>
+<td class="text-left"><p>can differ column-by-column; lets you aggregate the rest</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="window-operations">
+<h2>§7 — Window Operations<a class="headerlink" href="#window-operations" title="Link to this heading">#</a></h2>
+<p>Covers ranking, lag/lead, running totals, and rolling windows — the Pandas equivalents of SQL window functions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ranking — SQL RANK / DENSE_RANK / ROW_NUMBER equivalents</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;row_num&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">,</span>  <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>  <span class="c1"># ROW_NUMBER</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;rnk&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;min&#39;</span><span class="p">,</span>    <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>  <span class="c1"># RANK</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;dense_rnk&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;dense&#39;</span><span class="p">,</span>  <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>  <span class="c1"># DENSE_RANK</span>
+
+<span class="c1"># Ranking within a group — RANK() OVER (PARTITION BY ...)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;rank_in_group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;region&#39;</span><span class="p">)[</span><span class="s1">&#39;revenue&#39;</span><span class="p">]</span>
+      <span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;dense&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+      <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># LAG / LEAD — shift within a group (always sort first)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;prev_value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">)[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>    <span class="c1"># LAG(value, 1)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;next_value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">)[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># LEAD(value, 1)</span>
+
+<span class="c1"># Running totals — SUM OVER (ROWS UNBOUNDED PRECEDING)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;run_sum&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">)[</span><span class="s1">&#39;amount&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;run_max&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">)[</span><span class="s1">&#39;amount&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cummax</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;run_min&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">)[</span><span class="s1">&#39;amount&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cummin</span><span class="p">()</span>
+
+<span class="c1"># Rolling window — moving average over last n rows</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;moving_avg_7&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">)[</span><span class="s1">&#39;amount&#39;</span><span class="p">]</span>
+      <span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="p">)</span>
+
+<span class="c1"># Expanding window — cumulative from start of series</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;expanding_mean&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">)[</span><span class="s1">&#39;amount&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">expanding</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Rank method comparison:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>method</p></th>
+<th class="head text-left"><p>Ties</p></th>
+<th class="head text-left"><p>Gaps after ties</p></th>
+<th class="head text-left"><p>SQL equivalent</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">first</span></code></p></td>
+<td class="text-left"><p>No — sequential</p></td>
+<td class="text-left"><p>n/a</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ROW_NUMBER()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">min</span></code></p></td>
+<td class="text-left"><p>Yes — share min rank</p></td>
+<td class="text-left"><p>Yes</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">RANK()</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">dense</span></code></p></td>
+<td class="text-left"><p>Yes — share rank</p></td>
+<td class="text-left"><p>No</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">DENSE_RANK()</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Forgetting to <code class="docutils literal notranslate"><span class="pre">sort_values</span></code> before <code class="docutils literal notranslate"><span class="pre">shift</span></code> — shift operates on current row order, not logical order</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">groupby().cumsum()</span></code> without sorting — produces incorrect running totals</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">rolling()</span></code> directly on a grouped column without <code class="docutils literal notranslate"><span class="pre">transform</span></code> — loses the group alignment</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="date-time">
+<h2>§8 — Date &amp; Time<a class="headerlink" href="#date-time" title="Link to this heading">#</a></h2>
+<p>Always parse date strings with <code class="docutils literal notranslate"><span class="pre">pd.to_datetime()</span></code> first. All <code class="docutils literal notranslate"><span class="pre">.dt</span></code> accessor operations require a proper datetime dtype.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Parse strings to datetime</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;event_ts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;event_ts&#39;</span><span class="p">])</span>                     <span class="c1"># auto-detect format</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;event_ts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;event_ts&#39;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>  <span class="c1"># explicit format (faster)</span>
+
+<span class="c1"># Unix timestamp conversion</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;ts_col&#39;</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>    <span class="c1"># 10-digit (seconds) → datetime</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;ts_col&#39;</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;ms&#39;</span><span class="p">)</span>   <span class="c1"># 13-digit (milliseconds) → datetime</span>
+
+<span class="c1"># Extract components — .dt accessor</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;event_ts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span>                           <span class="c1"># DATE()</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;event_ts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>                           <span class="c1"># EXTRACT(YEAR)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;event_ts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span>                          <span class="c1"># EXTRACT(MONTH)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;day&#39;</span><span class="p">]</span>         <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;event_ts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">day</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;day_of_week&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;event_ts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">dayofweek</span>                      <span class="c1"># 0=Mon, 6=Sun</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;hour&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;event_ts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">hour</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;year_month&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;event_ts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>     <span class="c1"># DATE_FORMAT(&#39;%Y-%m&#39;)</span>
+
+<span class="c1"># Date arithmetic</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;plus_7d&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;order_date&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>            <span class="c1"># DATE_ADD(..., INTERVAL 7 DAY)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;minus_1mo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;order_date&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">pd</span><span class="o">.</span><span class="n">DateOffset</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>         <span class="c1"># DATE_SUB(..., INTERVAL 1 MONTH)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;days_diff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;end_date&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;start_date&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days</span>        <span class="c1"># DATEDIFF</span>
+
+<span class="c1"># Current date</span>
+<span class="n">today</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>                              <span class="c1"># CURRENT_DATE</span>
+<span class="n">df_recent</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;event_date&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">today</span> <span class="o">-</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">7</span><span class="p">)]</span>
+
+<span class="c1"># Gaps &amp; Islands — consecutive streak detection</span>
+<span class="n">logins</span> <span class="o">=</span> <span class="n">logins</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span> <span class="s1">&#39;login_date&#39;</span><span class="p">])</span>
+<span class="n">logins</span><span class="p">[</span><span class="s1">&#39;row_num&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">logins</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">cumcount</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">logins</span><span class="p">[</span><span class="s1">&#39;grp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">logins</span><span class="p">[</span><span class="s1">&#39;login_date&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">logins</span><span class="p">[</span><span class="s1">&#39;row_num&#39;</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
+<span class="n">streaks</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">logins</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span> <span class="s1">&#39;grp&#39;</span><span class="p">],</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+          <span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">streak_start</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;login_date&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">),</span>
+               <span class="n">streak_end</span>  <span class="o">=</span><span class="p">(</span><span class="s1">&#39;login_date&#39;</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">),</span>
+               <span class="n">streak_len</span>  <span class="o">=</span><span class="p">(</span><span class="s1">&#39;login_date&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">))</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong><code class="docutils literal notranslate"><span class="pre">pd.Timedelta</span></code> vs <code class="docutils literal notranslate"><span class="pre">pd.DateOffset</span></code>:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>Fixed duration</p></th>
+<th class="head text-left"><p>Calendar-aware</p></th>
+<th class="head text-left"><p>Use for</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">pd.Timedelta(days=7)</span></code></p></td>
+<td class="text-left"><p>✅</p></td>
+<td class="text-left"><p>❌</p></td>
+<td class="text-left"><p>Days, hours, minutes</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">pd.DateOffset(months=1)</span></code></p></td>
+<td class="text-left"><p>❌</p></td>
+<td class="text-left"><p>✅</p></td>
+<td class="text-left"><p>Months, years (variable length)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Forgetting <code class="docutils literal notranslate"><span class="pre">pd.to_datetime()</span></code> before using <code class="docutils literal notranslate"><span class="pre">.dt</span></code> accessor — raises <code class="docutils literal notranslate"><span class="pre">AttributeError</span></code> if column is still a string</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">pd.Timedelta</span></code> for months — months have variable lengths; use <code class="docutils literal notranslate"><span class="pre">pd.DateOffset</span></code> instead</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">.dt.date</span></code> (returns Python <code class="docutils literal notranslate"><span class="pre">date</span></code> objects) when you need <code class="docutils literal notranslate"><span class="pre">.dt.normalize()</span></code> (returns <code class="docutils literal notranslate"><span class="pre">Timestamp</span></code>) — the former breaks further date arithmetic</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="string-operations">
+<h2>§9 — String Operations<a class="headerlink" href="#string-operations" title="Link to this heading">#</a></h2>
+<p>All string methods live under the <code class="docutils literal notranslate"><span class="pre">.str</span></code> accessor. They are vectorized and NaN-safe — NaN rows return NaN rather than raising an error.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Case and whitespace</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>                           <span class="c1"># remove leading/trailing whitespace</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>               <span class="c1"># chain operations</span>
+
+<span class="c1"># Contains / starts with / ends with</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;pattern&#39;</span><span class="p">)</span>               <span class="c1"># LIKE &#39;%pattern%&#39;</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;pattern&#39;</span><span class="p">,</span> <span class="n">na</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>     <span class="c1"># treat NaN as False, not NaN</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;prefix&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;suffix&#39;</span><span class="p">)</span>
+
+<span class="c1"># Replace</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;old&#39;</span><span class="p">,</span> <span class="s1">&#39;new&#39;</span><span class="p">)</span>             <span class="c1"># REPLACE(col, &#39;old&#39;, &#39;new&#39;)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\d+&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>   <span class="c1"># remove all digits (regex)</span>
+
+<span class="c1"># Split</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>                        <span class="c1"># returns list in each cell</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>           <span class="c1"># expand into separate columns</span>
+<span class="n">df</span><span class="p">[[</span><span class="s1">&#39;first&#39;</span><span class="p">,</span> <span class="s1">&#39;last&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># split into named cols</span>
+
+<span class="c1"># Extract — pull out groups using regex</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(\d</span><span class="si">{4}</span><span class="s1">)&#39;</span><span class="p">)</span>               <span class="c1"># extract first 4-digit number into a column</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(?P&lt;year&gt;\d</span><span class="si">{4}</span><span class="s1">)-(?P&lt;month&gt;\d</span><span class="si">{2}</span><span class="s1">)&#39;</span><span class="p">)</span>  <span class="c1"># named groups → named columns</span>
+
+<span class="c1"># Length</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">len</span><span class="p">()</span>                             <span class="c1"># character count per cell</span>
+
+<span class="c1"># Slice</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>                               <span class="c1"># first 3 characters</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>                              <span class="c1"># characters 2–4</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">str.contains()</span></code> without <code class="docutils literal notranslate"><span class="pre">na=False</span></code> — NaN rows return NaN (not False), which breaks boolean indexing</p></li>
+<li><p>Using Python <code class="docutils literal notranslate"><span class="pre">str</span></code> methods directly on a Series instead of <code class="docutils literal notranslate"><span class="pre">.str.*</span></code> — raises <code class="docutils literal notranslate"><span class="pre">AttributeError</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">str.replace()</span></code> without <code class="docutils literal notranslate"><span class="pre">regex=False</span></code> when the pattern has regex special characters (<code class="docutils literal notranslate"><span class="pre">.</span></code>, <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>) — always set <code class="docutils literal notranslate"><span class="pre">regex=False</span></code> for literal replacements</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="i-o">
+<h2>§10 — I/O<a class="headerlink" href="#i-o" title="Link to this heading">#</a></h2>
+<p>Covers reading and writing data. Setting dtypes on load avoids silent type errors downstream.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read CSV</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;file.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;file.csv&#39;</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;revenue&#39;</span><span class="p">])</span>  <span class="c1"># load only needed columns</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;file.csv&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;user_id&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;amount&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">})</span> <span class="c1"># specify dtypes on load</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;file.csv&#39;</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;event_date&#39;</span><span class="p">])</span>              <span class="c1"># parse dates on load</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;file.csv&#39;</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>                              <span class="c1"># load first N rows only</span>
+
+<span class="c1"># Process large files in chunks</span>
+<span class="n">chunks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;large.csv&#39;</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="mi">100_000</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">chunk</span><span class="p">[</span><span class="n">chunk</span><span class="p">[</span><span class="s1">&#39;revenue&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Read JSON</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;file.json&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;file.json&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>                            <span class="c1"># JSON Lines format</span>
+
+<span class="c1"># Read Excel</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s1">&#39;file.xlsx&#39;</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;Sheet1&#39;</span><span class="p">)</span>
+
+<span class="c1"># Read SQL</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;db.sqlite&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s1">&#39;SELECT * FROM table WHERE date &gt; &quot;2024-01-01&quot;&#39;</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+
+<span class="c1"># Write</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;output.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>            <span class="c1"># index=False avoids writing the row index</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="s1">&#39;output.json&#39;</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;records&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="s1">&#39;output.xlsx&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;Results&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Forgetting <code class="docutils literal notranslate"><span class="pre">index=False</span></code> in <code class="docutils literal notranslate"><span class="pre">to_csv</span></code> — writes the numeric row index as the first column</p></li>
+<li><p>Loading all columns when only a few are needed — use <code class="docutils literal notranslate"><span class="pre">usecols</span></code> to reduce memory</p></li>
+<li><p>Not specifying <code class="docutils literal notranslate"><span class="pre">dtype</span></code> for ID columns — numeric IDs load as <code class="docutils literal notranslate"><span class="pre">int64</span></code> and lose leading zeros (e.g. zip codes)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="performance-tips">
+<h2>§11 — Performance Tips<a class="headerlink" href="#performance-tips" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Prefer vectorized operations over apply</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span>                           <span class="c1"># fast — vectorized C loop</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>        <span class="c1"># slow — row-by-row Python loop</span>
+
+<span class="c1"># .query() vs boolean indexing</span>
+<span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;age &gt; 30 and region == &#39;US&#39;&quot;</span><span class="p">)</span> <span class="c1"># readable, slightly faster on large DataFrames</span>
+<span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;region&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;US&#39;</span><span class="p">)]</span>  <span class="c1"># equivalent, better for dynamic conditions</span>
+
+<span class="c1"># Reduce memory with category dtype (low-cardinality string columns)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;platform&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;platform&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
+
+<span class="c1"># Read only needed columns</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;file.csv&#39;</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;revenue&#39;</span><span class="p">])</span>
+
+<span class="c1"># Avoid chained indexing — use .loc instead</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="s1">&#39;col&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>             <span class="c1"># correct</span>
+<span class="n">df</span><span class="p">[</span><span class="n">mask</span><span class="p">][</span><span class="s1">&#39;col&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>                 <span class="c1"># wrong — may not modify original (SettingWithCopyWarning)</span>
+
+<span class="c1"># Use .copy() when slicing a DataFrame you intend to modify</span>
+<span class="n">subset</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;region&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;US&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">subset</span><span class="p">[</span><span class="s1">&#39;new_col&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>                   <span class="c1"># safe — modifies copy, not original</span>
+
+<span class="c1"># Process large files in chunks</span>
+<span class="n">chunks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;large.csv&#39;</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="mi">100_000</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">process</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Avoid <code class="docutils literal notranslate"><span class="pre">apply</span></code> with <code class="docutils literal notranslate"><span class="pre">axis=1</span></code> (row-wise) — it is a Python loop; use <code class="docutils literal notranslate"><span class="pre">np.where</span></code>, <code class="docutils literal notranslate"><span class="pre">np.select</span></code>, or vectorized column ops instead</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">inplace=True</span></code> does not speed things up and prevents chaining — avoid it</p></li>
+<li><p>For string columns with few unique values (platform, country, status), <code class="docutils literal notranslate"><span class="pre">.astype('category')</span></code> can reduce memory by 50–90%</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">df.eval('a</span> <span class="pre">+</span> <span class="pre">b')</span></code> can be faster than <code class="docutils literal notranslate"><span class="pre">df['a']</span> <span class="pre">+</span> <span class="pre">df['b']</span></code> for large DataFrames — uses <code class="docutils literal notranslate"><span class="pre">numexpr</span></code> under the hood</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="decision-guide">
+<h1>Decision Guide<a class="headerlink" href="#decision-guide" title="Link to this heading">#</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Aggregating data?
+├── One metric, one grouping dimension        → groupby().agg()
+├── One metric across two categorical dims    → pivot_table()
+├── Frequency count only                      → crosstab()
+└── Need result back on every original row    → groupby().transform()
+
+Filtering rows?
+├── Static, readable condition                → .query()
+└── Dynamic / programmatic condition          → boolean indexing df[mask]
+
+Selecting rows + columns together?
+├── By label                                  → .loc[rows, cols]
+└── By position                               → .iloc[rows, cols]
+
+Labeling / bucketing values?
+├── Binary condition                           → np.where(cond, true_val, false_val)
+├── Multiple conditions                        → np.select(conditions, choices, default)
+└── Binning continuous values                  → pd.cut() or pd.qcut()
+
+Combining DataFrames?
+├── Join on a column                           → .merge(on=&#39;col&#39;)
+├── Rows with no match in other table          → merge(..., how=&#39;left&#39;, indicator=True)
+└── Stack rows vertically                      → pd.concat([df1, df2])
+
+Window operations?
+├── Rank within group                          → groupby().rank(method=&#39;dense&#39;)
+├── Previous / next row value                  → groupby().shift(1) / shift(-1)
+├── Running total                              → groupby().cumsum()
+└── Moving average over last n rows            → groupby().transform(lambda x: x.rolling(n).mean())
+
+NULL handling?
+├── Replace with a value                       → .fillna(value)
+├── Replace with previous row in group         → groupby().ffill()
+└── Drop rows                                  → .dropna(subset=[...])
+
+Speeding up slow code?
+├── Using apply row-wise                       → replace with np.where / vectorized ops
+├── Large file loading slowly                  → usecols= or chunksize=
+└── High-cardinality string columns            → .astype(&#39;category&#39;)
+</pre></div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Python Data Libs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Python_Data_Libs.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Python Data Libraries</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Reference_NumPy.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">NumPy — Technical Reference</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
