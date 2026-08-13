@@ -11,13 +11,33 @@ execute:
   # 30-second default per-cell timeout and kill the build. 300s gives headroom
   # for all training cells (ML5's boosting cells included).
   timeout: 300
-  # Nothing is excluded any more. Previously "Python Data Libs/DM_*",
-  # Reference_Pandas, Reference_NumPy and Metrics/* were skipped from
-  # execution, but those notebooks carried stored outputs on only 2-3 of their
-  # 10-13 code cells -- so the published site rendered the pandas/NumPy drills
-  # as code with no results at all. Executing them costs ~1 min of build time
-  # and guarantees every cell in the coding-round chapters shows real output.
-  allow_errors: false
+
+  exclude_patterns:
+    # These are SNIPPET REFERENCES, not runnable notebooks. Their cells use an
+    # undefined `df` / `arr` as a stand-in and read a `data.csv` that does not
+    # exist in the repo, so they cannot execute standalone:
+    #
+    #   DM_Basic          6 of 10 code cells raise
+    #   DM_Intermediate   4 of  9
+    #   DM_Advanced       8 of 10
+    #   Reference_Pandas 11 of 13
+    #   Reference_NumPy   3 of 12
+    #
+    # With allow_errors left at its default (false), the first NameError would
+    # abort the entire book build. The handful of self-contained cells in these
+    # files ship with stored outputs instead -- do NOT strip those outputs, as
+    # they are never regenerated. See tools/normalize_notebooks.py.
+    - "Python Data Libs/DM_*.ipynb"
+    - "Python Data Libs/Reference_Pandas.ipynb"
+    - "Python Data Libs/Reference_NumPy.ipynb"
+    - "Metrics/*"
+    #
+    # Note on Metrics/*: metrics_Python was verified to run cleanly end to end
+    # (25/25 code cells, no errors) after being split into real cells, and
+    # metrics_SQL has no code cells at all. It is excluded here to match the
+    # original configuration and keep the build conservative. If you want live
+    # outputs on the metrics chapter, delete the "Metrics/*" line above -- it is
+    # the one exclusion that is safe to remove.
 
 html:
   use_repository_button: true

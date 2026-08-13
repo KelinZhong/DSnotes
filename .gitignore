@@ -16,3 +16,7 @@ mlartifacts/
 
 # OS
 .DS_Store
+
+# Figures written by notebook savefig() calls at build time
+*.png
+!**/images/*.png
