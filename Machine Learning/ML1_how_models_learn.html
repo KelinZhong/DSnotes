@@ -1,0 +1,1145 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>What is ML and how do models learn? &#8212; Data Science Interview Prep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Machine Learning/ML1_how_models_learn';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="How do we know if a model is good?" href="ML2_model_evaluation.html" />
+    <link rel="prev" title="Machine Learning" href="ML0.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Science Interview Prep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    Topics
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Python%20Data%20Libs/Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Python%20Data%20Libs/Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">What is ML and how do models learn?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ML2_model_evaluation.html">How do we know if a model is good?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ML3_data_preparation.html">How do we prepare data for models?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ML4_unsupervised_learning.html">How do models find structure without labels?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ML5_tree_based_models.html">How do tree-based models make decisions?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ML6_similarity_boundaries.html">How do models find similarity and boundaries?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ML7_imbalance_calibration.html">How do you handle imbalance, calibration, and thresholds?</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-regression">1. Linear Regression</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-it-is">What it is</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-intuition">Key intuition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use">When to use</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-not-to-use">When not to use</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interview-q-a">Interview Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gotchas">Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">2. Logistic Regression</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">What it is</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Key intuition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">When to use</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">When not to use</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Interview Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-functions">3. Loss Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">What it is</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Key intuition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-loss-functions">Common loss functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">When to use</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Interview Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent-optimization">4. Gradient Descent &amp; Optimization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">What it is</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Key intuition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#types">Types</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">When to use</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">Interview Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-rate">5. Learning Rate</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">What it is</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">Key intuition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-schedulers">When to use schedulers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">Interview Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">Gotchas</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../intro.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="ML0.html" class="nav-link">Machine Learning</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">What is ML and how do models learn?</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="what-is-ml-and-how-do-models-learn">
+<h1>What is ML and how do models learn?<a class="headerlink" href="#what-is-ml-and-how-do-models-learn" title="Link to this heading">#</a></h1>
+<p><strong>Topics:</strong> Linear Regression · Logistic Regression · Loss Functions · Gradient Descent · SGD · Learning Rate</p>
+<hr class="docutils" />
+<section id="linear-regression">
+<h2>1. Linear Regression<a class="headerlink" href="#linear-regression" title="Link to this heading">#</a></h2>
+<section id="what-it-is">
+<h3>What it is<a class="headerlink" href="#what-it-is" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Predicts a <strong>continuous</strong> output from input features</p></li>
+<li><p>Fits a straight line (or hyperplane) through data: <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">Xw</span> <span class="pre">+</span> <span class="pre">b</span></code></p></li>
+<li><p>Minimizes the difference between predicted and actual values</p></li>
+</ul>
+</section>
+<section id="key-intuition">
+<h3>Key intuition<a class="headerlink" href="#key-intuition" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Find the line that is “closest” to all data points</p></li>
+<li><p>Closeness measured by <strong>squared errors</strong> (penalizes large errors more)</p></li>
+</ul>
+</section>
+<section id="when-to-use">
+<h3>When to use<a class="headerlink" href="#when-to-use" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Target variable is continuous (price, temperature, salary)</p></li>
+<li><p>Relationship between features and target is approximately linear</p></li>
+<li><p>Need an interpretable model — coefficients show feature impact</p></li>
+</ul>
+</section>
+<section id="when-not-to-use">
+<h3>When not to use<a class="headerlink" href="#when-not-to-use" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Target is categorical → use logistic regression or classifiers</p></li>
+<li><p>Relationship is highly non-linear</p></li>
+<li><p>Many irrelevant features without regularization applied</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">r2_score</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="c1"># ── From scratch ──</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">linear_regression_scratch</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">w</span> <span class="o">+</span> <span class="n">b</span>
+        <span class="n">dw</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">y_pred</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y_pred</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">w</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">dw</span>
+        <span class="n">b</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">db</span>
+    <span class="k">return</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span>
+
+<span class="c1"># ── scikit-learn ──</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">X</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span> <span class="o">+</span> <span class="mi">7</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Coefficient : </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Intercept   : </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">intercept_</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"MSE         : </span><span class="si">{</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_pred</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"R² Score    : </span><span class="si">{</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_pred</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Coefficient : 2.91
+Intercept   : 7.25
+MSE         : 4.68
+R² Score    : 0.96
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="interview-q-a">
+<h3>Interview Q&amp;A<a class="headerlink" href="#interview-q-a" title="Link to this heading">#</a></h3>
+<p><strong>What does R² score mean?</strong></p>
+<ul class="simple">
+<li><p>Proportion of variance in y explained by the model</p></li>
+<li><p>R² = 1 → perfect fit, R² = 0 → model no better than predicting the mean</p></li>
+</ul>
+<p><strong>What are the assumptions of linear regression?</strong></p>
+<ul class="simple">
+<li><p>Linearity, independence of errors, homoscedasticity (constant variance), normality of errors</p></li>
+</ul>
+<p><strong>What happens if features are correlated (multicollinearity)?</strong></p>
+<ul class="simple">
+<li><p>Coefficients become unstable and hard to interpret → use Ridge regression (L2) to handle it</p></li>
+</ul>
+</section>
+<section id="gotchas">
+<h3>Gotchas<a class="headerlink" href="#gotchas" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Sensitive to outliers — squared loss amplifies large errors</p></li>
+<li><p>Doesn’t capture non-linear relationships without feature engineering</p></li>
+<li><p>Always check residual plots to validate assumptions</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="logistic-regression">
+<h2>2. Logistic Regression<a class="headerlink" href="#logistic-regression" title="Link to this heading">#</a></h2>
+<section id="id1">
+<h3>What it is<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Predicts a <strong>probability</strong> that an input belongs to a class (0 or 1)</p></li>
+<li><p>Applies sigmoid function to linear output: <code class="docutils literal notranslate"><span class="pre">p</span> <span class="pre">=</span> <span class="pre">σ(Xw</span> <span class="pre">+</span> <span class="pre">b)</span></code></p></li>
+<li><p>Despite the name — it’s a <strong>classification</strong> algorithm</p></li>
+</ul>
+</section>
+<section id="id2">
+<h3>Key intuition<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Squashes any real number into range (0, 1) using sigmoid</p></li>
+<li><p>Decision boundary: predict class 1 if p &gt; 0.5, else class 0</p></li>
+<li><p>Learns weights that separate classes in feature space</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>When to use<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Binary classification (spam/not spam, churn/no churn)</p></li>
+<li><p>Need probability outputs, not just class labels</p></li>
+<li><p>Need an interpretable baseline model</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>When not to use<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Classes are not linearly separable → use SVM with kernel or tree-based models</p></li>
+<li><p>Multi-class with complex boundaries → use neural networks</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">classification_report</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_classification</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="c1"># ── From scratch ──</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sigmoid</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">z</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">logistic_regression_scratch</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">w</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+        <span class="n">dw</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">w</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">dw</span>
+        <span class="n">b</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">db</span>
+    <span class="k">return</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span>
+
+<span class="c1"># ── scikit-learn ──</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_classification</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Accuracy: </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_pred</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.92
+
+              precision    recall  f1-score   support
+
+           0       0.90      0.94      0.92        49
+           1       0.94      0.90      0.92        51
+
+    accuracy                           0.92       100
+   macro avg       0.92      0.92      0.92       100
+weighted avg       0.92      0.92      0.92       100
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id5">
+<h3>Interview Q&amp;A<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p><strong>Why is it called regression if it’s a classifier?</strong></p>
+<ul class="simple">
+<li><p>It models the probability (a continuous value) using a regression approach, then thresholds it to produce a class label</p></li>
+</ul>
+<p><strong>What loss function does logistic regression use?</strong></p>
+<ul class="simple">
+<li><p>Binary cross-entropy (log loss): penalizes confident wrong predictions heavily</p></li>
+</ul>
+<p><strong>How do you extend it to multi-class?</strong></p>
+<ul class="simple">
+<li><p>One-vs-Rest (OvR): train one binary classifier per class</p></li>
+<li><p>Softmax (multinomial): single model outputting probabilities for all classes</p></li>
+</ul>
+</section>
+<section id="id6">
+<h3>Gotchas<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Assumes linear decision boundary — fails on complex data</p></li>
+<li><p>Sensitive to class imbalance → use <code class="docutils literal notranslate"><span class="pre">class_weight='balanced'</span></code> or resample</p></li>
+<li><p>Features should be scaled for faster convergence</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="loss-functions">
+<h2>3. Loss Functions<a class="headerlink" href="#loss-functions" title="Link to this heading">#</a></h2>
+<section id="id7">
+<h3>What it is<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Measures how wrong the model’s predictions are</p></li>
+<li><p>Training = minimizing the loss function</p></li>
+<li><p>Choice of loss depends on the task</p></li>
+</ul>
+</section>
+<section id="id8">
+<h3>Key intuition<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Loss is the “score” the model tries to lower</p></li>
+<li><p>Gradient descent follows the slope of the loss surface downhill</p></li>
+</ul>
+</section>
+<section id="common-loss-functions">
+<h3>Common loss functions<a class="headerlink" href="#common-loss-functions" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Loss</p></th>
+<th class="head"><p>Task</p></th>
+<th class="head"><p>Formula (simplified)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>MSE</p></td>
+<td><p>Regression</p></td>
+<td><p>mean((y - ŷ)²)</p></td>
+</tr>
+<tr class="row-odd"><td><p>MAE</p></td>
+<td><p>Regression (robust)</p></td>
+<td><p>mean(</p></td>
+</tr>
+<tr class="row-even"><td><p>Binary Cross-Entropy</p></td>
+<td><p>Binary classification</p></td>
+<td><p>-mean(y·log(p) + (1-y)·log(1-p))</p></td>
+</tr>
+<tr class="row-odd"><td><p>Categorical Cross-Entropy</p></td>
+<td><p>Multi-class</p></td>
+<td><p>-mean(Σ y·log(p))</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id9">
+<h3>When to use<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>MSE → standard regression, penalizes large errors heavily</p></li>
+<li><p>MAE → regression with outliers, more robust than MSE</p></li>
+<li><p>Cross-entropy → classification tasks, works with probability outputs</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">y_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">])</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">3.7</span><span class="p">])</span>
+
+<span class="c1"># Mean Squared Error</span>
+<span class="n">mse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">y_true</span> <span class="o">-</span> <span class="n">y_pred</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Mean Absolute Error</span>
+<span class="n">mae</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_true</span> <span class="o">-</span> <span class="n">y_pred</span><span class="p">))</span>
+
+<span class="c1"># Binary Cross-Entropy</span>
+<span class="n">y_true_cls</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">p_pred</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">])</span>
+<span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-8</span>  <span class="c1"># avoid log(0)</span>
+<span class="n">bce</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_true_cls</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">p_pred</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">y_true_cls</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p_pred</span> <span class="o">+</span> <span class="n">eps</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"MSE : </span><span class="si">{</span><span class="n">mse</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"MAE : </span><span class="si">{</span><span class="n">mae</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"BCE : </span><span class="si">{</span><span class="n">bce</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MSE : 0.1050
+MAE : 0.3000
+BCE : 0.2362
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id10">
+<h3>Interview Q&amp;A<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<p><strong>Why use MSE over MAE?</strong></p>
+<ul class="simple">
+<li><p>MSE is differentiable everywhere → easier to optimize with gradient descent</p></li>
+<li><p>MAE is more robust to outliers but has undefined gradient at 0</p></li>
+</ul>
+<p><strong>Why cross-entropy for classification, not MSE?</strong></p>
+<ul class="simple">
+<li><p>MSE with sigmoid creates flat gradients (vanishing gradient problem)</p></li>
+<li><p>Cross-entropy gives strong gradients even when predictions are very wrong</p></li>
+</ul>
+</section>
+<section id="id11">
+<h3>Gotchas<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Using MSE for classification → slow training, poor results</p></li>
+<li><p>Not scaling loss when batch sizes vary → use mean, not sum</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="gradient-descent-optimization">
+<h2>4. Gradient Descent &amp; Optimization<a class="headerlink" href="#gradient-descent-optimization" title="Link to this heading">#</a></h2>
+<section id="id12">
+<h3>What it is<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Iteratively adjusts weights to minimize the loss function</p></li>
+<li><p>Computes gradient of loss w.r.t. weights → steps in opposite direction</p></li>
+</ul>
+</section>
+<section id="id13">
+<h3>Key intuition<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Blindfolded on a hilly landscape → feel the slope → step downhill</p></li>
+<li><p>Step size = <strong>learning rate</strong> — too large overshoots, too small is slow</p></li>
+</ul>
+</section>
+<section id="types">
+<h3>Types<a class="headerlink" href="#types" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Type</p></th>
+<th class="head"><p>Data per update</p></th>
+<th class="head"><p>Pro</p></th>
+<th class="head"><p>Con</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Batch GD</p></td>
+<td><p>Full dataset</p></td>
+<td><p>Stable</p></td>
+<td><p>Very slow on large data</p></td>
+</tr>
+<tr class="row-odd"><td><p>SGD</p></td>
+<td><p>1 sample</p></td>
+<td><p>Fast</p></td>
+<td><p>Noisy</p></td>
+</tr>
+<tr class="row-even"><td><p>Mini-batch GD</p></td>
+<td><p>n samples</p></td>
+<td><p>Best of both</p></td>
+<td><p>Needs batch size tuning</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id14">
+<h3>When to use<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Mini-batch GD → default for most ML/DL tasks</p></li>
+<li><p>Full batch GD → small datasets where stability matters</p></li>
+<li><p>SGD → online learning, streaming data</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># ── Gradient Descent from scratch (Linear Regression) ──</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">gradient_descent</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">losses</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">w</span> <span class="o">+</span> <span class="n">b</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">y_pred</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+        <span class="n">dw</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">y_pred</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y_pred</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">w</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">dw</span>
+        <span class="n">b</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">db</span>
+    <span class="k">return</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">losses</span>
+
+<span class="c1"># ── Mini-batch GD ──</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">mini_batch_gd</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">):</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+            <span class="n">Xb</span><span class="p">,</span> <span class="n">yb</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">batch_size</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">batch_size</span><span class="p">]</span>
+            <span class="n">y_pred</span> <span class="o">=</span> <span class="n">Xb</span> <span class="o">@</span> <span class="n">w</span> <span class="o">+</span> <span class="n">b</span>
+            <span class="n">dw</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">yb</span><span class="p">))</span> <span class="o">*</span> <span class="n">Xb</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">y_pred</span> <span class="o">-</span> <span class="n">yb</span><span class="p">)</span>
+            <span class="n">db</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">yb</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y_pred</span> <span class="o">-</span> <span class="n">yb</span><span class="p">)</span>
+            <span class="n">w</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">dw</span>
+            <span class="n">b</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">db</span>
+    <span class="k">return</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span>
+
+<span class="c1"># Demo</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span><span class="o">*</span><span class="mf">0.1</span>
+
+<span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">losses</span> <span class="o">=</span> <span class="n">gradient_descent</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Learned weights : </span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Learned bias    : </span><span class="si">{</span><span class="n">b</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Final loss      : </span><span class="si">{</span><span class="n">losses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights : [2.91199902 1.91026585]
+Learned bias    : 0.0924
+Final loss      : 0.010889
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id15">
+<h3>Interview Q&amp;A<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
+<p><strong>What happens if learning rate is too high?</strong></p>
+<ul class="simple">
+<li><p>Loss oscillates or diverges — overshoots the minimum</p></li>
+</ul>
+<p><strong>SGD vs Adam?</strong></p>
+<ul class="simple">
+<li><p>SGD → fixed learning rate for all parameters</p></li>
+<li><p>Adam → adapts learning rate per parameter using gradient history → faster convergence</p></li>
+</ul>
+<p><strong>Why does mini-batch generalize better than full batch?</strong></p>
+<ul class="simple">
+<li><p>Noise in updates acts as implicit regularization → escapes sharp minima → better generalization</p></li>
+</ul>
+</section>
+<section id="id16">
+<h3>Gotchas<a class="headerlink" href="#id16" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Always normalize features first — elongated loss surface causes slow zigzag convergence</p></li>
+<li><p>Local minima rarely the issue in deep learning — saddle points are more common</p></li>
+<li><p>Learning rate is the most important hyperparameter to tune</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="learning-rate">
+<h2>5. Learning Rate<a class="headerlink" href="#learning-rate" title="Link to this heading">#</a></h2>
+<section id="id17">
+<h3>What it is<a class="headerlink" href="#id17" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Controls the size of each step during gradient descent</p></li>
+<li><p>Single most important hyperparameter in training</p></li>
+</ul>
+</section>
+<section id="id18">
+<h3>Key intuition<a class="headerlink" href="#id18" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Too high → overshoots minimum, loss diverges</p></li>
+<li><p>Too low → training takes forever, may get stuck</p></li>
+<li><p>Just right → smooth convergence to minimum</p></li>
+</ul>
+</section>
+<section id="when-to-use-schedulers">
+<h3>When to use schedulers<a class="headerlink" href="#when-to-use-schedulers" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Step decay</strong> → reduce LR by factor every N epochs</p></li>
+<li><p><strong>Reduce on plateau</strong> → reduce when validation loss stops improving</p></li>
+<li><p><strong>Cosine annealing</strong> → smooth decay following cosine curve</p></li>
+<li><p><strong>Warmup</strong> → start low, ramp up, then decay (common in transformers)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">SGDRegressor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_regression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_regression</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test</span>  <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Fixed learning rate</span>
+<span class="n">model_fixed</span> <span class="o">=</span> <span class="n">SGDRegressor</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="s1">'constant'</span><span class="p">,</span> <span class="n">eta0</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">model_fixed</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Adaptive learning rate (invscaling)</span>
+<span class="n">model_adaptive</span> <span class="o">=</span> <span class="n">SGDRegressor</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="s1">'invscaling'</span><span class="p">,</span> <span class="n">eta0</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">model_adaptive</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Fixed LR    R²: </span><span class="si">{</span><span class="n">model_fixed</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Adaptive LR R²: </span><span class="si">{</span><span class="n">model_adaptive</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># PyTorch-style scheduler (conceptual example)</span>
+<span class="c1"># optimizer = torch.optim.Adam(model.parameters(), lr=0.001)</span>
+<span class="c1"># scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=5)</span>
+<span class="c1"># After each epoch: scheduler.step(val_loss)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fixed LR    R²: 0.9890
+Adaptive LR R²: 0.9892
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id19">
+<h3>Interview Q&amp;A<a class="headerlink" href="#id19" title="Link to this heading">#</a></h3>
+<p><strong>How do you choose an initial learning rate?</strong></p>
+<ul class="simple">
+<li><p>Start with 1e-3 for Adam, 1e-2 for SGD</p></li>
+<li><p>Use a learning rate range test — increase LR exponentially, plot loss, pick value just before loss spikes</p></li>
+</ul>
+<p><strong>What is learning rate warmup?</strong></p>
+<ul class="simple">
+<li><p>Start with very small LR, gradually increase over first N steps</p></li>
+<li><p>Prevents large, destabilizing updates at the start of training</p></li>
+<li><p>Common in transformers (BERT, GPT)</p></li>
+</ul>
+</section>
+<section id="id20">
+<h3>Gotchas<a class="headerlink" href="#id20" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Don’t use same LR for all layers when fine-tuning — use lower LR for pretrained layers</p></li>
+<li><p>LR schedulers need to be stepped correctly — after optimizer step, not before</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Machine Learning"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ML0.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Machine Learning</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ML2_model_evaluation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">How do we know if a model is good?</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

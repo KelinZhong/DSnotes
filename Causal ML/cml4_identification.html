@@ -1,0 +1,1220 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How do you identify causal structure? &#8212; Data Science Interview Prep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Causal ML/cml4_identification';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="How do you estimate individual-level treatment effects?" href="cml5_cate_metalearners.html" />
+    <link rel="prev" title="How do you estimate causal effects from observational data?" href="cml3_observational.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Science Interview Prep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    Topics
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Python%20Data%20Libs/Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Python%20Data%20Libs/Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="cml1_foundations.html">Why does causality matter?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cml2_experiments.html">How do you design and analyze experiments?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cml3_observational.html">How do you estimate causal effects from observational data?</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">How do you identify causal structure?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cml5_cate_metalearners.html">How do you estimate individual-level treatment effects?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cml6_uplift_modeling.html">How do you do uplift modeling?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cml7_causal_forests.html">How do you use causal forests?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cml8_endtoend.html">How do you apply Causal ML end-to-end?</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#directed-acyclic-graphs-dags">1. Directed Acyclic Graphs (DAGs)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-it-is">What it is</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-node-types">Key node types</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-intuition">Key intuition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#assumptions">Assumptions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation">Validation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-violated">If violated</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-separation-the-engine-behind-it-all">d-separation (the engine behind it all)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backdoor-frontdoor-criteria">2. Backdoor &amp; Frontdoor Criteria</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backdoor-criterion">Backdoor Criterion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#frontdoor-criterion">Frontdoor Criterion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Key intuition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#collider-bias">Collider Bias</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interview-q-a">Interview Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gotchas">Gotchas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#formula">Formula</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instrumental-variables-iv">3. Instrumental Variables (IV)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">What it is</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classic-examples">Classic examples</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Assumptions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Validation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">If violated</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Gotchas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#formula-2sls">Formula (2SLS)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#threshold">Threshold</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Reference</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#b-how-is-late-actually-calculated">3b. How is LATE actually calculated?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-wald-estimator-binary-instrument-binary-treatment">The Wald estimator (binary instrument, binary treatment)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-divide-one-by-the-other">Why divide one by the other?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principal-strata-who-is-in-the-estimate">Principal strata (who is in the estimate?)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monotonicity-assumption">Monotonicity assumption</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#worked-example">Worked example</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../intro.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="cml0.html" class="nav-link">Causal Machine Learning</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">How do you identify causal structure?</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="how-do-you-identify-causal-structure">
+<h1>How do you identify causal structure?<a class="headerlink" href="#how-do-you-identify-causal-structure" title="Link to this heading">#</a></h1>
+<p><strong>Topics:</strong> DAGs · d-separation · Backdoor Criterion · Frontdoor Criterion · Collider Bias · Mediators vs Confounders · Instrumental Variables · DoWhy</p>
+<hr class="docutils" />
+<section id="directed-acyclic-graphs-dags">
+<h2>1. Directed Acyclic Graphs (DAGs)<a class="headerlink" href="#directed-acyclic-graphs-dags" title="Link to this heading">#</a></h2>
+<section id="what-it-is">
+<h3>What it is<a class="headerlink" href="#what-it-is" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>A DAG is a graphical representation of causal assumptions</p></li>
+<li><p>Nodes = variables, directed edges = direct causal effects</p></li>
+<li><p>Acyclic = no feedback loops</p></li>
+<li><p>Encodes what you believe about the data generating process</p></li>
+</ul>
+</section>
+<section id="key-node-types">
+<h3>Key node types<a class="headerlink" href="#key-node-types" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Type</p></th>
+<th class="head"><p>Definition</p></th>
+<th class="head"><p>Effect on analysis</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Confounder</p></td>
+<td><p>Common cause of T and Y</p></td>
+<td><p>Must adjust for it</p></td>
+</tr>
+<tr class="row-odd"><td><p>Mediator</p></td>
+<td><p>On the causal path T → M → Y</p></td>
+<td><p>Do NOT adjust (blocks causal path)</p></td>
+</tr>
+<tr class="row-even"><td><p>Collider</p></td>
+<td><p>Common effect of two variables</p></td>
+<td><p>Do NOT adjust (opens spurious path)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Moderator</p></td>
+<td><p>Modifies strength of effect</p></td>
+<td><p>Subgroup analysis</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="key-intuition">
+<h3>Key intuition<a class="headerlink" href="#key-intuition" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Confounders create spurious associations — control for them</p></li>
+<li><p>Mediators carry the causal effect — controlling blocks the effect you want to measure</p></li>
+<li><p>Colliders create spurious associations WHEN you condition on them — leaving them alone is correct</p></li>
+</ul>
+</section>
+<section id="assumptions">
+<h3>Assumptions<a class="headerlink" href="#assumptions" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>DAG is correctly specified — all important variables and relationships included</p></li>
+<li><p>No hidden common causes (causal sufficiency)</p></li>
+<li><p>Acyclicity — no feedback loops in the system</p></li>
+</ul>
+</section>
+<section id="validation">
+<h3>Validation<a class="headerlink" href="#validation" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Domain knowledge review — consult subject matter experts</p></li>
+<li><p>Independence tests — test implied conditional independences in the data</p></li>
+<li><p>Refutation tests in DoWhy — test whether estimates are robust to DAG changes</p></li>
+</ul>
+</section>
+<section id="if-violated">
+<h3>If violated<a class="headerlink" href="#if-violated" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Missing confounder → sensitivity analysis, IV</p></li>
+<li><p>Wrong structure → try alternative DAGs, compare estimates</p></li>
+</ul>
+</section>
+<section id="d-separation-the-engine-behind-it-all">
+<h3>d-separation (the engine behind it all)<a class="headerlink" href="#d-separation-the-engine-behind-it-all" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>A path is <strong>blocked</strong> if it contains a chain <code class="docutils literal notranslate"><span class="pre">A→B→C</span></code> or fork <code class="docutils literal notranslate"><span class="pre">A←B→C</span></code> with B conditioned on,
+OR a collider <code class="docutils literal notranslate"><span class="pre">A→B←C</span></code> with B (and its descendants) <strong>not</strong> conditioned on</p></li>
+<li><p>X and Y are independent given Z iff Z blocks <strong>every</strong> path between them</p></li>
+</ul>
+</section>
+<section id="reference">
+<h3>Reference<a class="headerlink" href="#reference" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Pearl (2009), <em>Causality</em>; Hernán &amp; Robins (2020), <em>Causal Inference: What If</em></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mpatches</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+    <span class="n">HAS_NX</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">HAS_NX</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Install networkx: pip install networkx"</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">draw_dag</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">annotations</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+    <span class="n">positions</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="n">nodes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">positions</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">'#7F8C8D'</span><span class="p">)</span>
+        <span class="n">rect</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">FancyBboxPatch</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">y</span><span class="o">-</span><span class="mf">0.3</span><span class="p">),</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span>
+            <span class="n">boxstyle</span><span class="o">=</span><span class="s1">'round,pad=0.05'</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'white'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'white'</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">),</span> <span class="n">style</span> <span class="ow">in</span> <span class="n">edges</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">positions</span><span class="p">[</span><span class="n">src</span><span class="p">]</span>
+        <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">positions</span><span class="p">[</span><span class="n">dst</span><span class="p">]</span>
+        <span class="n">color</span>  <span class="o">=</span> <span class="n">style</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'color'</span><span class="p">,</span> <span class="s1">'#555555'</span><span class="p">)</span>
+        <span class="n">ls</span>     <span class="o">=</span> <span class="n">style</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'ls'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span>
+                    <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s1">'-&gt;'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">ls</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">annotations</span><span class="p">:</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span> <span class="ow">in</span> <span class="n">annotations</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">'italic'</span><span class="p">)</span>
+
+<span class="c1"># 1. Confounder</span>
+<span class="n">draw_dag</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">nodes</span><span class="o">=</span><span class="p">{</span><span class="s1">'C'</span><span class="p">:</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="s1">'T'</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="s1">'Y'</span><span class="p">:</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">3</span><span class="p">)},</span>
+    <span class="n">edges</span><span class="o">=</span><span class="p">{(</span><span class="s1">'C'</span><span class="p">,</span><span class="s1">'T'</span><span class="p">):</span> <span class="p">{</span><span class="s1">'color'</span><span class="p">:</span><span class="s1">'#E74C3C'</span><span class="p">},</span> <span class="p">(</span><span class="s1">'C'</span><span class="p">,</span><span class="s1">'Y'</span><span class="p">):</span> <span class="p">{</span><span class="s1">'color'</span><span class="p">:</span><span class="s1">'#E74C3C'</span><span class="p">},</span> <span class="p">(</span><span class="s1">'T'</span><span class="p">,</span><span class="s1">'Y'</span><span class="p">):</span> <span class="p">{</span><span class="s1">'color'</span><span class="p">:</span><span class="s1">'#2ECC71'</span><span class="p">}},</span>
+    <span class="n">colors</span><span class="o">=</span><span class="p">{</span><span class="s1">'C'</span><span class="p">:</span><span class="s1">'#E74C3C'</span><span class="p">,</span><span class="s1">'T'</span><span class="p">:</span><span class="s1">'#3498DB'</span><span class="p">,</span><span class="s1">'Y'</span><span class="p">:</span><span class="s1">'#27AE60'</span><span class="p">},</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">'Confounder C (MUST adjust for C)'</span><span class="p">,</span>
+    <span class="n">annotations</span><span class="o">=</span><span class="p">[(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">'Adjust for C to block spurious T→Y path'</span><span class="p">,</span><span class="s1">'#E74C3C'</span><span class="p">)])</span>
+
+<span class="c1"># 2. Mediator</span>
+<span class="n">draw_dag</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">nodes</span><span class="o">=</span><span class="p">{</span><span class="s1">'T'</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="s1">'M'</span><span class="p">:</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="s1">'Y'</span><span class="p">:</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">)},</span>
+    <span class="n">edges</span><span class="o">=</span><span class="p">{(</span><span class="s1">'T'</span><span class="p">,</span><span class="s1">'M'</span><span class="p">):</span> <span class="p">{</span><span class="s1">'color'</span><span class="p">:</span><span class="s1">'#2ECC71'</span><span class="p">},</span> <span class="p">(</span><span class="s1">'M'</span><span class="p">,</span><span class="s1">'Y'</span><span class="p">):</span> <span class="p">{</span><span class="s1">'color'</span><span class="p">:</span><span class="s1">'#2ECC71'</span><span class="p">},</span> <span class="p">(</span><span class="s1">'T'</span><span class="p">,</span><span class="s1">'Y'</span><span class="p">):</span> <span class="p">{</span><span class="s1">'color'</span><span class="p">:</span><span class="s1">'#3498DB'</span><span class="p">}},</span>
+    <span class="n">colors</span><span class="o">=</span><span class="p">{</span><span class="s1">'T'</span><span class="p">:</span><span class="s1">'#3498DB'</span><span class="p">,</span><span class="s1">'M'</span><span class="p">:</span><span class="s1">'#F39C12'</span><span class="p">,</span><span class="s1">'Y'</span><span class="p">:</span><span class="s1">'#27AE60'</span><span class="p">},</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">'Mediator M (do NOT adjust for M)'</span><span class="p">,</span>
+    <span class="n">annotations</span><span class="o">=</span><span class="p">[(</span><span class="mi">5</span><span class="p">,</span><span class="mf">2.5</span><span class="p">,</span><span class="s1">'Adjusting for M blocks the causal path'</span><span class="p">,</span><span class="s1">'#E74C3C'</span><span class="p">)])</span>
+
+<span class="c1"># 3. Collider</span>
+<span class="n">draw_dag</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+    <span class="n">nodes</span><span class="o">=</span><span class="p">{</span><span class="s1">'T'</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="s1">'Y'</span><span class="p">:</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="s1">'Col'</span><span class="p">:</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">)},</span>
+    <span class="n">edges</span><span class="o">=</span><span class="p">{(</span><span class="s1">'T'</span><span class="p">,</span><span class="s1">'Col'</span><span class="p">):</span> <span class="p">{</span><span class="s1">'color'</span><span class="p">:</span><span class="s1">'#9B59B6'</span><span class="p">},</span> <span class="p">(</span><span class="s1">'Y'</span><span class="p">,</span><span class="s1">'Col'</span><span class="p">):</span> <span class="p">{</span><span class="s1">'color'</span><span class="p">:</span><span class="s1">'#9B59B6'</span><span class="p">}},</span>
+    <span class="n">colors</span><span class="o">=</span><span class="p">{</span><span class="s1">'T'</span><span class="p">:</span><span class="s1">'#3498DB'</span><span class="p">,</span><span class="s1">'Y'</span><span class="p">:</span><span class="s1">'#27AE60'</span><span class="p">,</span><span class="s1">'Col'</span><span class="p">:</span><span class="s1">'#9B59B6'</span><span class="p">},</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">'Collider Col (do NOT adjust for Col)'</span><span class="p">,</span>
+    <span class="n">annotations</span><span class="o">=</span><span class="p">[(</span><span class="mi">5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="s1">'Conditioning on Col opens spurious T-Y path'</span><span class="p">,</span><span class="s1">'#E74C3C'</span><span class="p">)])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">'Key DAG Patterns: Confounder vs Mediator vs Collider'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'dag_patterns.png'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">'tight'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/7bdff2d6b419050c483dc3847e46691ee2c939b78103ba6f1fced8c85f9c4549.png" src="../_images/7bdff2d6b419050c483dc3847e46691ee2c939b78103ba6f1fced8c85f9c4549.png" />
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="backdoor-frontdoor-criteria">
+<h2>2. Backdoor &amp; Frontdoor Criteria<a class="headerlink" href="#backdoor-frontdoor-criteria" title="Link to this heading">#</a></h2>
+<section id="backdoor-criterion">
+<h3>Backdoor Criterion<a class="headerlink" href="#backdoor-criterion" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>A set of variables Z satisfies the backdoor criterion if:</p>
+<ol class="arabic simple">
+<li><p>Z blocks all backdoor paths (paths with arrows into T)</p></li>
+<li><p>Z contains no descendants of T</p></li>
+</ol>
+</li>
+<li><p>If Z satisfies backdoor criterion → controlling for Z identifies the causal effect</p></li>
+</ul>
+</section>
+<section id="frontdoor-criterion">
+<h3>Frontdoor Criterion<a class="headerlink" href="#frontdoor-criterion" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Used when there are unmeasured confounders but a measured mediator exists</p></li>
+<li><p>Three conditions: M intercepts all paths from T to Y, no unblocked backdoor paths into M, all backdoor paths from M to Y are blocked by T</p></li>
+<li><p>Rare in practice but powerful when applicable</p></li>
+</ul>
+</section>
+<section id="id1">
+<h3>Key intuition<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Backdoor: close all non-causal paths into T by conditioning on the right variables</p></li>
+<li><p>Frontdoor: when you can’t block the backdoor, go through the front — via the mediator</p></li>
+</ul>
+</section>
+<section id="collider-bias">
+<h3>Collider Bias<a class="headerlink" href="#collider-bias" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Conditioning on a collider (variable caused by both T and Y) opens a spurious association</p></li>
+<li><p>Example: conditioning on ‘hospitalization’ when studying smoking and cancer — both cause hospitalization — creates spurious negative correlation between smoking and cancer among hospitalized patients</p></li>
+</ul>
+</section>
+<section id="interview-q-a">
+<h3>Interview Q&amp;A<a class="headerlink" href="#interview-q-a" title="Link to this heading">#</a></h3>
+<p><strong>How do you decide which variables to control for?</strong></p>
+<ul class="simple">
+<li><p>Draw the DAG, identify backdoor paths, find a sufficient adjustment set</p></li>
+<li><p>Do NOT control for mediators or colliders — only confounders</p></li>
+<li><p>Use DAGitty or DoWhy to automate adjustment set identification</p></li>
+</ul>
+<p><strong>What is the difference between adjusting for a mediator and a confounder?</strong></p>
+<ul class="simple">
+<li><p>Confounder adjustment removes bias — necessary for causal identification</p></li>
+<li><p>Mediator adjustment blocks the causal path — removes the effect you’re trying to measure</p></li>
+</ul>
+</section>
+<section id="gotchas">
+<h3>Gotchas<a class="headerlink" href="#gotchas" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>More controls is NOT always better — controlling for colliders introduces bias</p></li>
+<li><p>A variable can be a confounder in one analysis and a mediator in another — context matters</p></li>
+<li><p>Always draw the DAG before deciding what to adjust for</p></li>
+</ul>
+</section>
+<section id="formula">
+<h3>Formula<a class="headerlink" href="#formula" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Backdoor adjustment:
+$<span class="math notranslate nohighlight">\(P(Y \mid do(T=t)) = \sum_z P(Y \mid T=t, Z=z) \cdot P(Z=z)\)</span>$</p></li>
+<li><p>Frontdoor (via mediator M):
+$<span class="math notranslate nohighlight">\(P(Y \mid do(t)) = \sum_m P(m \mid t) \sum_{t'} P(Y \mid m, t') \, P(t')\)</span>$</p></li>
+<li><p>These are two of the consequences of Pearl’s three <strong>do-calculus</strong> rules</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">2000</span>
+
+<span class="c1"># Demonstrate collider bias</span>
+<span class="n">U1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>   <span class="c1"># affects T (e.g. talent)</span>
+<span class="n">U2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>   <span class="c1"># affects Y (e.g. luck)</span>
+<span class="n">T</span>  <span class="o">=</span> <span class="n">U1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>    <span class="c1"># treatment (e.g. hard work)</span>
+<span class="n">Y</span>  <span class="o">=</span> <span class="n">U2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>    <span class="c1"># outcome (e.g. success)</span>
+<span class="n">Col</span> <span class="o">=</span> <span class="n">T</span> <span class="o">+</span> <span class="n">Y</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.3</span>  <span class="c1"># collider (e.g. fame = work + luck)</span>
+
+<span class="c1"># True correlation T-Y: should be ~0 (no direct path)</span>
+<span class="n">r_true</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">Y</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="kc">None</span>
+<span class="n">r_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">Y</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Correlation within high-fame people (conditioning on collider)</span>
+<span class="n">high_col</span> <span class="o">=</span> <span class="n">Col</span> <span class="o">&gt;</span> <span class="n">Col</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">r_biased</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">T</span><span class="p">[</span><span class="n">high_col</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">high_col</span><span class="p">])[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"True T-Y correlation (no conditioning) : </span><span class="si">{</span><span class="n">r_true</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Biased T-Y correlation (conditioning on collider): </span><span class="si">{</span><span class="n">r_biased</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Conditioning on collider creates spurious NEGATIVE correlation!"</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#3498DB'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'All units'</span><span class="p">)</span>
+<span class="n">m</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">x_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">T</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">m</span><span class="o">*</span><span class="n">x_range</span><span class="o">+</span><span class="n">b</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#3498DB'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'r=</span><span class="si">{</span><span class="n">r_true</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'T (hard work)'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Y (success from luck)'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Without conditioning on collider (correct — no spurious correlation)'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'top'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'right'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">T</span><span class="p">[</span><span class="n">high_col</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">high_col</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#E74C3C'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Famous units only'</span><span class="p">)</span>
+<span class="n">m2</span><span class="p">,</span> <span class="n">b2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">T</span><span class="p">[</span><span class="n">high_col</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">high_col</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">x_range2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">T</span><span class="p">[</span><span class="n">high_col</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">T</span><span class="p">[</span><span class="n">high_col</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_range2</span><span class="p">,</span> <span class="n">m2</span><span class="o">*</span><span class="n">x_range2</span><span class="o">+</span><span class="n">b2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#E74C3C'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'r=</span><span class="si">{</span><span class="n">r_biased</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'T (hard work)'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Y (success from luck)'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'After conditioning on collider (Fame) (WRONG — spurious negative correlation!)'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'top'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'right'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">'Collider Bias: Conditioning on Fame Creates Spurious Hard Work-Luck Tradeoff'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'collider_bias.png'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">'tight'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True T-Y correlation (no conditioning) : 0.012
+Biased T-Y correlation (conditioning on collider): -0.457
+Conditioning on collider creates spurious NEGATIVE correlation!
+</pre></div>
+</div>
+<img alt="../_images/176ea488c0ee3dc8d0379f33fe448c539580e806d528a5e779597821ce484213.png" src="../_images/176ea488c0ee3dc8d0379f33fe448c539580e806d528a5e779597821ce484213.png" />
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="instrumental-variables-iv">
+<h2>3. Instrumental Variables (IV)<a class="headerlink" href="#instrumental-variables-iv" title="Link to this heading">#</a></h2>
+<section id="id2">
+<h3>What it is<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>IV is used when there are unmeasured confounders that cannot be controlled for</p></li>
+<li><p>An instrument Z affects treatment T but does NOT directly affect outcome Y (except through T)</p></li>
+<li><p>Two-stage least squares (2SLS): Stage 1 — regress T on Z; Stage 2 — regress Y on predicted T</p></li>
+</ul>
+</section>
+<section id="classic-examples">
+<h3>Classic examples<a class="headerlink" href="#classic-examples" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Random lottery as instrument for military service</p></li>
+<li><p>Distance to college as instrument for education</p></li>
+<li><p>Rainfall as instrument for agricultural income</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>Assumptions<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Relevance</strong>: Z strongly predicts T — weak instrument causes large variance</p></li>
+<li><p><strong>Exclusion restriction</strong>: Z affects Y ONLY through T — untestable, requires theory</p></li>
+<li><p><strong>Independence</strong>: Z is independent of unmeasured confounders</p></li>
+<li><p>IV estimates LATE (Local Average Treatment Effect) — effect for compliers only</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>Validation<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>First stage F-statistic &gt; 10</strong> — instrument is strong enough</p></li>
+<li><p><strong>Exclusion restriction</strong> — cannot be tested statistically, requires domain reasoning</p></li>
+<li><p><strong>Sargan-Hansen overidentification test</strong> — when multiple instruments available</p></li>
+</ul>
+</section>
+<section id="id5">
+<h3>If violated<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Weak instrument (F &lt; 10) → find stronger instrument or use limited information maximum likelihood (LIML)</p></li>
+<li><p>Exclusion violation → IV estimate is biased — no statistical fix, need better instrument</p></li>
+</ul>
+</section>
+<section id="id6">
+<h3>Gotchas<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>IV always estimates LATE, not ATE — only for units whose treatment changes with the instrument</p></li>
+<li><p>IV estimates are often larger than OLS — because IV focuses on a subset (compliers)</p></li>
+<li><p>Weak instruments cause extreme bias — always report first-stage F-statistic</p></li>
+</ul>
+</section>
+<section id="formula-2sls">
+<h3>Formula (2SLS)<a class="headerlink" href="#formula-2sls" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Stage 1: regress <span class="math notranslate nohighlight">\(T \sim Z + X\)</span> → fitted <span class="math notranslate nohighlight">\(\hat{T}\)</span></p></li>
+<li><p>Stage 2: regress <span class="math notranslate nohighlight">\(Y \sim \hat{T} + X\)</span>; coefficient on <span class="math notranslate nohighlight">\(\hat{T}\)</span> is the IV/LATE estimate</p></li>
+<li><p>Just-identified Wald ratio: <span class="math notranslate nohighlight">\(\text{LATE} = \text{Cov}(Y,Z) / \text{Cov}(T,Z)\)</span></p></li>
+</ul>
+</section>
+<section id="threshold">
+<h3>Threshold<a class="headerlink" href="#threshold" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>First-stage F &gt; 10 (rule of thumb; some recommend ≥ 23.1, Lee et al. 2022)</p></li>
+</ul>
+</section>
+<section id="id7">
+<h3>Reference<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Angrist &amp; Pischke (2009), <em>Mostly Harmless Econometrics</em>; Imbens &amp; Angrist (1994) on LATE</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">2000</span>
+
+<span class="c1"># Unmeasured confounder U</span>
+<span class="n">U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="c1"># Instrument Z (e.g. random assignment, distance)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="c1"># Treatment T — affected by both Z (instrument) and U (confounder)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mf">0.7</span><span class="o">*</span><span class="n">Z</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">U</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="mf">0.3</span>
+<span class="c1"># Outcome Y — affected by T (true effect=2) and U (confounder), NOT directly by Z</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">T</span> <span class="o">+</span> <span class="mf">1.5</span><span class="o">*</span><span class="n">U</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="mf">0.5</span>
+
+<span class="c1"># Naive OLS (biased — ignores U)</span>
+<span class="n">ols</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">T</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">ols_ate</span> <span class="o">=</span> <span class="n">ols</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># 2SLS</span>
+<span class="n">stage1</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">Z</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">T_hat</span>  <span class="o">=</span> <span class="n">stage1</span><span class="o">.</span><span class="n">fittedvalues</span>
+<span class="n">stage2</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">T_hat</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">iv_ate</span> <span class="o">=</span> <span class="n">stage2</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">f_stat</span> <span class="o">=</span> <span class="n">stage1</span><span class="o">.</span><span class="n">fvalue</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"True ATE              : 2.000"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"OLS (biased)          : </span><span class="si">{</span><span class="n">ols_ate</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  (upward bias from confounder U)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"IV/2SLS               : </span><span class="si">{</span><span class="n">iv_ate</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  (corrects for unmeasured confounding)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"First-stage F-statistic: </span><span class="si">{</span><span class="n">f_stat</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">  (should be &gt; 10 — strong instrument)"</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="c1"># First stage</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#3498DB'</span><span class="p">)</span>
+<span class="n">m</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">x_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">Z</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">Z</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">m</span><span class="o">*</span><span class="n">x_range</span><span class="o">+</span><span class="n">b</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#E74C3C'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Instrument Z'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Treatment T'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'First Stage: Z → T (F-statistic=</span><span class="si">{</span><span class="n">f_stat</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">)'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'top'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'right'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># ATE comparison</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">([</span><span class="s1">'True ATE'</span><span class="p">,</span> <span class="s1">'OLS (biased)'</span><span class="p">,</span> <span class="s1">'IV/2SLS (correct)'</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">ols_ate</span><span class="p">,</span> <span class="n">iv_ate</span><span class="p">],</span>
+            <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="s1">'#7F8C8D'</span><span class="p">,</span> <span class="s1">'#E74C3C'</span><span class="p">,</span> <span class="s1">'#2ECC71'</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'white'</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#7F8C8D'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'ATE estimate'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'OLS vs IV: Unmeasured Confounding Correction'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">'y'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'top'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'right'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">ols_ate</span><span class="p">,</span> <span class="n">iv_ate</span><span class="p">]):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">val</span><span class="o">+</span><span class="mf">0.03</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">val</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">'Instrumental Variables (IV / 2SLS)'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'iv.png'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">'tight'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True ATE              : 2.000
+OLS (biased)          : 2.860  (upward bias from confounder U)
+IV/2SLS               : 1.951  (corrects for unmeasured confounding)
+First-stage F-statistic: 2988.0  (should be &gt; 10 — strong instrument)
+</pre></div>
+</div>
+<img alt="../_images/8587b6598a57aa01323bf89e96de72bae08d7345df8898ded12774f2b2b75118.png" src="../_images/8587b6598a57aa01323bf89e96de72bae08d7345df8898ded12774f2b2b75118.png" />
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="b-how-is-late-actually-calculated">
+<h2>3b. How is LATE actually calculated?<a class="headerlink" href="#b-how-is-late-actually-calculated" title="Link to this heading">#</a></h2>
+<section id="the-wald-estimator-binary-instrument-binary-treatment">
+<h3>The Wald estimator (binary instrument, binary treatment)<a class="headerlink" href="#the-wald-estimator-binary-instrument-binary-treatment" title="Link to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\text{LATE} = \frac{E[Y \mid Z=1] - E[Y \mid Z=0]}{E[T \mid Z=1] - E[T \mid Z=0]} = \frac{\text{ITT (reduced form)}}{\text{First stage (complier share)}}\]</div>
+<ul class="simple">
+<li><p><strong>Numerator = ITT (reduced form)</strong>: the instrument’s total effect on the outcome</p></li>
+<li><p><strong>Denominator = first stage</strong>: the instrument’s effect on treatment take-up (= the complier share)</p></li>
+<li><p>In the just-identified case this is <em>exactly</em> what 2SLS computes: <span class="math notranslate nohighlight">\(\text{LATE} = \text{Cov}(Y,Z) / \text{Cov}(T,Z)\)</span></p></li>
+</ul>
+</section>
+<section id="why-divide-one-by-the-other">
+<h3>Why divide one by the other?<a class="headerlink" href="#why-divide-one-by-the-other" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>The instrument only nudges <strong>compliers</strong> from untreated to treated; everyone else’s treatment is unchanged</p></li>
+<li><p>The ITT spreads the compliers’ effect over the <em>whole</em> population, diluting it</p></li>
+<li><p>Dividing by the complier share (the first stage) rescales it back to a per-complier effect</p></li>
+</ul>
+</section>
+<section id="principal-strata-who-is-in-the-estimate">
+<h3>Principal strata (who is in the estimate?)<a class="headerlink" href="#principal-strata-who-is-in-the-estimate" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Stratum</p></th>
+<th class="head"><p>T when Z=0</p></th>
+<th class="head"><p>T when Z=1</p></th>
+<th class="head"><p>In LATE?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Complier</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>YES — the only group identified</p></td>
+</tr>
+<tr class="row-odd"><td><p>Always-taker</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>No — T never changes with Z</p></td>
+</tr>
+<tr class="row-even"><td><p>Never-taker</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>No — T never changes with Z</p></td>
+</tr>
+<tr class="row-odd"><td><p>Defier</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>Excluded by the monotonicity assumption</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="monotonicity-assumption">
+<h3>Monotonicity assumption<a class="headerlink" href="#monotonicity-assumption" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>The instrument moves treatment in <strong>one direction only</strong> — no defiers exist</p></li>
+<li><p>Without it, complier and defier effects partially cancel and the Wald ratio has no clean meaning</p></li>
+</ul>
+</section>
+<section id="worked-example">
+<h3>Worked example<a class="headerlink" href="#worked-example" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Encouragement Z is randomized. Take-up: <span class="math notranslate nohighlight">\(E[T \mid Z=1]=0.60\)</span>, <span class="math notranslate nohighlight">\(E[T \mid Z=0]=0.20\)</span>
+→ first stage <span class="math notranslate nohighlight">\(= 0.40\)</span>, so 40% of the population are compliers</p></li>
+<li><p>Outcomes: <span class="math notranslate nohighlight">\(E[Y \mid Z=1]=0.50\)</span>, <span class="math notranslate nohighlight">\(E[Y \mid Z=0]=0.34\)</span> → ITT <span class="math notranslate nohighlight">\(= 0.16\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\text{LATE} = 0.16 / 0.40 = 0.40\)</span> — the effect <strong>on compliers</strong>, ~2.5× the diluted ITT of 0.16</p></li>
+<li><p>This is a <em>local</em> effect: it says nothing about always-takers or never-takers</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Binary instrument + binary treatment, with explicit principal strata (no defiers = monotonicity).</span>
+<span class="c1"># Effects differ by stratum, so LATE (compliers) deliberately != overall ATE.</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">20000</span>
+<span class="n">types</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s1">'complier'</span><span class="p">,</span> <span class="s1">'always'</span><span class="p">,</span> <span class="s1">'never'</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="p">[</span><span class="mf">0.40</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">,</span> <span class="mf">0.40</span><span class="p">])</span>
+
+<span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>                 <span class="c1"># randomized encouragement</span>
+<span class="c1"># Take-up rule: always-takers always treated, never-takers never, compliers follow Z</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">types</span> <span class="o">==</span> <span class="s1">'always'</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
+     <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">types</span> <span class="o">==</span> <span class="s1">'never'</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Z</span><span class="p">))</span>
+
+<span class="c1"># Heterogeneous true effects by stratum</span>
+<span class="n">tau</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">types</span> <span class="o">==</span> <span class="s1">'complier'</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">types</span> <span class="o">==</span> <span class="s1">'always'</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">))</span>
+<span class="n">base</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>                   <span class="c1"># baseline (acts as unobserved factor)</span>
+<span class="n">Y0</span><span class="p">,</span> <span class="n">Y1</span> <span class="o">=</span> <span class="n">base</span><span class="p">,</span> <span class="n">base</span> <span class="o">+</span> <span class="n">tau</span>
+<span class="n">Y</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">T</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Y1</span><span class="p">,</span> <span class="n">Y0</span><span class="p">)</span>
+
+<span class="c1"># --- Estimators ---</span>
+<span class="n">true_late</span>   <span class="o">=</span> <span class="n">tau</span><span class="p">[</span><span class="n">types</span> <span class="o">==</span> <span class="s1">'complier'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>     <span class="c1"># target = 3.0</span>
+<span class="n">overall_ate</span> <span class="o">=</span> <span class="n">tau</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">ols</span>         <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>              <span class="c1"># naive, confounded</span>
+
+<span class="n">itt</span>         <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">Z</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">Y</span><span class="p">[</span><span class="n">Z</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>             <span class="c1"># reduced form (group means)</span>
+<span class="n">first_stage</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="n">Z</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">T</span><span class="p">[</span><span class="n">Z</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>             <span class="c1"># = complier share</span>
+<span class="n">wald</span>        <span class="o">=</span> <span class="n">itt</span> <span class="o">/</span> <span class="n">first_stage</span>                               <span class="c1"># Wald estimator</span>
+<span class="n">twosls</span>      <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">Z</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>         <span class="c1"># 2SLS (covariance form)</span>
+
+<span class="c1"># --- LATE as the ratio of the two Z-coefficients (Indirect Least Squares) ---</span>
+<span class="n">pT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>            <span class="c1"># first stage:  T ~ Z</span>
+<span class="n">pY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>            <span class="c1"># reduced form: Y ~ Z</span>
+<span class="n">beta_first</span><span class="p">,</span> <span class="n">beta_reduced</span> <span class="o">=</span> <span class="n">pT</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pY</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">late_ils</span> <span class="o">=</span> <span class="n">beta_reduced</span> <span class="o">/</span> <span class="n">beta_first</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"complier share (first stage) : </span><span class="si">{</span><span class="n">first_stage</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"ITT (reduced form)           : </span><span class="si">{</span><span class="n">itt</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Wald = ITT / first stage     : </span><span class="si">{</span><span class="n">wald</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"2SLS (covariance form)       : </span><span class="si">{</span><span class="n">twosls</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">   &lt;- identical to Wald"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"coef on Z, first stage  (T~Z): </span><span class="si">{</span><span class="n">beta_first</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"coef on Z, reduced form (Y~Z): </span><span class="si">{</span><span class="n">beta_reduced</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"LATE = beta(Y~Z)/beta(T~Z)   : </span><span class="si">{</span><span class="n">late_ils</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">   &lt;- ratio of the two Z-coefficients"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"TRUE complier effect (LATE)  : </span><span class="si">{</span><span class="n">true_late</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">   &lt;- what IV recovers"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Overall ATE (all strata)     : </span><span class="si">{</span><span class="n">overall_ate</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">   &lt;- NOT what IV recovers"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Naive OLS                    : </span><span class="si">{</span><span class="n">ols</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">shares</span> <span class="o">=</span> <span class="p">[(</span><span class="n">types</span> <span class="o">==</span> <span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'complier'</span><span class="p">,</span> <span class="s1">'always'</span><span class="p">,</span> <span class="s1">'never'</span><span class="p">]]</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">([</span><span class="s1">'Compliers'</span><span class="p">,</span> <span class="s1">'Always-takers'</span><span class="p">,</span> <span class="s1">'Never-takers'</span><span class="p">],</span> <span class="n">shares</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="s1">'#2ECC71'</span><span class="p">,</span> <span class="s1">'#F39C12'</span><span class="p">,</span> <span class="s1">'#AEB6BF'</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'white'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Population share'</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Principal strata (no defiers)'</span><span class="p">,</span>
+                                                          <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">'y'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'top'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'right'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">shares</span><span class="p">):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s1">.0%</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'True LATE</span><span class="se">\n</span><span class="s1">(compliers)'</span><span class="p">,</span> <span class="s1">'Overall ATE'</span><span class="p">,</span> <span class="s1">'Naive OLS'</span><span class="p">,</span> <span class="s1">'Wald=2SLS=ILS'</span><span class="p">]</span>
+<span class="n">vals</span>   <span class="o">=</span> <span class="p">[</span><span class="n">true_late</span><span class="p">,</span> <span class="n">overall_ate</span><span class="p">,</span> <span class="n">ols</span><span class="p">,</span> <span class="n">late_ils</span><span class="p">]</span>
+<span class="n">cols</span>   <span class="o">=</span> <span class="p">[</span><span class="s1">'#7F8C8D'</span><span class="p">,</span> <span class="s1">'#5D6D7E'</span><span class="p">,</span> <span class="s1">'#E74C3C'</span><span class="p">,</span> <span class="s1">'#2ECC71'</span><span class="p">]</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'white'</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">true_late</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#2ECC71'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Effect estimate'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'IV recovers the complier effect, not the ATE'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">'y'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'top'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'right'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vals</span><span class="p">):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+
+<span class="c1"># Panel 3: LATE as the ratio of two Z-regression slopes</span>
+<span class="n">zz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">zz</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">pY</span><span class="p">,</span> <span class="n">zz</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#2980B9'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'Y ~ Z (reduced form), slope=</span><span class="si">{</span><span class="n">beta_reduced</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Instrument Z'</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Y  (reduced form)'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#2980B9'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">'y'</span><span class="p">,</span> <span class="n">labelcolor</span><span class="o">=</span><span class="s1">'#2980B9'</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">zz</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">pT</span><span class="p">,</span> <span class="n">zz</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#E67E22'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'s'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span>
+         <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'T ~ Z (first stage), slope=</span><span class="si">{</span><span class="n">beta_first</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'T  (first stage)'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#E67E22'</span><span class="p">);</span> <span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">'y'</span><span class="p">,</span> <span class="n">labelcolor</span><span class="o">=</span><span class="s1">'#E67E22'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'LATE = slope(Y~Z) / slope(T~Z) = </span><span class="si">{</span><span class="n">late_ils</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'top'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">);</span> <span class="n">ax2</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'top'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">h1</span><span class="p">,</span> <span class="n">l1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">();</span> <span class="n">h2</span><span class="p">,</span> <span class="n">l2</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">h1</span> <span class="o">+</span> <span class="n">h2</span><span class="p">,</span> <span class="n">l1</span> <span class="o">+</span> <span class="n">l2</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">'center'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">'LATE: Wald Estimator and the Ratio of Z-Coefficients'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'late_wald.png'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">'tight'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>complier share (first stage) : 0.402
+ITT (reduced form)           : 1.215
+Wald = ITT / first stage     : 3.020
+2SLS (covariance form)       : 3.020   &lt;- identical to Wald
+
+coef on Z, first stage  (T~Z): 0.402
+coef on Z, reduced form (Y~Z): 1.215
+LATE = beta(Y~Z)/beta(T~Z)   : 3.020   &lt;- ratio of the two Z-coefficients
+
+TRUE complier effect (LATE)  : 3.000   &lt;- what IV recovers
+Overall ATE (all strata)     : 3.379   &lt;- NOT what IV recovers
+Naive OLS                    : 1.981
+</pre></div>
+</div>
+<img alt="../_images/daae3f14d6a0cd4cd6e7dac693e1d9420a6667d0835430849885d08c3bcbc2f3.png" src="../_images/daae3f14d6a0cd4cd6e7dac693e1d9420a6667d0835430849885d08c3bcbc2f3.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Causal ML"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="cml3_observational.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">How do you estimate causal effects from observational data?</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="cml5_cate_metalearners.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">How do you estimate individual-level treatment effects?</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

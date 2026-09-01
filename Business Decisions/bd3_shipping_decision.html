@@ -1,0 +1,1065 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How do you make the final shipping decision? &#8212; Data Science Interview Prep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Business Decisions/bd3_shipping_decision';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="How do you translate model results into a business case?" href="bd2_cost_benefit.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Science Interview Prep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    Topics
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Python%20Data%20Libs/Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Python%20Data%20Libs/Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="bd1_evaluating_results.html">How do you evaluate results for a business decision?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bd2_cost_benefit.html">How do you translate model results into a business case?</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">How do you make the final shipping decision?</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abbreviation-reference">Abbreviation Reference</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-all-signals">1. Combining all signals</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#input-checklist-before-making-a-decision">Input checklist before making a decision</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-matrix">Decision matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-rule">Decision rule</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-asymmetry-rule">2. The asymmetry rule</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#core-principle">Core principle</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#assessing-reversibility">Assessing reversibility</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#risk-and-failure-mode-checklist">Risk and failure mode checklist</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gotchas">Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-ship">3. When to ship</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-cost-of-not-shipping">The cost of not shipping</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-not-to-ship">4. When not to ship</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deployment-strategy-pointer">5. Deployment strategy pointer</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-the-right-strategy">Choosing the right strategy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#auto-rollback-triggers">Auto-rollback triggers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See also</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#post-launch-review">6. Post-launch review</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#review-cadence">Review cadence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monitoring-checklist">Monitoring checklist</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-card-documentation">7. Model card documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-it-is">What it is</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-card-checklist">Model card checklist</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interview-q-a">Interview Q&amp;A</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Gotchas</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../intro.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="bd0_overview.html" class="nav-link">Business decision on implementing ML models — overview</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">How do you make the final shipping decision?</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="how-do-you-make-the-final-shipping-decision">
+<h1>How do you make the final shipping decision?<a class="headerlink" href="#how-do-you-make-the-final-shipping-decision" title="Link to this heading">#</a></h1>
+<p><strong>Topics:</strong> Decision Matrix · Asymmetry Rule · When to Ship · When Not to Ship · Deployment Strategy · Post-Launch Review · Model Card</p>
+<hr class="docutils" />
+<section id="abbreviation-reference">
+<h2>Abbreviation Reference<a class="headerlink" href="#abbreviation-reference" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Abbreviation</p></th>
+<th class="head"><p>Full Name</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>CI</p></td>
+<td><p>Confidence Interval</p></td>
+</tr>
+<tr class="row-odd"><td><p>DiD</p></td>
+<td><p>Difference-in-Differences</p></td>
+</tr>
+<tr class="row-even"><td><p>IV</p></td>
+<td><p>Instrumental Variables</p></td>
+</tr>
+<tr class="row-odd"><td><p>MDE</p></td>
+<td><p>Minimum Detectable Effect</p></td>
+</tr>
+<tr class="row-even"><td><p>ML</p></td>
+<td><p>Machine Learning</p></td>
+</tr>
+<tr class="row-odd"><td><p>PSM</p></td>
+<td><p>Propensity Score Matching</p></td>
+</tr>
+<tr class="row-even"><td><p>RDD</p></td>
+<td><p>Regression Discontinuity Design</p></td>
+</tr>
+<tr class="row-odd"><td><p>ROI</p></td>
+<td><p>Return on Investment</p></td>
+</tr>
+<tr class="row-even"><td><p>SRM</p></td>
+<td><p>Sample Ratio Mismatch</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="combining-all-signals">
+<h2>1. Combining all signals<a class="headerlink" href="#combining-all-signals" title="Link to this heading">#</a></h2>
+<section id="input-checklist-before-making-a-decision">
+<h3>Input checklist before making a decision<a class="headerlink" href="#input-checklist-before-making-a-decision" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Offline evaluation result → see <a class="reference internal" href="bd1_evaluating_results.html"><span class="doc">bd1_evaluating_results</span></a> Section 1</p></li>
+<li><p>A/B test or causal model result → see <a class="reference internal" href="bd1_evaluating_results.html"><span class="doc">bd1_evaluating_results</span></a> Sections 2 and 3</p></li>
+<li><p>Cost-benefit and break-even → see <a class="reference internal" href="bd2_cost_benefit.html"><span class="doc">bd2_cost_benefit</span></a></p></li>
+<li><p>Risk and failure mode assessment (see Section 2 below)</p></li>
+</ul>
+</section>
+<section id="decision-matrix">
+<h3>Decision matrix<a class="headerlink" href="#decision-matrix" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Signal</p></th>
+<th class="head"><p>Weak</p></th>
+<th class="head"><p>Moderate</p></th>
+<th class="head"><p>Strong</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Offline eval</p></td>
+<td><p>Below MDE or CI includes zero</p></td>
+<td><p>Above MDE, wide CI</p></td>
+<td><p>Above MDE, tight CI, clean slices</p></td>
+</tr>
+<tr class="row-odd"><td><p>A/B / causal result</p></td>
+<td><p>SRM present, or non-significant, or pre-registered primary metric missed</p></td>
+<td><p>Significant with caveats (short duration, novelty risk)</p></td>
+<td><p>Significant, pre-registered, guardrails held, segments consistent</p></td>
+</tr>
+<tr class="row-even"><td><p>Cost-benefit</p></td>
+<td><p>Below break-even</p></td>
+<td><p>At break-even with wide uncertainty</p></td>
+<td><p>Comfortably above break-even at lower CI bound</p></td>
+</tr>
+<tr class="row-odd"><td><p>Risk</p></td>
+<td><p>High irreversibility, no fallback</p></td>
+<td><p>Moderate irreversibility, fallback exists</p></td>
+<td><p>Reversible, rollback fast, fallback tested</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="decision-rule">
+<h3>Decision rule<a class="headerlink" href="#decision-rule" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>All four signals strong → full rollout</p></li>
+<li><p>Three strong, one moderate → canary rollout with tight guardrails</p></li>
+<li><p>Any signal weak → do not ship until resolved, or explicitly accept the risk in writing</p></li>
+<li><p>No single signal overrides the others — all four matter</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="the-asymmetry-rule">
+<h2>2. The asymmetry rule<a class="headerlink" href="#the-asymmetry-rule" title="Link to this heading">#</a></h2>
+<section id="core-principle">
+<h3>Core principle<a class="headerlink" href="#core-principle" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Reversible failure → lower bar to ship; learn from production</p></li>
+<li><p>Irreversible failure → raise the evidence bar significantly before shipping</p></li>
+</ul>
+</section>
+<section id="assessing-reversibility">
+<h3>Assessing reversibility<a class="headerlink" href="#assessing-reversibility" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Dimension</p></th>
+<th class="head"><p>Low reversibility (raise the bar)</p></th>
+<th class="head"><p>High reversibility (lower bar OK)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Rollback time</p></td>
+<td><p>Hours to days</p></td>
+<td><p>Minutes</p></td>
+</tr>
+<tr class="row-odd"><td><p>Affected user scope</p></td>
+<td><p>All users, no opt-out</p></td>
+<td><p>Small segment, easy to exclude</p></td>
+</tr>
+<tr class="row-even"><td><p>Downstream dependencies</p></td>
+<td><p>Other systems depend on model output</p></td>
+<td><p>Self-contained, no downstream consumers</p></td>
+</tr>
+<tr class="row-odd"><td><p>User trust impact</p></td>
+<td><p>Affects core user experience or payment flow</p></td>
+<td><p>Peripheral feature, low visibility</p></td>
+</tr>
+<tr class="row-even"><td><p>Legal / compliance</p></td>
+<td><p>Regulated domain (credit, healthcare, hiring)</p></td>
+<td><p>Unregulated, low stakes</p></td>
+</tr>
+<tr class="row-odd"><td><p>Data side effects</p></td>
+<td><p>Writes to production data, trains future models</p></td>
+<td><p>Read-only, no feedback loops</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="risk-and-failure-mode-checklist">
+<h3>Risk and failure mode checklist<a class="headerlink" href="#risk-and-failure-mode-checklist" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Risk</p></th>
+<th class="head"><p>Questions to ask</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Model failure modes</p></td>
+<td><p>What happens when the model is confidently wrong? Is there a fallback?</p></td>
+</tr>
+<tr class="row-odd"><td><p>Distribution shift</p></td>
+<td><p>How will you detect when the model degrades over time?</p></td>
+</tr>
+<tr class="row-even"><td><p>Fairness and bias</p></td>
+<td><p>Does performance vary unfairly across demographic groups?</p></td>
+</tr>
+<tr class="row-odd"><td><p>Adversarial inputs</p></td>
+<td><p>Can users game the model? (especially for ranking, fraud, spam)</p></td>
+</tr>
+<tr class="row-even"><td><p>Feedback loops</p></td>
+<td><p>Does the model’s output influence its own future training data?</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="gotchas">
+<h3>Gotchas<a class="headerlink" href="#gotchas" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Regulated domains (credit scoring, hiring, healthcare) have legal irreversibility even if technical rollback is fast</p></li>
+<li><p>Feedback loops (model output → training data → next model) create compounding risk that is hard to reverse</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="when-to-ship">
+<h2>3. When to ship<a class="headerlink" href="#when-to-ship" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scenario</p></th>
+<th class="head"><p>Decision</p></th>
+<th class="head"><p>Rationale</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>All signals strong, reversible</p></td>
+<td><p>Full rollout</p></td>
+<td><p>Evidence is solid, downside is bounded</p></td>
+</tr>
+<tr class="row-odd"><td><p>Mixed signals, reversible, cost low</p></td>
+<td><p>Canary rollout with guardrails</p></td>
+<td><p>Learn from production with limited exposure</p></td>
+</tr>
+<tr class="row-even"><td><p>Strong A/B but weak causal validation</p></td>
+<td><p>Partial rollout to high-confidence segments</p></td>
+<td><p>Limit exposure while gathering more evidence</p></td>
+</tr>
+<tr class="row-odd"><td><p>Borderline lift, low cost, reversible</p></td>
+<td><p>Ship with tight monitoring</p></td>
+<td><p>The cost of delay may exceed the cost of a small miss</p></td>
+</tr>
+<tr class="row-even"><td><p>Strong offline, no A/B yet</p></td>
+<td><p>Shadow mode first, then canary</p></td>
+<td><p>Validate in production before real exposure</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="the-cost-of-not-shipping">
+<h3>The cost of not shipping<a class="headerlink" href="#the-cost-of-not-shipping" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Delay has a cost: competitor advantage, missed revenue, opportunity cost of the team</p></li>
+<li><p>When failure is reversible and bounded, the cost of delay can exceed the cost of a cautious ship</p></li>
+<li><p>Document the expected cost of delay explicitly — it is often invisible in the decision</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="when-not-to-ship">
+<h2>4. When not to ship<a class="headerlink" href="#when-not-to-ship" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scenario</p></th>
+<th class="head"><p>Reason</p></th>
+<th class="head"><p>What to do instead</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Borderline result + high irreversibility + no fallback</p></td>
+<td><p>Risk of harm exceeds expected value</p></td>
+<td><p>Gather more evidence, run a longer A/B, or reduce scope</p></td>
+</tr>
+<tr class="row-odd"><td><p>Guardrail metric regressed</p></td>
+<td><p>Known harm to an important signal</p></td>
+<td><p>Investigate root cause before proceeding</p></td>
+</tr>
+<tr class="row-even"><td><p>Sample Ratio Mismatch (SRM) detected and unresolved</p></td>
+<td><p>A/B result is invalid</p></td>
+<td><p>Fix randomization, rerun the test</p></td>
+</tr>
+<tr class="row-odd"><td><p>Causal assumption not credible</p></td>
+<td><p>Estimate may be confounded</p></td>
+<td><p>Strengthen evidence with additional methods or a targeted A/B</p></td>
+</tr>
+<tr class="row-even"><td><p>Break-even not met at lower CI bound</p></td>
+<td><p>Expected value is negative at conservative estimate</p></td>
+<td><p>Reduce cost, increase volume, or abandon</p></td>
+</tr>
+<tr class="row-odd"><td><p>No clear decision-maker or rollback plan</p></td>
+<td><p>Operational risk</p></td>
+<td><p>Define ownership and rollback procedure before shipping</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="id1">
+<h3>Gotchas<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>“We’ve already built it” is not a reason to ship — sunk cost is irrelevant to the forward-looking decision</p></li>
+<li><p>Pressure to ship by a deadline should never override a failed guardrail metric</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="deployment-strategy-pointer">
+<h2>5. Deployment strategy pointer<a class="headerlink" href="#deployment-strategy-pointer" title="Link to this heading">#</a></h2>
+<section id="choosing-the-right-strategy">
+<h3>Choosing the right strategy<a class="headerlink" href="#choosing-the-right-strategy" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Strategy</p></th>
+<th class="head"><p>When to use</p></th>
+<th class="head"><p>Key property</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Shadow mode / dark launch</p></td>
+<td><p>Confidence is low, risk is high</p></td>
+<td><p>Model runs in parallel but output is not served — safe to compare without user exposure</p></td>
+</tr>
+<tr class="row-odd"><td><p>Canary rollout</p></td>
+<td><p>Default for most launches</p></td>
+<td><p>Start at 1–5% of traffic, watch guardrails, increase gradually</p></td>
+</tr>
+<tr class="row-even"><td><p>Champion-challenger</p></td>
+<td><p>Old model must stay live during validation</p></td>
+<td><p>Route a fixed fraction to challenger permanently until confidence threshold is met</p></td>
+</tr>
+<tr class="row-odd"><td><p>Full rollout</p></td>
+<td><p>All signals strong, canary metrics stable</p></td>
+<td><p>Only after canary phase — never skip directly to full rollout on first deploy</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="auto-rollback-triggers">
+<h3>Auto-rollback triggers<a class="headerlink" href="#auto-rollback-triggers" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Define triggers before deploying — not after something goes wrong</p></li>
+<li><p>Common triggers: error rate increase &gt; X%, latency p99 &gt; Y ms, primary metric drop &gt; Z%, guardrail regression</p></li>
+<li><p>Triggers should be automated where possible — human review loops add latency</p></li>
+</ul>
+</section>
+<section id="see-also">
+<h3>See also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Implementation details for each strategy → <a class="reference internal" href="../Data%20Science%20Workflow/ds7_deployment.html"><span class="doc">ds7_deployment</span></a></p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="post-launch-review">
+<h2>6. Post-launch review<a class="headerlink" href="#post-launch-review" title="Link to this heading">#</a></h2>
+<section id="review-cadence">
+<h3>Review cadence<a class="headerlink" href="#review-cadence" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Checkpoint</p></th>
+<th class="head"><p>What to check</p></th>
+<th class="head"><p>Action if degraded</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2-week review</p></td>
+<td><p>Did the A/B lift hold in production? Did novelty effects decay?</p></td>
+<td><p>Roll back if primary metric is below pre-defined floor</p></td>
+</tr>
+<tr class="row-odd"><td><p>90-day review</p></td>
+<td><p>Distribution shift? Feature drift? Model decay?</p></td>
+<td><p>Trigger retraining or investigation</p></td>
+</tr>
+<tr class="row-even"><td><p>Ongoing monitoring</p></td>
+<td><p>Prediction distribution, feature distributions, business metrics</p></td>
+<td><p>Alert on any guardrail breach</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="monitoring-checklist">
+<h3>Monitoring checklist<a class="headerlink" href="#monitoring-checklist" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Signal</p></th>
+<th class="head"><p>Why it matters</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Prediction score distribution</p></td>
+<td><p>Drift in score distribution signals input feature drift or population shift</p></td>
+</tr>
+<tr class="row-odd"><td><p>Feature distributions</p></td>
+<td><p>Individual feature drift helps diagnose which upstream data changed</p></td>
+</tr>
+<tr class="row-even"><td><p>Primary business metric</p></td>
+<td><p>Ground truth of whether the model is delivering value</p></td>
+</tr>
+<tr class="row-odd"><td><p>Guardrail metrics</p></td>
+<td><p>Early warning system for unintended harm</p></td>
+</tr>
+<tr class="row-even"><td><p>Latency and error rate</p></td>
+<td><p>Operational health — independent of model quality</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id2">
+<h3>Gotchas<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Set all alert thresholds before launch — retrospective threshold-setting is p-hacking for production</p></li>
+<li><p>Distribution shift is slow and silent — eyeballing dashboards misses it; use statistical drift tests like Population Stability Index (PSI action thresholds ≈ 0.1 moderate, ≈ 0.25 significant)</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="model-card-documentation">
+<h2>7. Model card documentation<a class="headerlink" href="#model-card-documentation" title="Link to this heading">#</a></h2>
+<section id="what-it-is">
+<h3>What it is<a class="headerlink" href="#what-it-is" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>A structured document capturing everything a future engineer or auditor needs to understand, operate, and maintain the model</p></li>
+<li><p>Required for governance — especially in regulated domains</p></li>
+<li><p>Complete before shipping, not after</p></li>
+</ul>
+</section>
+<section id="model-card-checklist">
+<h3>Model card checklist<a class="headerlink" href="#model-card-checklist" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Section</p></th>
+<th class="head"><p>What to document</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Model overview</p></td>
+<td><p>Name, version, purpose, intended use, out-of-scope uses</p></td>
+</tr>
+<tr class="row-odd"><td><p>Training data</p></td>
+<td><p>Data sources, date range, preprocessing steps, known biases or gaps</p></td>
+</tr>
+<tr class="row-even"><td><p>Evaluation results</p></td>
+<td><p>Primary metric, test set description, Confidence Interval (CI), date of evaluation</p></td>
+</tr>
+<tr class="row-odd"><td><p>Slice performance</p></td>
+<td><p>Performance broken down by key segments — flag any gaps</p></td>
+</tr>
+<tr class="row-even"><td><p>Known failure modes</p></td>
+<td><p>Conditions under which the model is known to underperform or fail</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fairness analysis</p></td>
+<td><p>Performance parity across demographic groups; any disparate impact found</p></td>
+</tr>
+<tr class="row-even"><td><p>Deployment details</p></td>
+<td><p>Serving mode, latency, infrastructure, rollback procedure</p></td>
+</tr>
+<tr class="row-odd"><td><p>Retraining cadence</p></td>
+<td><p>Trigger-based or scheduled? Who owns it? How long does a retraining run take?</p></td>
+</tr>
+<tr class="row-even"><td><p>Contacts and ownership</p></td>
+<td><p>Model owner, on-call contact, escalation path</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id3">
+<h3>Gotchas<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>A model card written after an incident is a post-mortem, not governance</p></li>
+<li><p>“Intended use” is as important as “known failure modes” — misuse is often the actual risk</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="interview-q-a">
+<h2>Interview Q&amp;A<a class="headerlink" href="#interview-q-a" title="Link to this heading">#</a></h2>
+<p><strong>Q: The results are ambiguous and the deadline is tomorrow. What do you do?</strong>
+A: I’d separate what is reversible from what is not. If the change can be
+rolled back cheaply and the guardrails held, I’d ship to a small ring with
+auto-rollback triggers defined in advance — that converts a decision into an
+experiment. If it is irreversible, ambiguity is a reason not to ship, and I’d
+say so explicitly along with what evidence would change my answer and how long
+it would take to get.</p>
+<p><strong>Q: Guardrail metrics moved slightly negative but the primary metric won.
+Ship?</strong>
+A: I’d ask whether the guardrail movement is within the range we pre-committed
+to tolerate. Guardrails exist precisely so this is decided before we see the
+data — relitigating the threshold afterwards is how organisations talk
+themselves into shipping regressions. If it was not pre-specified, I’d treat
+the movement as a real risk, size it in the same units as the win, and let the
+comparison decide.</p>
+<p><strong>Q: How do you decide between a 1% ramp and a 50/50 launch?</strong>
+A: By blast radius, not by confidence. The ramp exists to bound the damage from
+the failure mode I have not thought of, so the question is what a bad outcome
+costs during the exposure window. High-traffic, easily-monitored, reversible
+changes can ramp fast; anything touching payments, notifications, or data
+retention ramps slowly regardless of how good the test looked.</p>
+<p><strong>Q: What is the cost of not shipping?</strong>
+A: Real and routinely ignored. Delay has an opportunity cost — the foregone
+lift for every week you wait — plus the compounding cost of the team’s time and
+the option value of learning from production. “Wait for more data” is a
+decision with a price tag, and it should be quoted alongside the risk it
+avoids.</p>
+<p><strong>Q: The model shipped and metrics degraded three months later. What went
+wrong?</strong>
+A: I’d distinguish drift from decay in the decision layer. Feature or label
+drift shows up in input distributions and PSI; a stale threshold shows up as
+stable model scores with a shifting base rate. Both are monitoring failures
+rather than modelling failures, which is why the launch checklist has to
+include what is monitored, what triggers retraining, and who is paged.</p>
+<section id="id4">
+<h3>Gotchas<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Shipping is a decision under uncertainty, not a proof; demanding certainty produces a team that ships nothing</p></li>
+<li><p>Deciding the rollback trigger after launch means you will not pull it</p></li>
+<li><p>“We’ll monitor it” is not a plan unless a named person owns a named dashboard with a named threshold</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Business Decisions"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="bd2_cost_benefit.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">How do you translate model results into a business case?</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

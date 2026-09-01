@@ -1,0 +1,1396 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Data Manipulation — Intermediate &#8212; Data Science Interview Prep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Python Data Libs/DM_Intermediate';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data Manipulation — Advanced" href="DM_Advanced.html" />
+    <link rel="prev" title="Data Manipulation — Basic" href="DM_Basic.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Science Interview Prep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    Topics
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Reference_Pandas.html">Pandas — Technical Reference</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Reference_NumPy.html">NumPy — Technical Reference</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Reference_Performance.html">Performance &amp; Memory — Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DM_Basic.html">Data Manipulation — Basic</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Data Manipulation — Intermediate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DM_Advanced.html">Data Manipulation — Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Reference_Sampling.html">Sampling Methods – DS Interview Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Reference_Inference.html">Statistical Inference – DS Interview Reference</a></li>
+
+
+
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reshaping-combining-data">Reshaping &amp; Combining Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-table">Decision Table</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#series-map">Series Map</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wide-vs-long-format">§1 — Wide vs Long Format</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-groupby-patterns">§2 — Advanced GroupBy Patterns</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-table-pipelines">§3 — Multi-table Pipelines</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-reshaping">§4 — Time-Series Reshaping</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nested-list-like-data">§5 — Nested &amp; List-like Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-multiple-files">§6 — Combining Multiple Files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#as-of-cross-joins">§7 — As-of &amp; Cross Joins</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interview-q-a">Interview Q&amp;A</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gotchas">Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-guide">Decision Guide</a></li>
+</ul>
+  </nav></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../intro.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="Python_Data_Libs.html" class="nav-link">Python Data Libraries</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Data Manipulation — Intermediate</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="data-manipulation-intermediate">
+<h1>Data Manipulation — Intermediate<a class="headerlink" href="#data-manipulation-intermediate" title="Link to this heading">#</a></h1>
+<section id="reshaping-combining-data">
+<h2>Reshaping &amp; Combining Data<a class="headerlink" href="#reshaping-combining-data" title="Link to this heading">#</a></h2>
+<p><strong>Philosophy:</strong> Assumes clean data and familiarity with the Pandas API. Each section covers a multi-step pattern — not individual method syntax, but how to chain tools together to solve a real reshaping problem.</p>
+</section>
+<hr class="docutils" />
+<section id="decision-table">
+<h2>Decision Table<a class="headerlink" href="#decision-table" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>If your problem is…</p></th>
+<th class="head text-left"><p>Go to</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Data is wide and you need one row per observation</p></td>
+<td class="text-left"><p>§1 — Wide vs Long</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Need top-N per group, conditional aggregation, or filter-then-agg</p></td>
+<td class="text-left"><p>§2 — Advanced GroupBy</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Joining 3+ tables, row count explodes after merge, or need anti-join</p></td>
+<td class="text-left"><p>§3 — Multi-table Pipelines</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Need to change time frequency, align two time series, or forward-fill after resample</p></td>
+<td class="text-left"><p>§4 — Time-Series Reshaping</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Column contains JSON, dicts, or lists</p></td>
+<td class="text-left"><p>§5 — Nested &amp; List-like Data</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Reading and combining many CSV or Excel files</p></td>
+<td class="text-left"><p>§6 — Combining Multiple Files</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="series-map">
+<h2>Series Map<a class="headerlink" href="#series-map" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Notebook</p></th>
+<th class="head text-left"><p>Use it for</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><a class="reference internal" href="DM_Basic.html"><span class="doc">DM_Basic</span></a></p></td>
+<td class="text-left"><p>Cleaning &amp; QC — audit, dtypes, nulls, dupes, strings, outliers, column names</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">DM_Intermediate</span></code> <strong>(this note)</strong></p></td>
+<td class="text-left"><p>Reshaping &amp; combining — wide/long, groupby, multi-table joins, time-series, nested, many files</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><a class="reference internal" href="DM_Advanced.html"><span class="doc">DM_Advanced</span></a></p></td>
+<td class="text-left"><p>Feature engineering — encoding, transforms, binning, date, lag/window, interactions, text, leakage</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">{doc}</span></code>Reference_Pandas &lt;Reference_Pandas&gt;<code class="docutils literal notranslate"> <span class="pre">/</span> <span class="pre">{doc}</span></code>Reference_NumPy &lt;Reference_NumPy&gt;``</p></td>
+<td class="text-left"><p>Syntax lookups for individual methods</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<div><p><strong>Environment:</strong> pandas 3.x / numpy 2.x. A small sample frame is defined below for runnable examples.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span><span class="o">,</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">'user_id'</span><span class="p">:</span>   <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+    <span class="s1">'region'</span><span class="p">:</span>    <span class="p">[</span><span class="s1">'US'</span><span class="p">,</span><span class="s1">'US'</span><span class="p">,</span><span class="s1">'EU'</span><span class="p">,</span><span class="s1">'EU'</span><span class="p">,</span><span class="s1">'US'</span><span class="p">],</span>
+    <span class="s1">'platform'</span><span class="p">:</span>  <span class="p">[</span><span class="s1">'iOS'</span><span class="p">,</span><span class="s1">'Android'</span><span class="p">,</span><span class="s1">'iOS'</span><span class="p">,</span><span class="s1">'iOS'</span><span class="p">,</span><span class="s1">'Web'</span><span class="p">],</span>
+    <span class="s1">'revenue'</span><span class="p">:</span>   <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">90</span><span class="p">],</span>
+    <span class="s1">'event_date'</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">([</span><span class="s1">'2024-01-01'</span><span class="p">,</span><span class="s1">'2024-02-01'</span><span class="p">,</span><span class="s1">'2024-01-15'</span><span class="p">,</span><span class="s1">'2024-03-01'</span><span class="p">,</span><span class="s1">'2024-02-20'</span><span class="p">]),</span>
+<span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   user_id region platform  revenue event_date
+0        1     US      iOS      100 2024-01-01
+1        1     US  Android      150 2024-02-01
+2        2     EU      iOS      200 2024-01-15
+3        2     EU      iOS      120 2024-03-01
+4        3     US      Web       90 2024-02-20
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="wide-vs-long-format">
+<h2>§1 — Wide vs Long Format<a class="headerlink" href="#wide-vs-long-format" title="Link to this heading">#</a></h2>
+<p><strong>Wide:</strong> one row per entity, one column per time period or category. Easy to read, hard to aggregate.
+<strong>Long:</strong> one row per observation, categories stored as values in a column. Required for most groupby/plotting/modeling operations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># ── Wide → Long: melt ───────────────────────────────────────────────────────</span>
+<span class="c1"># Wide format (common from Excel or pivot exports):</span>
+<span class="c1"># user_id | Q1_revenue | Q2_revenue | Q3_revenue | Q4_revenue</span>
+<span class="n">wide</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">'user_id'</span><span class="p">:</span>    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+    <span class="s1">'Q1_revenue'</span><span class="p">:</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">150</span><span class="p">],</span>
+    <span class="s1">'Q2_revenue'</span><span class="p">:</span> <span class="p">[</span><span class="mi">120</span><span class="p">,</span> <span class="mi">210</span><span class="p">,</span> <span class="mi">160</span><span class="p">],</span>
+    <span class="s1">'Q3_revenue'</span><span class="p">:</span> <span class="p">[</span><span class="mi">130</span><span class="p">,</span> <span class="mi">190</span><span class="p">,</span> <span class="mi">170</span><span class="p">],</span>
+<span class="p">})</span>
+
+<span class="n">long</span> <span class="o">=</span> <span class="n">wide</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span>
+    <span class="n">id_vars</span>    <span class="o">=</span> <span class="p">[</span><span class="s1">'user_id'</span><span class="p">],</span>       <span class="c1"># columns to keep as-is</span>
+    <span class="n">value_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Q1_revenue'</span><span class="p">,</span> <span class="s1">'Q2_revenue'</span><span class="p">,</span> <span class="s1">'Q3_revenue'</span><span class="p">],</span>  <span class="c1"># columns to unpivot</span>
+    <span class="n">var_name</span>   <span class="o">=</span> <span class="s1">'quarter'</span><span class="p">,</span>         <span class="c1"># name for the new label column</span>
+    <span class="n">value_name</span> <span class="o">=</span> <span class="s1">'revenue'</span>          <span class="c1"># name for the new value column</span>
+<span class="p">)</span>
+<span class="c1"># Result: user_id | quarter     | revenue</span>
+<span class="c1">#         1       | Q1_revenue  | 100</span>
+<span class="c1">#         1       | Q2_revenue  | 120  ...</span>
+
+<span class="c1"># Clean the label column after melting</span>
+<span class="n">long</span><span class="p">[</span><span class="s1">'quarter'</span><span class="p">]</span> <span class="o">=</span> <span class="n">long</span><span class="p">[</span><span class="s1">'quarter'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'_revenue'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
+
+<span class="c1"># ── Long → Wide: pivot_table ────────────────────────────────────────────────</span>
+<span class="c1"># Reverse the operation — go back to one column per quarter</span>
+<span class="n">wide_again</span> <span class="o">=</span> <span class="n">long</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
+    <span class="n">index</span>   <span class="o">=</span> <span class="s1">'user_id'</span><span class="p">,</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="s1">'quarter'</span><span class="p">,</span>
+    <span class="n">values</span>  <span class="o">=</span> <span class="s1">'revenue'</span><span class="p">,</span>
+    <span class="n">aggfunc</span> <span class="o">=</span> <span class="s1">'sum'</span>
+<span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">wide_again</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>    <span class="c1"># remove the 'quarter' name from the column axis</span>
+
+<span class="c1"># ── When to use which format ────────────────────────────────────────────────</span>
+<span class="c1"># Use LONG for:  groupby, plotting (most chart libraries), modeling</span>
+<span class="c1"># Use WIDE for:  human-readable reports, correlation matrices, displaying to stakeholders</span>
+
+<span class="c1"># ── Multiple value columns — pd.wide_to_long ────────────────────────────────</span>
+<span class="c1"># wide_to_long expects columns shaped {stub}{sep}{suffix}, e.g. rev_Q1, cost_Q1.</span>
+<span class="c1"># The `wide` frame above (Q1_revenue, ...) does NOT match that pattern and would</span>
+<span class="c1"># return 0 rows. Build a frame whose names match the stubs:</span>
+<span class="n">wide2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">'user_id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="s1">'rev_Q1'</span><span class="p">:</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">],</span> <span class="s1">'cost_Q1'</span><span class="p">:</span> <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">110</span><span class="p">],</span>
+    <span class="s1">'rev_Q2'</span><span class="p">:</span> <span class="p">[</span><span class="mi">120</span><span class="p">,</span> <span class="mi">210</span><span class="p">],</span> <span class="s1">'cost_Q2'</span><span class="p">:</span> <span class="p">[</span><span class="mi">70</span><span class="p">,</span> <span class="mi">120</span><span class="p">],</span>
+<span class="p">})</span>
+<span class="n">df_long</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">wide_to_long</span><span class="p">(</span>
+    <span class="n">wide2</span><span class="p">,</span>
+    <span class="n">stubnames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'rev'</span><span class="p">,</span> <span class="s1">'cost'</span><span class="p">],</span>   <span class="c1"># column prefixes</span>
+    <span class="n">i</span>         <span class="o">=</span> <span class="s1">'user_id'</span><span class="p">,</span>
+    <span class="n">j</span>         <span class="o">=</span> <span class="s1">'quarter'</span><span class="p">,</span>
+    <span class="n">sep</span>       <span class="o">=</span> <span class="s1">'_'</span><span class="p">,</span>
+    <span class="n">suffix</span>    <span class="o">=</span> <span class="sa">r</span><span class="s1">'\w+'</span>            <span class="c1"># matches Q1, Q2, ...</span>
+<span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="c1"># df_long: user_id | quarter | rev | cost  (one row per user × quarter)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Forgetting <code class="docutils literal notranslate"><span class="pre">reset_index()</span></code> after <code class="docutils literal notranslate"><span class="pre">pivot_table</span></code> — the index contains the row labels, not a regular column</p></li>
+<li><p>Leaving <code class="docutils literal notranslate"><span class="pre">columns.name</span></code> set after pivoting — causes confusing column axis label in displays</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">pivot</span></code> instead of <code class="docutils literal notranslate"><span class="pre">pivot_table</span></code> when there are duplicate index/column pairs — <code class="docutils literal notranslate"><span class="pre">pivot</span></code> raises an error; <code class="docutils literal notranslate"><span class="pre">pivot_table</span></code> aggregates them</p></li>
+</ul>
+<p><strong>Verified — the corrected <code class="docutils literal notranslate"><span class="pre">wide_to_long</span></code></strong> (the §1 example reused a frame whose columns didn’t match the stubs and silently returned 0 rows):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="n">wide2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'user_id'</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span>
+                      <span class="s1">'rev_Q1'</span><span class="p">:[</span><span class="mi">100</span><span class="p">,</span><span class="mi">200</span><span class="p">],</span> <span class="s1">'cost_Q1'</span><span class="p">:[</span><span class="mi">60</span><span class="p">,</span><span class="mi">110</span><span class="p">],</span>
+                      <span class="s1">'rev_Q2'</span><span class="p">:[</span><span class="mi">120</span><span class="p">,</span><span class="mi">210</span><span class="p">],</span> <span class="s1">'cost_Q2'</span><span class="p">:[</span><span class="mi">70</span><span class="p">,</span><span class="mi">120</span><span class="p">]})</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">wide_to_long</span><span class="p">(</span><span class="n">wide2</span><span class="p">,</span> <span class="n">stubnames</span><span class="o">=</span><span class="p">[</span><span class="s1">'rev'</span><span class="p">,</span><span class="s1">'cost'</span><span class="p">],</span> <span class="n">i</span><span class="o">=</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="n">j</span><span class="o">=</span><span class="s1">'quarter'</span><span class="p">,</span>
+                      <span class="n">sep</span><span class="o">=</span><span class="s1">'_'</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="sa">r</span><span class="s1">'\w+'</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   user_id quarter  rev  cost
+0        1      Q1  100    60
+1        2      Q1  200   110
+2        1      Q2  120    70
+3        2      Q2  210   120
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="advanced-groupby-patterns">
+<h2>§2 — Advanced GroupBy Patterns<a class="headerlink" href="#advanced-groupby-patterns" title="Link to this heading">#</a></h2>
+<p>Beyond basic <code class="docutils literal notranslate"><span class="pre">groupby().agg()</span></code> — patterns for filtering groups, selecting top-N within a group, and conditional aggregation. Syntax reference is in Pandas §6; this section focuses on the multi-step patterns.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Pattern 1: Top-N per group ───────────────────────────────────────────────</span>
+<span class="c1"># Goal: top 3 products by revenue within each region</span>
+<span class="c1"># Method A: rank + filter (preserves all columns, most flexible)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'rev_rank'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'region'</span><span class="p">)[</span><span class="s1">'revenue'</span><span class="p">]</span>
+      <span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">'dense'</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">top3</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'rev_rank'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">'rev_rank'</span><span class="p">)</span>
+
+<span class="c1"># Method B: sort + groupby head (simpler but loses ranks)</span>
+<span class="n">top3</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'revenue'</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+      <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'region'</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+      <span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># ── Pattern 2: Filter groups by an aggregate condition ───────────────────────</span>
+<span class="c1"># Goal: keep only regions where total revenue &gt; 100,000</span>
+<span class="c1"># groupby().filter() — predicate returns True/False per group</span>
+<span class="n">active_regions</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'region'</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">g</span><span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">100_000</span>
+<span class="p">)</span>
+<span class="c1"># Result: same shape as df but entire groups removed if condition is False</span>
+
+<span class="c1"># ── Pattern 3: Conditional aggregation ──────────────────────────────────────</span>
+<span class="c1"># Goal: SUM(revenue WHERE platform = 'iOS') — SQL conditional agg equivalent</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'ios_rev'</span><span class="p">]</span>     <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'platform'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'iOS'</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'android_rev'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'platform'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Android'</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'region'</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+    <span class="n">total_rev</span>   <span class="o">=</span> <span class="p">(</span><span class="s1">'revenue'</span><span class="p">,</span>     <span class="s1">'sum'</span><span class="p">),</span>
+    <span class="n">ios_rev</span>     <span class="o">=</span> <span class="p">(</span><span class="s1">'ios_rev'</span><span class="p">,</span>     <span class="s1">'sum'</span><span class="p">),</span>
+    <span class="n">android_rev</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'android_rev'</span><span class="p">,</span> <span class="s1">'sum'</span><span class="p">),</span>
+    <span class="n">unique_users</span><span class="o">=</span> <span class="p">(</span><span class="s1">'user_id'</span><span class="p">,</span>     <span class="s1">'nunique'</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">result</span><span class="p">[</span><span class="s1">'ios_share'</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">'ios_rev'</span><span class="p">]</span> <span class="o">/</span> <span class="n">result</span><span class="p">[</span><span class="s1">'total_rev'</span><span class="p">]</span>
+
+<span class="c1"># ── Pattern 4: Group-level features back on original rows ───────────────────</span>
+<span class="c1"># Goal: add group mean, count, and pct-of-total back to each row</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'region_avg_rev'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'region'</span><span class="p">)[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">'mean'</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'region_count'</span><span class="p">]</span>   <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'region'</span><span class="p">)[</span><span class="s1">'user_id'</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">'count'</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'pct_of_region'</span><span class="p">]</span>  <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'region'</span><span class="p">)[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">'sum'</span><span class="p">)</span>
+
+<span class="c1"># ── Pattern 5: Multi-level groupby ──────────────────────────────────────────</span>
+<span class="c1"># Goal: revenue per region × platform × month</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'year_month'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'event_date'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s1">'M'</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'region'</span><span class="p">,</span> <span class="s1">'platform'</span><span class="p">,</span> <span class="s1">'year_month'</span><span class="p">],</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+    <span class="n">revenue</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'revenue'</span><span class="p">,</span> <span class="s1">'sum'</span><span class="p">),</span>
+    <span class="n">users</span>   <span class="o">=</span> <span class="p">(</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="s1">'nunique'</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># ── Pattern 6: Custom aggregation function ───────────────────────────────────</span>
+<span class="c1"># Goal: 90th percentile revenue per region</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'region'</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+    <span class="n">p90_revenue</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'revenue'</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.9</span><span class="p">)),</span>
+    <span class="n">cv_revenue</span>  <span class="o">=</span> <span class="p">(</span><span class="s1">'revenue'</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>  <span class="c1"># coefficient of variation</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Pattern selection:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Goal</p></th>
+<th class="head text-left"><p>Tool</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Top-N per group</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">groupby().rank()</span></code> + filter, or <code class="docutils literal notranslate"><span class="pre">sort</span> <span class="pre">+</span> <span class="pre">groupby().head(N)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Remove entire groups that fail a condition</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">groupby().filter(lambda</span> <span class="pre">g:</span> <span class="pre">...)</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Conditional sum/count within a group</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.where()</span></code> to zero-out + <code class="docutils literal notranslate"><span class="pre">agg()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Group stats back on each row</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">groupby().transform()</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Custom aggregation (percentile, CV)</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">agg(col=('col',</span> <span class="pre">lambda</span> <span class="pre">x:</span> <span class="pre">...))</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">agg</span></code> when <code class="docutils literal notranslate"><span class="pre">transform</span></code> is needed — <code class="docutils literal notranslate"><span class="pre">agg</span></code> collapses rows and loses the join-back to original data</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">groupby().filter()</span></code> when you only want to flag — filter removes rows permanently; use <code class="docutils literal notranslate"><span class="pre">transform</span></code> to add a boolean flag instead</p></li>
+<li><p>Forgetting <code class="docutils literal notranslate"><span class="pre">as_index=False</span></code> in groupby — group keys go into the index, not columns, breaking subsequent chaining</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="multi-table-pipelines">
+<h2>§3 — Multi-table Pipelines<a class="headerlink" href="#multi-table-pipelines" title="Link to this heading">#</a></h2>
+<p>Single-merge operations are in the Pandas reference (§5). This section covers sequences of merges, diagnosing unexpected row count changes, and anti-join patterns.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Always check row counts at each merge step ───────────────────────────────</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">merge_check</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Merge and print row count before/after to detect fan-out."""</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">left</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">)</span><span class="si">}</span><span class="s1"> → </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="si">}</span><span class="s1"> rows  (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">)</span><span class="si">:</span><span class="s1">+d</span><span class="si">}</span><span class="s1">)'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="c1"># ── Pattern 1: Sequential 3-table join ──────────────────────────────────────</span>
+<span class="c1"># users → orders → order_items</span>
+<span class="n">result</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">users</span>                                           <span class="c1"># base: one row per user</span>
+    <span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">orders</span><span class="p">,</span>      <span class="n">on</span><span class="o">=</span><span class="s1">'user_id'</span><span class="p">,</span>  <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">)</span>  <span class="c1"># left: keep all users</span>
+    <span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">order_items</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'order_id'</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">)</span>  <span class="c1"># left: keep all orders</span>
+<span class="p">)</span>
+<span class="c1"># If users have multiple orders and orders have multiple items,</span>
+<span class="c1"># row count grows: users × avg_orders × avg_items_per_order</span>
+
+<span class="c1"># ── Diagnosing row count explosion ──────────────────────────────────────────</span>
+<span class="c1"># Step 1: check if the join key is unique in the right table</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">orders</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'user_id'</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+<span class="c1"># If max &gt; 1, the join will multiply rows — decide: aggregate right table first</span>
+
+<span class="c1"># Step 2: aggregate the right table before joining (recommended for 1-to-many)</span>
+<span class="n">orders_agg</span> <span class="o">=</span> <span class="n">orders</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+    <span class="n">order_count</span>  <span class="o">=</span> <span class="p">(</span><span class="s1">'order_id'</span><span class="p">,</span> <span class="s1">'count'</span><span class="p">),</span>
+    <span class="n">total_spend</span>  <span class="o">=</span> <span class="p">(</span><span class="s1">'amount'</span><span class="p">,</span>   <span class="s1">'sum'</span><span class="p">),</span>
+    <span class="n">last_order</span>   <span class="o">=</span> <span class="p">(</span><span class="s1">'order_date'</span><span class="p">,</span><span class="s1">'max'</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">users</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">orders_agg</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">)</span>  <span class="c1"># now 1-to-1</span>
+
+<span class="c1"># ── Pattern 2: Anti-join — rows in A with no match in B ─────────────────────</span>
+<span class="c1"># SQL: SELECT * FROM A WHERE A.id NOT IN (SELECT id FROM B)</span>
+<span class="n">merged</span> <span class="o">=</span> <span class="n">users</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">churned_users</span><span class="p">[[</span><span class="s1">'user_id'</span><span class="p">]],</span>
+    <span class="n">on</span><span class="o">=</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">,</span> <span class="n">indicator</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">active_users</span> <span class="o">=</span> <span class="n">merged</span><span class="p">[</span><span class="n">merged</span><span class="p">[</span><span class="s1">'_merge'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'left_only'</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">'_merge'</span><span class="p">)</span>
+
+<span class="c1"># ── Pattern 3: Many-to-many join — handle explicitly ────────────────────────</span>
+<span class="c1"># Tags table: one user can have many tags, one tag can belong to many users</span>
+<span class="c1"># Direct merge → row explosion; resolve by checking what you actually need</span>
+
+<span class="c1"># Option A: aggregate tags into a list per user first</span>
+<span class="n">tags_agg</span> <span class="o">=</span> <span class="n">tags</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'user_id'</span><span class="p">)[</span><span class="s1">'tag'</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">tags_agg</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="s1">'tag_list'</span><span class="p">]</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">users</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">tags_agg</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">)</span>
+
+<span class="c1"># Option B: keep only one tag per user (e.g. most recent)</span>
+<span class="n">tags_dedup</span> <span class="o">=</span> <span class="n">tags</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'created_at'</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="s1">'last'</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">users</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">tags_dedup</span><span class="p">[[</span><span class="s1">'user_id'</span><span class="p">,</span><span class="s1">'tag'</span><span class="p">]],</span> <span class="n">on</span><span class="o">=</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">)</span>
+
+<span class="c1"># ── Pattern 4: Bridge table join (many-to-many via junction table) ───────────</span>
+<span class="c1"># users ←→ user_roles ←→ roles</span>
+<span class="n">result</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">users</span>
+    <span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">user_roles</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'inner'</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">roles</span><span class="p">,</span>      <span class="n">on</span><span class="o">=</span><span class="s1">'role_id'</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Row count change after merge — diagnostic guide:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Row count change</p></th>
+<th class="head text-left"><p>Likely cause</p></th>
+<th class="head text-left"><p>Fix</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Count stays same</p></td>
+<td class="text-left"><p>1-to-1 match ✅</p></td>
+<td class="text-left"><p>—</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Count increases</p></td>
+<td class="text-left"><p>Right table has multiple rows per key</p></td>
+<td class="text-left"><p>Aggregate right table first</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Count decreases</p></td>
+<td class="text-left"><p>Inner join dropped non-matching rows</p></td>
+<td class="text-left"><p>Switch to <code class="docutils literal notranslate"><span class="pre">how='left'</span></code> if needed</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Count drops to near zero</p></td>
+<td class="text-left"><p>Join key dtype mismatch (int vs str)</p></td>
+<td class="text-left"><p>Cast keys to same type</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Joining without checking key uniqueness — row explosion is silent and hard to detect later</p></li>
+<li><p>Joining on columns with different dtypes — pandas produces zero matches with no error; always verify <code class="docutils literal notranslate"><span class="pre">df['id'].dtype</span></code></p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">how='inner'</span></code> when you need all rows from the left table — rows drop silently</p></li>
+</ul>
+<p><strong>Two §3 additions: <code class="docutils literal notranslate"><span class="pre">merge(validate=)</span></code> and <code class="docutils literal notranslate"><span class="pre">combine_first</span></code>.</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">merge_check</span></code> helper above prints row counts to <em>detect</em> fan-out after the fact; <code class="docutils literal notranslate"><span class="pre">merge(...,</span> <span class="pre">validate=...)</span></code> is the built-in <em>guard</em> that raises a <code class="docutils literal notranslate"><span class="pre">MergeError</span></code> the moment a join would violate the cardinality you expect — make it the first line of defence. <code class="docutils literal notranslate"><span class="pre">combine_first</span></code> coalesces two frames, filling gaps in the primary from a backup, aligned on index.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="n">users</span>  <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'user_id'</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="s1">'name'</span><span class="p">:[</span><span class="s1">'a'</span><span class="p">,</span><span class="s1">'b'</span><span class="p">,</span><span class="s1">'c'</span><span class="p">]})</span>
+<span class="n">orders</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'user_id'</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="s1">'amt'</span><span class="p">:[</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">30</span><span class="p">]})</span>   <span class="c1"># user 1 appears twice</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">users</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">orders</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="s1">'one_to_one'</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'validate="one_to_one" -&gt;'</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="s1">':'</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'validate="one_to_many" -&gt; rows:'</span><span class="p">,</span>
+      <span class="nb">len</span><span class="p">(</span><span class="n">users</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">orders</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="s1">'one_to_many'</span><span class="p">)))</span>
+
+<span class="c1"># combine_first — fill NaNs in primary from backup, index-aligned</span>
+<span class="n">primary</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">backup</span>  <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>    <span class="mi">9</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'combine_first        :'</span><span class="p">,</span> <span class="n">primary</span><span class="o">.</span><span class="n">combine_first</span><span class="p">(</span><span class="n">backup</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>validate="one_to_one" -&gt; MergeError : Merge keys are not unique in right dataset; not a one-to-one merge
+validate="one_to_many" -&gt; rows: 4
+combine_first        : [1.0, 2.0, 3.0]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="time-series-reshaping">
+<h2>§4 — Time-Series Reshaping<a class="headerlink" href="#time-series-reshaping" title="Link to this heading">#</a></h2>
+<p>Covers changing temporal granularity, filling gaps in time series, and aligning two series that run on different frequencies.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup: daily transaction data</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'date'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'date'</span><span class="p">])</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'date'</span><span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+
+<span class="c1"># ── Pattern 1: Downsample — daily → weekly / monthly ────────────────────────</span>
+<span class="n">monthly</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">'ME'</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>      <span class="c1"># month-end frequency, sum</span>
+<span class="n">weekly</span>  <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">'W'</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>      <span class="c1"># weekly, mean</span>
+<span class="c1"># Common freq aliases: 'D'=daily, 'W'=weekly, 'ME'=month-end,</span>
+<span class="c1">#                      'QE'=quarter-end, 'YE'=year-end, 'h'=hourly</span>
+
+<span class="c1"># Multiple columns at different aggregations</span>
+<span class="n">monthly</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">'ME'</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span>
+    <span class="s1">'revenue'</span><span class="p">:</span>  <span class="s1">'sum'</span><span class="p">,</span>
+    <span class="s1">'users'</span><span class="p">:</span>    <span class="s1">'nunique'</span><span class="p">,</span>
+    <span class="s1">'sessions'</span><span class="p">:</span> <span class="s1">'count'</span>
+<span class="p">})</span>
+
+<span class="c1"># ── Pattern 2: Forward-fill gaps after resample ──────────────────────────────</span>
+<span class="c1"># Problem: resampling creates NaN for periods with no data</span>
+<span class="c1"># Use case: subscription status — carry last known status forward</span>
+<span class="n">daily_status</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'subscription_status'</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">'D'</span><span class="p">)</span><span class="o">.</span><span class="n">last</span><span class="p">()</span>  <span class="c1"># last known per day</span>
+<span class="n">daily_status</span> <span class="o">=</span> <span class="n">daily_status</span><span class="o">.</span><span class="n">ffill</span><span class="p">()</span>  <span class="c1"># fill gaps with previous known status</span>
+
+<span class="c1"># ── Pattern 3: Upsample — monthly → daily ───────────────────────────────────</span>
+<span class="c1"># Go from lower to higher frequency (creates NaN for new dates)</span>
+<span class="n">daily</span> <span class="o">=</span> <span class="n">monthly_series</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">'D'</span><span class="p">)</span><span class="o">.</span><span class="n">asfreq</span><span class="p">()</span>   <span class="c1"># insert daily rows, fill with NaN</span>
+<span class="n">daily</span> <span class="o">=</span> <span class="n">monthly_series</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">'D'</span><span class="p">)</span><span class="o">.</span><span class="n">ffill</span><span class="p">()</span>    <span class="c1"># forward fill from monthly value</span>
+<span class="n">daily</span> <span class="o">=</span> <span class="n">monthly_series</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">'D'</span><span class="p">)</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="s1">'linear'</span><span class="p">)</span>  <span class="c1"># linear interpolation</span>
+
+<span class="c1"># ── Pattern 4: Align two time series with different frequencies ──────────────</span>
+<span class="c1"># Example: daily sales + monthly macro indicator</span>
+<span class="n">daily_sales</span>    <span class="o">=</span> <span class="n">df_daily</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'date'</span><span class="p">)[</span><span class="s1">'revenue'</span><span class="p">]</span>
+<span class="n">monthly_macro</span>  <span class="o">=</span> <span class="n">df_macro</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'date'</span><span class="p">)[</span><span class="s1">'gdp_growth'</span><span class="p">]</span>
+
+<span class="c1"># Reindex monthly macro to daily frequency, then forward fill</span>
+<span class="n">macro_daily</span> <span class="o">=</span> <span class="n">monthly_macro</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">daily_sales</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">ffill</span><span class="p">()</span>
+<span class="n">aligned</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'revenue'</span><span class="p">:</span> <span class="n">daily_sales</span><span class="p">,</span> <span class="s1">'gdp_growth'</span><span class="p">:</span> <span class="n">macro_daily</span><span class="p">})</span>
+
+<span class="c1"># ── Pattern 5: Create a complete date spine ──────────────────────────────────</span>
+<span class="c1"># Problem: some dates are missing entirely from the data</span>
+<span class="c1"># Solution: build a full date range and left join</span>
+<span class="n">date_spine</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span>
+    <span class="n">start</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">'date'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+    <span class="n">end</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">'date'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+    <span class="n">freq</span><span class="o">=</span><span class="s1">'D'</span>
+<span class="p">)</span>
+<span class="n">full_dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'date'</span><span class="p">:</span> <span class="n">date_spine</span><span class="p">})</span>
+<span class="n">complete</span> <span class="o">=</span> <span class="n">full_dates</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'date'</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">)</span>
+<span class="n">complete</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span> <span class="o">=</span> <span class="n">complete</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># missing days = 0 revenue</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Forward-filling before checking sort order — <code class="docutils literal notranslate"><span class="pre">ffill()</span></code> fills in index order; always sort the index first</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">resample()</span></code> on a DataFrame without a DatetimeIndex — set the date column as index first with <code class="docutils literal notranslate"><span class="pre">set_index()</span></code></p></li>
+<li><p>Downsampling with <code class="docutils literal notranslate"><span class="pre">mean()</span></code> when <code class="docutils literal notranslate"><span class="pre">sum()</span></code> is correct — e.g. daily revenue should be summed, not averaged, when going monthly</p></li>
+<li><p>Creating a date spine with <code class="docutils literal notranslate"><span class="pre">pd.date_range</span></code> but the DataFrame dates have time components — normalize first with <code class="docutils literal notranslate"><span class="pre">df['date'].dt.normalize()</span></code></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="nested-list-like-data">
+<h2>§5 — Nested &amp; List-like Data<a class="headerlink" href="#nested-list-like-data" title="Link to this heading">#</a></h2>
+<p>Common when working with API responses, JSON exports, or data where one cell contains a list or dict. Pandas has dedicated tools for flattening these structures.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Pattern 1: Flatten JSON / dict column ────────────────────────────────────</span>
+<span class="c1"># Data: df['metadata'] contains dicts like {'source': 'organic', 'campaign': 'summer'}</span>
+<span class="n">meta_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'metadata'</span><span class="p">])</span>      <span class="c1"># expands each key to a column</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">'metadata'</span><span class="p">),</span> <span class="n">meta_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Nested JSON (multiple levels deep)</span>
+<span class="c1"># Data: {'user': {'id': 1, 'profile': {'age': 30, 'city': 'NYC'}}}</span>
+<span class="n">flat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span>
+    <span class="n">records</span><span class="p">,</span>
+    <span class="n">sep</span><span class="o">=</span><span class="s1">'_'</span><span class="p">,</span>           <span class="c1"># separator for nested keys: user_profile_age</span>
+    <span class="n">max_level</span><span class="o">=</span><span class="mi">2</span>        <span class="c1"># limit depth</span>
+<span class="p">)</span>
+
+<span class="c1"># ── Pattern 2: Explode a list column ─────────────────────────────────────────</span>
+<span class="c1"># Data: df['tags'] contains ['python', 'pandas', 'sql']</span>
+<span class="c1"># Goal: one row per tag</span>
+<span class="n">df_exploded</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="s1">'tags'</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Before: user_id=1, tags=['python','pandas'] → 1 row</span>
+<span class="c1"># After:  user_id=1, tags='python' AND user_id=1, tags='pandas' → 2 rows</span>
+
+<span class="c1"># Explode multiple list columns of the same length simultaneously</span>
+<span class="n">df_exploded</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">explode</span><span class="p">([</span><span class="s1">'tags'</span><span class="p">,</span> <span class="s1">'scores'</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># ── Pattern 3: Parse stringified lists ──────────────────────────────────────</span>
+<span class="c1"># Data: df['tags'] contains the string "['python', 'pandas']"</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ast</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'tags'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'tags'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">)</span>   <span class="c1"># safe string → Python list</span>
+<span class="n">df_exploded</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="s1">'tags'</span><span class="p">)</span>
+
+<span class="c1"># ── Pattern 4: Expand a list column into separate columns ───────────────────</span>
+<span class="c1"># Data: df['scores'] contains [84, 91, 76] (fixed length)</span>
+<span class="n">scores_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'scores'</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'score_1'</span><span class="p">,</span> <span class="s1">'score_2'</span><span class="p">,</span> <span class="s1">'score_3'</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">'scores'</span><span class="p">),</span> <span class="n">scores_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># ── Pattern 5: Flatten nested JSON from an API response ─────────────────────</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="c1"># API response: list of dicts with nested structure</span>
+<span class="n">records</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">api_response_text</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span>
+    <span class="n">records</span><span class="p">,</span>
+    <span class="n">record_path</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'orders'</span><span class="p">],</span>          <span class="c1"># the list to expand</span>
+    <span class="n">meta</span>        <span class="o">=</span> <span class="p">[</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="s1">'name'</span><span class="p">],</span> <span class="c1"># top-level fields to keep on each row</span>
+    <span class="n">sep</span>         <span class="o">=</span> <span class="s1">'_'</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">.explode()</span></code> without <code class="docutils literal notranslate"><span class="pre">reset_index(drop=True)</span></code> — original index repeats for each exploded row, creating a non-unique index</p></li>
+<li><p>Calling <code class="docutils literal notranslate"><span class="pre">pd.json_normalize(df['col'])</span></code> when the column has NaN values — raises <code class="docutils literal notranslate"><span class="pre">AttributeError</span></code>; fill with <code class="docutils literal notranslate"><span class="pre">{}</span></code> first</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">eval()</span></code> to parse stringified lists instead of <code class="docutils literal notranslate"><span class="pre">ast.literal_eval</span></code> — <code class="docutils literal notranslate"><span class="pre">eval()</span></code> is a security risk; <code class="docutils literal notranslate"><span class="pre">literal_eval</span></code> is safe and rejects arbitrary code</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="combining-multiple-files">
+<h2>§6 — Combining Multiple Files<a class="headerlink" href="#combining-multiple-files" title="Link to this heading">#</a></h2>
+<p>Common in real-world data pipelines: monthly data exports, partitioned data dumps, or multi-sheet Excel files. The challenge is schema consistency across files.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">glob</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="c1"># ── Pattern 1: Read and concat many CSVs ────────────────────────────────────</span>
+<span class="c1"># Simple — same schema across all files</span>
+<span class="n">files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">'data/monthly/*.csv'</span><span class="p">)</span>          <span class="c1"># or Path('data/monthly').glob('*.csv')</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span><span class="p">],</span>
+    <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span>                            <span class="c1"># re-index to avoid duplicate index values</span>
+<span class="p">)</span>
+
+<span class="c1"># ── Pattern 2: Add a source column (track which file each row came from) ─────</span>
+<span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+    <span class="n">chunk</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">chunk</span><span class="p">[</span><span class="s1">'source_file'</span><span class="p">]</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span>          <span class="c1"># e.g. '2024-01'</span>
+    <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># ── Pattern 3: Validate schema before concat ─────────────────────────────────</span>
+<span class="c1"># Problem: files from different periods may have different columns or dtypes</span>
+<span class="n">dfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span><span class="p">]</span>
+
+<span class="c1"># Check column consistency</span>
+<span class="n">expected_cols</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">dfs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dfs</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">missing</span>  <span class="o">=</span> <span class="n">expected_cols</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="n">extra</span>    <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">-</span> <span class="n">expected_cols</span>
+    <span class="k">if</span> <span class="n">missing</span> <span class="ow">or</span> <span class="n">extra</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'File </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">: missing=</span><span class="si">{</span><span class="n">missing</span><span class="si">}</span><span class="s1">, extra=</span><span class="si">{</span><span class="n">extra</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+
+<span class="c1"># Safe concat — aligns on column names, fills missing with NaN</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="s1">'outer'</span><span class="p">)</span>  <span class="c1"># outer keeps all columns</span>
+
+<span class="c1"># ── Pattern 4: Read all sheets from an Excel file ────────────────────────────</span>
+<span class="n">xl</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s1">'report.xlsx'</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>   <span class="c1"># returns dict: {sheet_name: df}</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">xl</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>       <span class="c1"># concat all sheets</span>
+
+<span class="c1"># Or concat with sheet name as a column</span>
+<span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">sheet_name</span><span class="p">,</span> <span class="n">sheet_df</span> <span class="ow">in</span> <span class="n">xl</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">sheet_df</span><span class="p">[</span><span class="s1">'sheet'</span><span class="p">]</span> <span class="o">=</span> <span class="n">sheet_name</span>
+    <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sheet_df</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># ── Pattern 5: Large files — read selectively ────────────────────────────────</span>
+<span class="c1"># Only load the columns you need to avoid memory issues</span>
+<span class="n">needed_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="s1">'date'</span><span class="p">,</span> <span class="s1">'revenue'</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="n">needed_cols</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span><span class="p">],</span>
+    <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="as-of-cross-joins">
+<h2>§7 — As-of &amp; Cross Joins<a class="headerlink" href="#as-of-cross-joins" title="Link to this heading">#</a></h2>
+<p>Two joins that answer questions an equality join cannot:</p>
+<ul class="simple">
+<li><p><strong>cross</strong> — every combination of left and right, no key. Builds complete
+scaffolds so that “no activity” shows up as a zero rather than a missing row.</p></li>
+<li><p><strong>merge_asof</strong> — match each row to the most recent <em>earlier</em> row in another
+frame. This is the point-in-time join, and the standard tool for attaching
+state (price, plan, experiment assignment) as it stood at event time.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── CROSS JOIN: build a complete user x month scaffold ──────────────────────</span>
+<span class="n">months</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'month'</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s1">'2024-01-01'</span><span class="p">,</span> <span class="s1">'2024-03-01'</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">'MS'</span><span class="p">)})</span>
+<span class="n">users</span>  <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">'user_id'</span><span class="p">]]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+
+<span class="n">scaffold</span> <span class="o">=</span> <span class="n">users</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'cross'</span><span class="p">)</span>      <span class="c1"># 3 users x 3 months = 9 rows</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">users</span><span class="p">)</span><span class="si">}</span><span class="s2"> users x </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">months</span><span class="p">)</span><span class="si">}</span><span class="s2"> months = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">scaffold</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows"</span><span class="p">)</span>
+
+<span class="c1"># Attach real activity; months with none become 0 rather than vanishing</span>
+<span class="n">actual</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">month</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">'event_date'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s1">'M'</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">to_timestamp</span><span class="p">())</span>
+            <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="s1">'month'</span><span class="p">],</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="n">complete</span> <span class="o">=</span> <span class="p">(</span><span class="n">scaffold</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="s1">'month'</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">fillna</span><span class="p">({</span><span class="s1">'revenue'</span><span class="p">:</span> <span class="mi">0</span><span class="p">}))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">complete</span><span class="p">)</span>
+
+<span class="c1"># Why this matters: grouping the raw data alone gives 5 rows, not 9. Any</span>
+<span class="c1"># retention or run-rate metric computed on those 5 rows silently treats</span>
+<span class="c1"># "no activity" as "no data" and overstates the average.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── MERGE_ASOF: attach the plan price in force at event time ────────────────</span>
+<span class="n">prices</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">'effective_date'</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">([</span><span class="s1">'2023-12-01'</span><span class="p">,</span> <span class="s1">'2024-02-01'</span><span class="p">]),</span>
+    <span class="s1">'price'</span><span class="p">:</span>          <span class="p">[</span><span class="mf">9.99</span><span class="p">,</span> <span class="mf">12.99</span><span class="p">],</span>
+<span class="p">})</span>
+
+<span class="n">events</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">'event_date'</span><span class="p">,</span> <span class="s1">'user_id'</span><span class="p">]]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'event_date'</span><span class="p">)</span>
+<span class="n">prices</span> <span class="o">=</span> <span class="n">prices</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'effective_date'</span><span class="p">)</span>          <span class="c1"># BOTH sides must be sorted</span>
+
+<span class="n">priced</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge_asof</span><span class="p">(</span>
+    <span class="n">events</span><span class="p">,</span> <span class="n">prices</span><span class="p">,</span>
+    <span class="n">left_on</span><span class="o">=</span><span class="s1">'event_date'</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s1">'effective_date'</span><span class="p">,</span>
+    <span class="n">direction</span><span class="o">=</span><span class="s1">'backward'</span><span class="p">,</span>                    <span class="c1"># most recent price at or before the event</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">priced</span><span class="p">)</span>
+
+<span class="c1"># A plain merge cannot do this: event dates never equal effective dates.</span>
+<span class="c1"># direction='forward' -&gt; next change instead; 'nearest' -&gt; closest either side.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── merge_asof with a group key and a staleness guard ───────────────────────</span>
+<span class="n">quotes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">'time'</span><span class="p">:</span>   <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">([</span><span class="s1">'2024-01-01 09:00'</span><span class="p">,</span> <span class="s1">'2024-01-01 09:05'</span><span class="p">,</span>
+                              <span class="s1">'2024-01-01 09:00'</span><span class="p">]),</span>
+    <span class="s1">'symbol'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'AAPL'</span><span class="p">,</span> <span class="s1">'AAPL'</span><span class="p">,</span> <span class="s1">'MSFT'</span><span class="p">],</span>
+    <span class="s1">'bid'</span><span class="p">:</span>    <span class="p">[</span><span class="mf">180.0</span><span class="p">,</span> <span class="mf">181.0</span><span class="p">,</span> <span class="mf">370.0</span><span class="p">],</span>
+<span class="p">})</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'time'</span><span class="p">)</span>
+
+<span class="n">trades</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">'time'</span><span class="p">:</span>   <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">([</span><span class="s1">'2024-01-01 09:03'</span><span class="p">,</span> <span class="s1">'2024-01-01 09:06'</span><span class="p">,</span>
+                              <span class="s1">'2024-01-01 15:00'</span><span class="p">]),</span>
+    <span class="s1">'symbol'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'AAPL'</span><span class="p">,</span> <span class="s1">'AAPL'</span><span class="p">,</span> <span class="s1">'MSFT'</span><span class="p">],</span>
+    <span class="s1">'qty'</span><span class="p">:</span>    <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+<span class="p">})</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'time'</span><span class="p">)</span>
+
+<span class="n">matched</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge_asof</span><span class="p">(</span>
+    <span class="n">trades</span><span class="p">,</span> <span class="n">quotes</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'time'</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="s1">'symbol'</span><span class="p">,</span>        <span class="c1"># match within symbol</span>
+    <span class="n">tolerance</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="s1">'10min'</span><span class="p">),</span>               <span class="c1"># else leave NaN</span>
+    <span class="n">direction</span><span class="o">=</span><span class="s1">'backward'</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">matched</span><span class="p">)</span>
+<span class="c1"># The 15:00 MSFT trade gets NaN: the only MSFT quote is 6 hours stale and the</span>
+<span class="c1"># tolerance correctly refuses it. Without tolerance it would silently match.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Which join answers which question:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Question</p></th>
+<th class="head text-left"><p>Tool</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Every user × every day, including empty days</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">merge(how='cross')</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>What was the price when this order was placed?</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">merge_asof(direction='backward')</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>When did the next change happen after this event?</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">merge_asof(direction='forward')</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Closest reading either side</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">merge_asof(direction='nearest')</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Match only within the same instrument/user</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">merge_asof(by=...)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Reject matches that are too old</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">merge_asof(tolerance=...)</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p><strong>Not sorting.</strong> <code class="docutils literal notranslate"><span class="pre">merge_asof</span></code> does not raise on unsorted input — it returns wrong matches. Sort both frames on the join key first</p></li>
+<li><p>Forgetting <code class="docutils literal notranslate"><span class="pre">tolerance</span></code>, which lets a value from weeks earlier attach silently</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">on=</span></code> when the two frames name the key differently — use <code class="docutils literal notranslate"><span class="pre">left_on</span></code>/<code class="docutils literal notranslate"><span class="pre">right_on</span></code>, and remember both must still be sorted</p></li>
+<li><p>Running <code class="docutils literal notranslate"><span class="pre">how='cross'</span></code> before filtering: output is <code class="docutils literal notranslate"><span class="pre">len(left)</span> <span class="pre">×</span> <span class="pre">len(right)</span></code>, so 50k × 50k is 2.5 <strong>billion</strong> rows</p></li>
+<li><p>Building a scaffold with cross and then inner-joining the data, which throws away exactly the empty combinations the scaffold existed to preserve — it must be a left join</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="interview-q-a">
+<h2>Interview Q&amp;A<a class="headerlink" href="#interview-q-a" title="Link to this heading">#</a></h2>
+<p><strong>Q: Wide or long?</strong>
+A: Long for anything computational — groupby, plotting libraries, and most model
+APIs expect one observation per row. Wide for human reading and for matrix-shaped
+input. I treat long as the working format and pivot to wide only at the very end,
+for display.</p>
+<p><strong>Q: After a merge your row count went up. What happened?</strong>
+A: Duplicate keys on the right side, so it became many-to-many. I’d check
+<code class="docutils literal notranslate"><span class="pre">right['key'].duplicated().any()</span></code> and pass <code class="docutils literal notranslate"><span class="pre">validate='m:1'</span></code> so pandas raises
+instead of silently multiplying rows. <code class="docutils literal notranslate"><span class="pre">indicator=True</span></code> then shows how many rows
+matched on each side.</p>
+<p><strong>Q: <code class="docutils literal notranslate"><span class="pre">pivot</span></code> or <code class="docutils literal notranslate"><span class="pre">pivot_table</span></code>?</strong>
+A: <code class="docutils literal notranslate"><span class="pre">pivot</span></code> is a pure reshape and raises if the index/column pair is not unique.
+<code class="docutils literal notranslate"><span class="pre">pivot_table</span></code> aggregates duplicates, defaulting to mean. If <code class="docutils literal notranslate"><span class="pre">pivot</span></code> raises, that
+is real information — you had duplicate keys you did not know about — so I would
+not reflexively switch to <code class="docutils literal notranslate"><span class="pre">pivot_table</span></code> without deciding what the duplicates mean.</p>
+<p><strong>Q: Compute a running total per user.</strong>
+A: <code class="docutils literal notranslate"><span class="pre">df.sort_values(['user_id','date']).groupby('user_id')['amount'].cumsum()</span></code>.
+The sort is the part people skip; <code class="docutils literal notranslate"><span class="pre">cumsum</span></code> follows row order, so an unsorted frame
+gives a running total in arbitrary order without any warning.</p>
+<p><strong>Q: You need each user’s activity for every day in a month, including inactive days.</strong>
+A: Cross join a distinct-user frame with a <code class="docutils literal notranslate"><span class="pre">date_range</span></code> to make the full grid,
+then left-join the activity and fill with zero. Grouping the events alone cannot
+produce rows for days that have no events, which is the classic reason retention
+curves come out too flat.</p>
+<section id="gotchas">
+<h3>Gotchas<a class="headerlink" href="#gotchas" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">melt</span></code> loses the index unless you <code class="docutils literal notranslate"><span class="pre">reset_index()</span></code> first</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pivot_table</span></code> silently drops NaN groups; pass <code class="docutils literal notranslate"><span class="pre">dropna=False</span></code> to keep them</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">explode</span></code> leaves duplicate index labels — <code class="docutils literal notranslate"><span class="pre">reset_index(drop=True)</span></code> after</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">concat</span></code> of frames with different columns fills the gaps with NaN rather than raising; check <code class="docutils literal notranslate"><span class="pre">.columns</span></code> alignment first</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">groupby().apply()</span></code> is the slow path; prefer <code class="docutils literal notranslate"><span class="pre">agg</span></code>/<code class="docutils literal notranslate"><span class="pre">transform</span></code> when they can express the operation</p></li>
+</ul>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pd.concat</span></code> without <code class="docutils literal notranslate"><span class="pre">ignore_index=True</span></code> — original row indices repeat across files, creating duplicate index values that break <code class="docutils literal notranslate"><span class="pre">.loc</span></code> lookups</p></li>
+<li><p>Assuming all files have the same schema — always validate before concat, especially with data from different time periods</p></li>
+<li><p>Loading all columns from all files when only a few are needed — use <code class="docutils literal notranslate"><span class="pre">usecols=</span></code> to limit memory usage</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">pd.concat([df1,</span> <span class="pre">df2])</span></code> with mismatched dtypes (e.g. <code class="docutils literal notranslate"><span class="pre">int</span></code> in one file, <code class="docutils literal notranslate"><span class="pre">float</span></code> in another) — pandas upcasts silently; verify with <code class="docutils literal notranslate"><span class="pre">df.dtypes</span></code> after concat</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="decision-guide">
+<h2>Decision Guide<a class="headerlink" href="#decision-guide" title="Link to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Need to change data shape?
+├── Wide → Long (many columns → one value column)  → .melt(id_vars, value_vars)          (§1)
+├── Long → Wide (categories → separate columns)    → .pivot_table(index, columns, values) (§1)
+└── Multi-value wide → long                        → pd.wide_to_long()                   (§1)
+
+Need advanced groupby?
+├── Top-N per group                                → groupby().rank() + filter            (§2)
+├── Remove groups failing a condition              → groupby().filter(lambda g: ...)      (§2)
+├── Conditional sum within group (SUM CASE WHEN)   → .where() + groupby().agg()          (§2)
+├── Group stats back on each row                   → groupby().transform()                (§2)
+└── Custom aggregation (percentile, ratio)         → agg(col=('col', lambda x: ...))     (§2)
+
+Combining multiple tables?
+├── Row count grows after merge                    → aggregate right table first          (§3)
+├── Rows in A with no match in B                   → merge(how='left', indicator=True)    (§3)
+├── Many-to-many relationship                      → aggregate one side or use bridge     (§3)
+└── Key dtype mismatch (rows drop to zero)         → cast both keys to same type          (§3)
+
+Working with time series?
+├── Change frequency (daily → monthly)             → .resample('ME').agg()               (§4)
+├── Fill gaps in time series                       → build date spine + left merge        (§4)
+├── Carry last known value forward                 → .resample().last().ffill()           (§4)
+└── Align different frequencies                    → .reindex(other.index).ffill()        (§4)
+
+Column contains dicts / JSON?
+└──                                                → pd.json_normalize()                  (§5)
+
+Column contains lists?
+├── One row per list element                       → .explode()                           (§5)
+├── Fixed-length list → separate columns           → pd.DataFrame(df['col'].tolist())     (§5)
+└── Stringified list ("['a','b']")                → ast.literal_eval + .explode()        (§5)
+
+Reading many files?
+├── Same schema, just concat                       → glob + pd.concat(ignore_index=True)  (§6)
+├── Track source file                              → add 'source_file' column per chunk   (§6)
+├── Schema may differ across files                 → validate columns first, join='outer' (§6)
+└── Multiple Excel sheets                          → read_excel(sheet_name=None)          (§6)
+</pre></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Python Data Libs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="DM_Basic.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Data Manipulation — Basic</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="DM_Advanced.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Data Manipulation — Advanced</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

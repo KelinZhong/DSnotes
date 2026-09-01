@@ -1,0 +1,1340 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Business Metrics — SQL Reference &#8212; Data Science Interview Prep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Metrics/metrics_SQL';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Machine Learning" href="../Machine%20Learning/ML0.html" />
+    <link rel="prev" title="Business Metrics — Python Reference" href="metrics_Python.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Science Interview Prep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    Topics
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Python%20Data%20Libs/Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Python%20Data%20Libs/Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="metrics_Python.html">Business Metrics — Python Reference</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Business Metrics — SQL Reference</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shared-schema-reference">§0 — Shared Schema Reference</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dau-wau-mau">§1 — DAU / WAU / MAU</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dau-daily-active-users">DAU — Daily Active Users</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wau-weekly-active-users">WAU — Weekly Active Users</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mau-monthly-active-users">MAU — Monthly Active Users</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dau-mau-ratio">§2 — DAU/MAU Ratio</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d1-d7-d30-retention">§3 — D1 / D7 / D30 Retention</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k-factor">§4 — K-factor</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nps-net-promoter-score">§5 — NPS (Net Promoter Score)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conversion-rate">§6 — Conversion Rate</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-conversion-rate-visitors-purchasers">Simple conversion rate (visitors → purchasers)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-step-funnel-step-by-step-drop-off">Multi-step funnel (step-by-step drop-off)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ltv-lifetime-value">§7 — LTV (Lifetime Value)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cac-customer-acquisition-cost">§8 — CAC (Customer Acquisition Cost)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ltv-cac-ratio">§9 — LTV/CAC Ratio</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mrr-mrr-growth-rate">§10 — MRR &amp; MRR Growth Rate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ctr-click-through-rate">§11 — CTR (Click-Through Rate)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gmv-gross-merchandise-value">§12 — GMV (Gross Merchandise Value)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-reference-metric-formulas">Quick Reference — Metric Formulas</a></li>
+</ul>
+  </nav></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../intro.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="metrics0.html" class="nav-link">Business Metrics</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Business Metrics — SQL Reference</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="business-metrics-sql-reference">
+<h1>Business Metrics — SQL Reference<a class="headerlink" href="#business-metrics-sql-reference" title="Link to this heading">#</a></h1>
+<p><strong>Companion to:</strong> <a class="reference internal" href="../Data%20Science%20Workflow/ds1_problem_framing.html"><span class="doc">ds1_problem_framing</span></a> — metric definitions, roles, and business context</p>
+<p><strong>Purpose:</strong> SQL recipes to compute every metric from the ds1 notes. One section per metric. Copy-paste ready for MySQL.</p>
+<hr class="docutils" />
+<section id="shared-schema-reference">
+<h2>§0 — Shared Schema Reference<a class="headerlink" href="#shared-schema-reference" title="Link to this heading">#</a></h2>
+<p>All queries in this notebook assume the following tables. Column names are used consistently throughout.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- users: one row per user</span>
+<span class="c1">-- user_id        INT        unique user identifier</span>
+<span class="c1">-- created_at     DATE       account creation date</span>
+<span class="c1">-- channel        VARCHAR    acquisition channel (e.g. 'paid_search', 'organic', 'referral')</span>
+
+<span class="c1">-- events: one row per user action</span>
+<span class="c1">-- user_id        INT</span>
+<span class="c1">-- event_date     DATE</span>
+<span class="c1">-- event_type     VARCHAR    e.g. 'session', 'page_view', 'purchase', 'invite_sent', 'invite_accepted'</span>
+
+<span class="c1">-- orders: one row per completed purchase</span>
+<span class="c1">-- order_id       INT</span>
+<span class="c1">-- user_id        INT</span>
+<span class="c1">-- order_date     DATE</span>
+<span class="c1">-- order_value    DECIMAL    revenue from this order</span>
+
+<span class="c1">-- marketing_spend: one row per channel per day</span>
+<span class="c1">-- spend_date     DATE</span>
+<span class="c1">-- channel        VARCHAR</span>
+<span class="c1">-- spend          DECIMAL    dollars spent on that channel that day</span>
+
+<span class="c1">-- subscriptions: one row per active subscription per month (SaaS)</span>
+<span class="c1">-- user_id        INT</span>
+<span class="c1">-- month          DATE       first day of the month (e.g. '2024-01-01')</span>
+<span class="c1">-- monthly_fee    DECIMAL    amount billed this month</span>
+<span class="c1">-- status         VARCHAR    'active' or 'churned'</span>
+
+<span class="c1">-- ad_events: one row per ad impression or click</span>
+<span class="c1">-- user_id        INT</span>
+<span class="c1">-- event_date     DATE</span>
+<span class="c1">-- ad_id          VARCHAR</span>
+<span class="c1">-- event_type     VARCHAR    'impression' or 'click'</span>
+
+<span class="c1">-- transactions: one row per marketplace transaction</span>
+<span class="c1">-- transaction_id INT</span>
+<span class="c1">-- buyer_id       INT</span>
+<span class="c1">-- seller_id      INT</span>
+<span class="c1">-- transaction_date DATE</span>
+<span class="c1">-- transaction_value DECIMAL</span>
+
+<span class="c1">-- nps_responses: one row per NPS survey response</span>
+<span class="c1">-- user_id        INT</span>
+<span class="c1">-- response_date  DATE</span>
+<span class="c1">-- score          INT        0–10</span>
+</pre></div>
+</div>
+</section>
+<section id="dau-wau-mau">
+<h2>§1 — DAU / WAU / MAU<a class="headerlink" href="#dau-wau-mau" title="Link to this heading">#</a></h2>
+<p><strong>Formula:</strong></p>
+<ul class="simple">
+<li><p>DAU = COUNT(DISTINCT user_id) active on a given day</p></li>
+<li><p>WAU = COUNT(DISTINCT user_id) active in a given week</p></li>
+<li><p>MAU = COUNT(DISTINCT user_id) active in a given month</p></li>
+</ul>
+<p><strong>Active</strong> = has at least one row in <code class="docutils literal notranslate"><span class="pre">events</span></code> in the period.</p>
+<section id="dau-daily-active-users">
+<h3>DAU — Daily Active Users<a class="headerlink" href="#dau-daily-active-users" title="Link to this heading">#</a></h3>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span>
+<span class="w">    </span><span class="n">event_date</span><span class="p">,</span>
+<span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">user_id</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dau</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">events</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">event_date</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">event_date</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="wau-weekly-active-users">
+<h3>WAU — Weekly Active Users<a class="headerlink" href="#wau-weekly-active-users" title="Link to this heading">#</a></h3>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span>
+<span class="w">    </span><span class="n">YEARWEEK</span><span class="p">(</span><span class="n">event_date</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">          </span><span class="k">AS</span><span class="w"> </span><span class="n">year_week</span><span class="p">,</span><span class="w">   </span><span class="c1">-- mode 1: week starts Monday</span>
+<span class="w">    </span><span class="k">MIN</span><span class="p">(</span><span class="n">event_date</span><span class="p">)</span><span class="w">                  </span><span class="k">AS</span><span class="w"> </span><span class="n">week_start</span><span class="p">,</span>
+<span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">user_id</span><span class="p">)</span><span class="w">          </span><span class="k">AS</span><span class="w"> </span><span class="n">wau</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">events</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">YEARWEEK</span><span class="p">(</span><span class="n">event_date</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">year_week</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="mau-monthly-active-users">
+<h3>MAU — Monthly Active Users<a class="headerlink" href="#mau-monthly-active-users" title="Link to this heading">#</a></h3>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span>
+<span class="w">    </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">event_date</span><span class="p">,</span><span class="w"> </span><span class="s1">'%Y-%m'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span>
+<span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">user_id</span><span class="p">)</span><span class="w">          </span><span class="k">AS</span><span class="w"> </span><span class="n">mau</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">events</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">event_date</span><span class="p">,</span><span class="w"> </span><span class="s1">'%Y-%m'</span><span class="p">)</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">year_month</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>Gotchas:</strong></p>
+<ul class="simple">
+<li><p>Define “active” precisely — is a single page view enough, or does it require a meaningful action?</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">DISTINCT</span> <span class="pre">user_id</span></code> — a user opening the app 50 times in a day still counts as 1 DAU.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">YEARWEEK(date,</span> <span class="pre">1)</span></code> uses ISO week numbering (starts Monday); drop the <code class="docutils literal notranslate"><span class="pre">1</span></code> for Sunday-start weeks.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="dau-mau-ratio">
+<h2>§2 — DAU/MAU Ratio<a class="headerlink" href="#dau-mau-ratio" title="Link to this heading">#</a></h2>
+<p><strong>Formula:</strong> DAU/MAU ratio = DAU ÷ MAU for the same calendar month</p>
+<p><strong>Meaning:</strong> Measures engagement depth — what fraction of monthly users return on any given day. A ratio of 0.20 means users are active ~6 days per month.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">WITH</span>
+<span class="n">daily</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="n">event_date</span><span class="p">,</span>
+<span class="w">        </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">event_date</span><span class="p">,</span><span class="w"> </span><span class="s1">'%Y-%m'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">user_id</span><span class="p">)</span><span class="w">          </span><span class="k">AS</span><span class="w"> </span><span class="n">dau</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">events</span>
+<span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">event_date</span>
+<span class="p">),</span>
+<span class="n">monthly</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">event_date</span><span class="p">,</span><span class="w"> </span><span class="s1">'%Y-%m'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">user_id</span><span class="p">)</span><span class="w">          </span><span class="k">AS</span><span class="w"> </span><span class="n">mau</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">events</span>
+<span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">event_date</span><span class="p">,</span><span class="w"> </span><span class="s1">'%Y-%m'</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">d</span><span class="p">.</span><span class="n">event_date</span><span class="p">,</span>
+<span class="w">    </span><span class="n">d</span><span class="p">.</span><span class="n">year_month</span><span class="p">,</span>
+<span class="w">    </span><span class="n">d</span><span class="p">.</span><span class="n">dau</span><span class="p">,</span>
+<span class="w">    </span><span class="n">m</span><span class="p">.</span><span class="n">mau</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">dau</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">mau</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dau_mau_ratio</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">daily</span><span class="w"> </span><span class="n">d</span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">monthly</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">year_month</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">year_month</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">event_date</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>Gotchas:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">NULLIF(m.mau,</span> <span class="pre">0)</span></code> prevents division-by-zero on months with no activity.</p></li>
+<li><p>DAU/MAU ratio varies by day of week — Monday vs Sunday will differ; consider a 7-day rolling average.</p></li>
+<li><p>A rising MAU with a falling ratio means you are acquiring users who don’t return — an acquisition treadmill.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="d1-d7-d30-retention">
+<h2>§3 — D1 / D7 / D30 Retention<a class="headerlink" href="#d1-d7-d30-retention" title="Link to this heading">#</a></h2>
+<p><strong>Formula:</strong></p>
+<ul class="simple">
+<li><p>Dn retention = users active on day n after signup ÷ users acquired on day 0 (cohort size)</p></li>
+</ul>
+<p><strong>Approach:</strong> Self-join <code class="docutils literal notranslate"><span class="pre">events</span></code> on <code class="docutils literal notranslate"><span class="pre">user_id</span></code>, anchoring on the signup date from <code class="docutils literal notranslate"><span class="pre">users</span></code>.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">WITH</span><span class="w"> </span><span class="n">cohort</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="c1">-- Day-0 cohort: all users and their signup date</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="n">user_id</span><span class="p">,</span>
+<span class="w">        </span><span class="n">created_at</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">cohort_date</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span>
+<span class="p">),</span>
+<span class="n">activity</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="c1">-- All event dates per user</span>
+<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span>
+<span class="w">        </span><span class="n">user_id</span><span class="p">,</span>
+<span class="w">        </span><span class="n">event_date</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">events</span>
+<span class="p">)</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="k">c</span><span class="p">.</span><span class="n">cohort_date</span><span class="p">,</span>
+<span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">user_id</span><span class="p">)</span><span class="w">                                                        </span><span class="k">AS</span><span class="w"> </span><span class="n">cohort_size</span><span class="p">,</span>
+
+<span class="w">    </span><span class="c1">-- D1: active exactly 1 day after signup</span>
+<span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">CASE</span>
+<span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">DATEDIFF</span><span class="p">(</span><span class="n">a1</span><span class="p">.</span><span class="n">event_date</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">cohort_date</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w">          </span><span class="k">AS</span><span class="w"> </span><span class="n">d1_retained</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">CASE</span>
+<span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">DATEDIFF</span><span class="p">(</span><span class="n">a1</span><span class="p">.</span><span class="n">event_date</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">cohort_date</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="k">END</span><span class="p">)</span>
+<span class="w">        </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">user_id</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w">                                   </span><span class="k">AS</span><span class="w"> </span><span class="n">d1_retention_rate</span><span class="p">,</span>
+
+<span class="w">    </span><span class="c1">-- D7</span>
+<span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">CASE</span>
+<span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">DATEDIFF</span><span class="p">(</span><span class="n">a1</span><span class="p">.</span><span class="n">event_date</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">cohort_date</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w">          </span><span class="k">AS</span><span class="w"> </span><span class="n">d7_retained</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">CASE</span>
+<span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">DATEDIFF</span><span class="p">(</span><span class="n">a1</span><span class="p">.</span><span class="n">event_date</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">cohort_date</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="k">END</span><span class="p">)</span>
+<span class="w">        </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">user_id</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w">                                   </span><span class="k">AS</span><span class="w"> </span><span class="n">d7_retention_rate</span><span class="p">,</span>
+
+<span class="w">    </span><span class="c1">-- D30</span>
+<span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">CASE</span>
+<span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">DATEDIFF</span><span class="p">(</span><span class="n">a1</span><span class="p">.</span><span class="n">event_date</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">cohort_date</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w">         </span><span class="k">AS</span><span class="w"> </span><span class="n">d30_retained</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">CASE</span>
+<span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">DATEDIFF</span><span class="p">(</span><span class="n">a1</span><span class="p">.</span><span class="n">event_date</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">cohort_date</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="k">END</span><span class="p">)</span>
+<span class="w">        </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">user_id</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w">                                   </span><span class="k">AS</span><span class="w"> </span><span class="n">d30_retention_rate</span>
+
+<span class="k">FROM</span><span class="w"> </span><span class="n">cohort</span><span class="w"> </span><span class="k">c</span>
+<span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">activity</span><span class="w"> </span><span class="n">a1</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a1</span><span class="p">.</span><span class="n">user_id</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">cohort_date</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">cohort_date</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>Full retention curve (every day 0–30) per cohort month:</strong></p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">WITH</span><span class="w"> </span><span class="n">cohort</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="n">user_id</span><span class="p">,</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">cohort_date</span><span class="p">,</span>
+<span class="w">           </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">created_at</span><span class="p">,</span><span class="w"> </span><span class="s1">'%Y-%m'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">cohort_month</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span>
+<span class="p">),</span>
+<span class="n">activity</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">user_id</span><span class="p">,</span><span class="w"> </span><span class="n">event_date</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">events</span>
+<span class="p">),</span>
+<span class="n">retention_raw</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="k">c</span><span class="p">.</span><span class="n">cohort_month</span><span class="p">,</span>
+<span class="w">        </span><span class="n">DATEDIFF</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">event_date</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">cohort_date</span><span class="p">)</span><span class="w">  </span><span class="k">AS</span><span class="w"> </span><span class="n">day_number</span><span class="p">,</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">user_id</span><span class="p">)</span><span class="w">              </span><span class="k">AS</span><span class="w"> </span><span class="n">cohort_size</span><span class="p">,</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">user_id</span><span class="p">)</span><span class="w">              </span><span class="k">AS</span><span class="w"> </span><span class="n">retained</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">cohort</span><span class="w"> </span><span class="k">c</span>
+<span class="w">    </span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">activity</span><span class="w"> </span><span class="n">a</span>
+<span class="w">        </span><span class="k">ON</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">user_id</span>
+<span class="w">        </span><span class="k">AND</span><span class="w"> </span><span class="n">DATEDIFF</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">event_date</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">cohort_date</span><span class="p">)</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="mi">30</span>
+<span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">cohort_month</span><span class="p">,</span><span class="w"> </span><span class="n">DATEDIFF</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">event_date</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">cohort_date</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">cohort_month</span><span class="p">,</span>
+<span class="w">    </span><span class="n">day_number</span><span class="p">,</span>
+<span class="w">    </span><span class="n">cohort_size</span><span class="p">,</span>
+<span class="w">    </span><span class="n">retained</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">retained</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="n">cohort_size</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">retention_rate</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">retention_raw</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">cohort_month</span><span class="p">,</span><span class="w"> </span><span class="n">day_number</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>Gotchas:</strong></p>
+<ul class="simple">
+<li><p>D1 means exactly day 1, not “within 1 day” — use <code class="docutils literal notranslate"><span class="pre">DATEDIFF</span> <span class="pre">=</span> <span class="pre">1</span></code>, not <code class="docutils literal notranslate"><span class="pre">&lt;=</span> <span class="pre">1</span></code>.</p></li>
+<li><p>LEFT JOIN ensures users with zero activity after signup still appear (retained = 0).</p></li>
+<li><p>Cohorts with fewer than 7 or 30 days of history will show NULL for future days — filter by <code class="docutils literal notranslate"><span class="pre">cohort_date</span> <span class="pre">&lt;=</span> <span class="pre">CURDATE()</span> <span class="pre">-</span> <span class="pre">INTERVAL</span> <span class="pre">30</span> <span class="pre">DAY</span></code> for stable D30 numbers.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="k-factor">
+<h2>§4 — K-factor<a class="headerlink" href="#k-factor" title="Link to this heading">#</a></h2>
+<p><strong>Formula:</strong> K-factor = (invites sent per user) × (conversion rate of invites)</p>
+<ul class="simple">
+<li><p>Invites sent per user = total invite_sent events ÷ total inviters</p></li>
+<li><p>Invite conversion rate = invite_accepted events ÷ invite_sent events</p></li>
+</ul>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">WITH</span><span class="w"> </span><span class="n">invite_stats</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">event_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'invite_sent'</span><span class="w">     </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">total_invites_sent</span><span class="p">,</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">event_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'invite_accepted'</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">total_invites_accepted</span><span class="p">,</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">event_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'invite_sent'</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">user_id</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">total_inviters</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">events</span>
+<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">event_date</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="s1">'2024-01-01'</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="s1">'2024-01-31'</span><span class="w">   </span><span class="c1">-- set your measurement window</span>
+<span class="p">)</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">total_invites_sent</span><span class="p">,</span>
+<span class="w">    </span><span class="n">total_invites_accepted</span><span class="p">,</span>
+<span class="w">    </span><span class="n">total_inviters</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">total_invites_sent</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="n">total_inviters</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w">          </span><span class="k">AS</span><span class="w"> </span><span class="n">invites_per_user</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">total_invites_accepted</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="n">total_invites_sent</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w">  </span><span class="k">AS</span><span class="w"> </span><span class="n">invite_conversion_rate</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span>
+<span class="w">        </span><span class="p">(</span><span class="n">total_invites_sent</span><span class="w">    </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="n">total_inviters</span><span class="p">,</span><span class="w">      </span><span class="mi">0</span><span class="p">))</span><span class="w"> </span><span class="o">*</span>
+<span class="w">        </span><span class="p">(</span><span class="n">total_invites_accepted</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="n">total_invites_sent</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span>
+<span class="w">    </span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w">                                                              </span><span class="k">AS</span><span class="w"> </span><span class="n">k_factor</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">invite_stats</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>Gotchas:</strong></p>
+<ul class="simple">
+<li><p>K-factor &gt; 1 means viral growth (each user brings in more than one new user on average).</p></li>
+<li><p>Measure over a fixed window — K-factor computed over all-time mixes cohorts and inflates the numerator.</p></li>
+<li><p>Ensure <code class="docutils literal notranslate"><span class="pre">invite_accepted</span></code> is attributed to the invite (not just any new signup) to avoid double-counting organic signups.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="nps-net-promoter-score">
+<h2>§5 — NPS (Net Promoter Score)<a class="headerlink" href="#nps-net-promoter-score" title="Link to this heading">#</a></h2>
+<p><strong>Formula:</strong> NPS = % Promoters (score 9–10) − % Detractors (score 0–6)</p>
+<ul class="simple">
+<li><p>Passives (score 7–8) are excluded from both sides but included in the denominator.</p></li>
+</ul>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">WITH</span><span class="w"> </span><span class="n">classified</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="n">user_id</span><span class="p">,</span>
+<span class="w">        </span><span class="n">score</span><span class="p">,</span>
+<span class="w">        </span><span class="k">CASE</span>
+<span class="w">            </span><span class="k">WHEN</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">'promoter'</span>
+<span class="w">            </span><span class="k">WHEN</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">'detractor'</span>
+<span class="w">            </span><span class="k">ELSE</span><span class="w">                 </span><span class="s1">'passive'</span>
+<span class="w">        </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">nps_group</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">nps_responses</span>
+<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">response_date</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="s1">'2024-01-01'</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="s1">'2024-03-31'</span><span class="w">  </span><span class="c1">-- measurement window</span>
+<span class="p">),</span>
+<span class="n">counts</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w">                                          </span><span class="k">AS</span><span class="w"> </span><span class="n">total_responses</span><span class="p">,</span>
+<span class="w">        </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">nps_group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'promoter'</span><span class="w">  </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">ELSE</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">promoters</span><span class="p">,</span>
+<span class="w">        </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">nps_group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'detractor'</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">ELSE</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">detractors</span><span class="p">,</span>
+<span class="w">        </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">nps_group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'passive'</span><span class="w">   </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">ELSE</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">passives</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">classified</span>
+<span class="p">)</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">total_responses</span><span class="p">,</span>
+<span class="w">    </span><span class="n">promoters</span><span class="p">,</span>
+<span class="w">    </span><span class="n">detractors</span><span class="p">,</span>
+<span class="w">    </span><span class="n">passives</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">promoters</span><span class="w">  </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="n">total_responses</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pct_promoters</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">detractors</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="n">total_responses</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pct_detractors</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span>
+<span class="w">        </span><span class="p">(</span><span class="n">promoters</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">detractors</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="n">total_responses</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span>
+<span class="w">    </span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">                                                    </span><span class="k">AS</span><span class="w"> </span><span class="n">nps</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">counts</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>Gotchas:</strong></p>
+<ul class="simple">
+<li><p>NPS is expressed as a whole number (−100 to +100), not a fraction.</p></li>
+<li><p>Passives count in the denominator but not in the NPS calculation — do not drop them from the <code class="docutils literal notranslate"><span class="pre">total_responses</span></code> count.</p></li>
+<li><p>Use a consistent measurement window; NPS measured over different periods is not comparable.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="conversion-rate">
+<h2>§6 — Conversion Rate<a class="headerlink" href="#conversion-rate" title="Link to this heading">#</a></h2>
+<p><strong>Formula:</strong> Conversion rate = conversions ÷ total visitors (or impressions, or sessions)</p>
+<p>The numerator and denominator must be defined precisely — conversion rate means nothing without specifying the funnel stage.</p>
+<section id="simple-conversion-rate-visitors-purchasers">
+<h3>Simple conversion rate (visitors → purchasers)<a class="headerlink" href="#simple-conversion-rate-visitors-purchasers" title="Link to this heading">#</a></h3>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">WITH</span><span class="w"> </span><span class="n">funnel</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">event_date</span><span class="p">,</span><span class="w"> </span><span class="s1">'%Y-%m'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">event_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'session'</span><span class="w">  </span><span class="k">THEN</span><span class="w"> </span><span class="n">user_id</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">visitors</span><span class="p">,</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">event_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'purchase'</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">user_id</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">converters</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">events</span>
+<span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">event_date</span><span class="p">,</span><span class="w"> </span><span class="s1">'%Y-%m'</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">year_month</span><span class="p">,</span>
+<span class="w">    </span><span class="n">visitors</span><span class="p">,</span>
+<span class="w">    </span><span class="n">converters</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">converters</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="n">visitors</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">conversion_rate</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">funnel</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">year_month</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="multi-step-funnel-step-by-step-drop-off">
+<h3>Multi-step funnel (step-by-step drop-off)<a class="headerlink" href="#multi-step-funnel-step-by-step-drop-off" title="Link to this heading">#</a></h3>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">WITH</span><span class="w"> </span><span class="n">steps</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">event_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'page_view'</span><span class="w">     </span><span class="k">THEN</span><span class="w"> </span><span class="n">user_id</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">step1_page_view</span><span class="p">,</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">event_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'add_to_cart'</span><span class="w">   </span><span class="k">THEN</span><span class="w"> </span><span class="n">user_id</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">step2_add_to_cart</span><span class="p">,</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">event_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'checkout'</span><span class="w">      </span><span class="k">THEN</span><span class="w"> </span><span class="n">user_id</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">step3_checkout</span><span class="p">,</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">event_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'purchase'</span><span class="w">      </span><span class="k">THEN</span><span class="w"> </span><span class="n">user_id</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">step4_purchase</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">events</span>
+<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">event_date</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="s1">'2024-01-01'</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="s1">'2024-01-31'</span>
+<span class="p">)</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">step1_page_view</span><span class="p">,</span>
+<span class="w">    </span><span class="n">step2_add_to_cart</span><span class="p">,</span>
+<span class="w">    </span><span class="n">step3_checkout</span><span class="p">,</span>
+<span class="w">    </span><span class="n">step4_purchase</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">step2_add_to_cart</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="n">step1_page_view</span><span class="p">,</span><span class="w">   </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">view_to_cart_rate</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">step3_checkout</span><span class="w">    </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="n">step2_add_to_cart</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">cart_to_checkout_rate</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">step4_purchase</span><span class="w">    </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="n">step3_checkout</span><span class="p">,</span><span class="w">    </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">checkout_to_purchase_rate</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">step4_purchase</span><span class="w">    </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="n">step1_page_view</span><span class="p">,</span><span class="w">   </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">overall_conversion_rate</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">steps</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>Gotchas:</strong></p>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">DISTINCT</span> <span class="pre">user_id</span></code> to count unique users per step, not total events (one user can view a page multiple times).</p></li>
+<li><p>The denominator changes the metric’s meaning entirely — “conversion rate” without a stated denominator is ambiguous.</p></li>
+<li><p>Funnel steps must be ordered in time — a user who purchased without a <code class="docutils literal notranslate"><span class="pre">checkout</span></code> event suggests data quality issues.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="ltv-lifetime-value">
+<h2>§7 — LTV (Lifetime Value)<a class="headerlink" href="#ltv-lifetime-value" title="Link to this heading">#</a></h2>
+<p><strong>Formula:</strong> LTV = avg order value × purchase frequency × avg customer lifespan</p>
+<p>Components:</p>
+<ul class="simple">
+<li><p><strong>Avg order value</strong> = total revenue ÷ total orders</p></li>
+<li><p><strong>Purchase frequency</strong> = total orders ÷ total customers</p></li>
+<li><p><strong>Avg customer lifespan</strong> = avg days between first and last order (or projected from churn rate)</p></li>
+</ul>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">WITH</span><span class="w"> </span><span class="n">customer_orders</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="n">user_id</span><span class="p">,</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="n">order_id</span><span class="p">)</span><span class="w">                                   </span><span class="k">AS</span><span class="w"> </span><span class="n">order_count</span><span class="p">,</span>
+<span class="w">        </span><span class="k">SUM</span><span class="p">(</span><span class="n">order_value</span><span class="p">)</span><span class="w">                                  </span><span class="k">AS</span><span class="w"> </span><span class="n">total_revenue</span><span class="p">,</span>
+<span class="w">        </span><span class="k">AVG</span><span class="p">(</span><span class="n">order_value</span><span class="p">)</span><span class="w">                                  </span><span class="k">AS</span><span class="w"> </span><span class="n">avg_order_value</span><span class="p">,</span>
+<span class="w">        </span><span class="k">MIN</span><span class="p">(</span><span class="n">order_date</span><span class="p">)</span><span class="w">                                   </span><span class="k">AS</span><span class="w"> </span><span class="n">first_order_date</span><span class="p">,</span>
+<span class="w">        </span><span class="k">MAX</span><span class="p">(</span><span class="n">order_date</span><span class="p">)</span><span class="w">                                   </span><span class="k">AS</span><span class="w"> </span><span class="n">last_order_date</span><span class="p">,</span>
+<span class="w">        </span><span class="n">DATEDIFF</span><span class="p">(</span><span class="k">MAX</span><span class="p">(</span><span class="n">order_date</span><span class="p">),</span><span class="w"> </span><span class="k">MIN</span><span class="p">(</span><span class="n">order_date</span><span class="p">))</span><span class="w">        </span><span class="k">AS</span><span class="w"> </span><span class="n">lifespan_days</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span>
+<span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">user_id</span>
+<span class="p">),</span>
+<span class="n">aggregates</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span><span class="w">                                    </span><span class="k">AS</span><span class="w"> </span><span class="n">total_customers</span><span class="p">,</span>
+<span class="w">        </span><span class="k">SUM</span><span class="p">(</span><span class="n">order_count</span><span class="p">)</span><span class="w">                                  </span><span class="k">AS</span><span class="w"> </span><span class="n">total_orders</span><span class="p">,</span>
+<span class="w">        </span><span class="k">AVG</span><span class="p">(</span><span class="n">avg_order_value</span><span class="p">)</span><span class="w">                              </span><span class="k">AS</span><span class="w"> </span><span class="n">avg_order_value</span><span class="p">,</span>
+<span class="w">        </span><span class="k">AVG</span><span class="p">(</span><span class="n">order_count</span><span class="p">)</span><span class="w">                                  </span><span class="k">AS</span><span class="w"> </span><span class="n">avg_purchase_frequency</span><span class="p">,</span>
+<span class="w">        </span><span class="k">AVG</span><span class="p">(</span><span class="n">lifespan_days</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">365</span><span class="p">.</span><span class="mi">0</span><span class="w">                        </span><span class="k">AS</span><span class="w"> </span><span class="n">avg_lifespan_years</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">customer_orders</span>
+<span class="p">)</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">total_customers</span><span class="p">,</span>
+<span class="w">    </span><span class="n">total_orders</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">avg_order_value</span><span class="p">,</span><span class="w">        </span><span class="mi">2</span><span class="p">)</span><span class="w">  </span><span class="k">AS</span><span class="w"> </span><span class="n">avg_order_value</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">avg_purchase_frequency</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">  </span><span class="k">AS</span><span class="w"> </span><span class="n">avg_purchase_frequency</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">avg_lifespan_years</span><span class="p">,</span><span class="w">     </span><span class="mi">2</span><span class="p">)</span><span class="w">  </span><span class="k">AS</span><span class="w"> </span><span class="n">avg_lifespan_years</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">avg_order_value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">avg_purchase_frequency</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">avg_lifespan_years</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ltv</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">aggregates</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>LTV by acquisition channel:</strong></p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">WITH</span><span class="w"> </span><span class="n">customer_orders</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="n">o</span><span class="p">.</span><span class="n">user_id</span><span class="p">,</span>
+<span class="w">        </span><span class="n">u</span><span class="p">.</span><span class="n">channel</span><span class="p">,</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">order_id</span><span class="p">)</span><span class="w">                           </span><span class="k">AS</span><span class="w"> </span><span class="n">order_count</span><span class="p">,</span>
+<span class="w">        </span><span class="k">SUM</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">order_value</span><span class="p">)</span><span class="w">                          </span><span class="k">AS</span><span class="w"> </span><span class="n">total_revenue</span><span class="p">,</span>
+<span class="w">        </span><span class="k">AVG</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">order_value</span><span class="p">)</span><span class="w">                          </span><span class="k">AS</span><span class="w"> </span><span class="n">avg_order_value</span><span class="p">,</span>
+<span class="w">        </span><span class="n">DATEDIFF</span><span class="p">(</span><span class="k">MAX</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">order_date</span><span class="p">),</span><span class="w"> </span><span class="k">MIN</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">order_date</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">365</span><span class="p">.</span><span class="mi">0</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">lifespan_years</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="n">o</span>
+<span class="w">    </span><span class="k">JOIN</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">user_id</span>
+<span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">user_id</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">channel</span>
+<span class="p">)</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">channel</span><span class="p">,</span>
+<span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span><span class="w">                                                              </span><span class="k">AS</span><span class="w"> </span><span class="n">customers</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="k">AVG</span><span class="p">(</span><span class="n">avg_order_value</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">                                              </span><span class="k">AS</span><span class="w"> </span><span class="n">avg_order_value</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="k">AVG</span><span class="p">(</span><span class="n">order_count</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">                                                  </span><span class="k">AS</span><span class="w"> </span><span class="n">avg_frequency</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="k">AVG</span><span class="p">(</span><span class="n">lifespan_years</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">                                               </span><span class="k">AS</span><span class="w"> </span><span class="n">avg_lifespan_years</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="k">AVG</span><span class="p">(</span><span class="n">avg_order_value</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">order_count</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">lifespan_years</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">    </span><span class="k">AS</span><span class="w"> </span><span class="n">ltv</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">customer_orders</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">channel</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ltv</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>Gotchas:</strong></p>
+<ul class="simple">
+<li><p>Customers with only one order have <code class="docutils literal notranslate"><span class="pre">lifespan_days</span> <span class="pre">=</span> <span class="pre">0</span></code> — their LTV is understated. Consider a minimum lifespan assumption or a survival model.</p></li>
+<li><p>Averaging avg_order_value across customers (not across orders) weights each customer equally — choose deliberately.</p></li>
+<li><p>LTV is a projection; for new products without history, use a shorter observation window and extrapolate.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="cac-customer-acquisition-cost">
+<h2>§8 — CAC (Customer Acquisition Cost)<a class="headerlink" href="#cac-customer-acquisition-cost" title="Link to this heading">#</a></h2>
+<p><strong>Formula:</strong> CAC = total acquisition spend ÷ new customers acquired (in the same period)</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">WITH</span><span class="w"> </span><span class="n">spend</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">spend_date</span><span class="p">,</span><span class="w"> </span><span class="s1">'%Y-%m'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span>
+<span class="w">        </span><span class="k">SUM</span><span class="p">(</span><span class="n">spend</span><span class="p">)</span><span class="w">                       </span><span class="k">AS</span><span class="w"> </span><span class="n">total_spend</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">marketing_spend</span>
+<span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">spend_date</span><span class="p">,</span><span class="w"> </span><span class="s1">'%Y-%m'</span><span class="p">)</span>
+<span class="p">),</span>
+<span class="n">new_customers</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">created_at</span><span class="p">,</span><span class="w"> </span><span class="s1">'%Y-%m'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span><span class="w">                   </span><span class="k">AS</span><span class="w"> </span><span class="n">new_customers</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span>
+<span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">created_at</span><span class="p">,</span><span class="w"> </span><span class="s1">'%Y-%m'</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">s</span><span class="p">.</span><span class="n">year_month</span><span class="p">,</span>
+<span class="w">    </span><span class="n">s</span><span class="p">.</span><span class="n">total_spend</span><span class="p">,</span>
+<span class="w">    </span><span class="n">nc</span><span class="p">.</span><span class="n">new_customers</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">total_spend</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="n">nc</span><span class="p">.</span><span class="n">new_customers</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">cac</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">spend</span><span class="w"> </span><span class="n">s</span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">new_customers</span><span class="w"> </span><span class="n">nc</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">year_month</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nc</span><span class="p">.</span><span class="n">year_month</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">year_month</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>CAC by acquisition channel:</strong></p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">WITH</span><span class="w"> </span><span class="n">spend</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="n">channel</span><span class="p">,</span>
+<span class="w">        </span><span class="k">SUM</span><span class="p">(</span><span class="n">spend</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">total_spend</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">marketing_spend</span>
+<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">spend_date</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="s1">'2024-01-01'</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="s1">'2024-03-31'</span>
+<span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">channel</span>
+<span class="p">),</span>
+<span class="n">new_customers</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="n">channel</span><span class="p">,</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">new_customers</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span>
+<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="s1">'2024-01-01'</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="s1">'2024-03-31'</span>
+<span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">channel</span>
+<span class="p">)</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">s</span><span class="p">.</span><span class="n">channel</span><span class="p">,</span>
+<span class="w">    </span><span class="n">s</span><span class="p">.</span><span class="n">total_spend</span><span class="p">,</span>
+<span class="w">    </span><span class="n">nc</span><span class="p">.</span><span class="n">new_customers</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">total_spend</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="n">nc</span><span class="p">.</span><span class="n">new_customers</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">cac</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">spend</span><span class="w"> </span><span class="n">s</span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">new_customers</span><span class="w"> </span><span class="n">nc</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">channel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nc</span><span class="p">.</span><span class="n">channel</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">cac</span><span class="w"> </span><span class="k">ASC</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>Gotchas:</strong></p>
+<ul class="simple">
+<li><p>Match the time period of spend and acquired customers exactly — lag between spend and signup inflates CAC in ramp-up periods.</p></li>
+<li><p>CAC should never be the optimization target directly — minimizing CAC can starve growth. Use LTV/CAC instead.</p></li>
+<li><p>Exclude organic signups from the denominator if organic spend is not in the numerator — mixing them deflates CAC artificially.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="ltv-cac-ratio">
+<h2>§9 — LTV/CAC Ratio<a class="headerlink" href="#ltv-cac-ratio" title="Link to this heading">#</a></h2>
+<p><strong>Formula:</strong> LTV/CAC = LTV ÷ CAC</p>
+<p><strong>Benchmark:</strong> A ratio ≥ 3× is generally considered healthy for SaaS.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">WITH</span><span class="w"> </span><span class="n">customer_orders</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="n">o</span><span class="p">.</span><span class="n">user_id</span><span class="p">,</span>
+<span class="w">        </span><span class="n">u</span><span class="p">.</span><span class="n">channel</span><span class="p">,</span>
+<span class="w">        </span><span class="k">AVG</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">order_value</span><span class="p">)</span><span class="w">                                  </span><span class="k">AS</span><span class="w"> </span><span class="n">avg_order_value</span><span class="p">,</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">order_id</span><span class="p">)</span><span class="w">                                   </span><span class="k">AS</span><span class="w"> </span><span class="n">order_count</span><span class="p">,</span>
+<span class="w">        </span><span class="n">DATEDIFF</span><span class="p">(</span><span class="k">MAX</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">order_date</span><span class="p">),</span><span class="w"> </span><span class="k">MIN</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">order_date</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">365</span><span class="p">.</span><span class="mi">0</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">lifespan_years</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="n">o</span>
+<span class="w">    </span><span class="k">JOIN</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">user_id</span>
+<span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">user_id</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">channel</span>
+<span class="p">),</span>
+<span class="n">ltv_by_channel</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="n">channel</span><span class="p">,</span>
+<span class="w">        </span><span class="n">ROUND</span><span class="p">(</span><span class="k">AVG</span><span class="p">(</span><span class="n">avg_order_value</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">order_count</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">lifespan_years</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ltv</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">customer_orders</span>
+<span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">channel</span>
+<span class="p">),</span>
+<span class="n">cac_by_channel</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="n">ms</span><span class="p">.</span><span class="n">channel</span><span class="p">,</span>
+<span class="w">        </span><span class="n">ROUND</span><span class="p">(</span><span class="k">SUM</span><span class="p">(</span><span class="n">ms</span><span class="p">.</span><span class="n">spend</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">user_id</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">cac</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">marketing_spend</span><span class="w"> </span><span class="n">ms</span>
+<span class="w">    </span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="n">u</span>
+<span class="w">        </span><span class="k">ON</span><span class="w"> </span><span class="n">ms</span><span class="p">.</span><span class="n">channel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">channel</span>
+<span class="w">        </span><span class="k">AND</span><span class="w"> </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">u</span><span class="p">.</span><span class="n">created_at</span><span class="p">,</span><span class="w"> </span><span class="s1">'%Y-%m'</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">ms</span><span class="p">.</span><span class="n">spend_date</span><span class="p">,</span><span class="w"> </span><span class="s1">'%Y-%m'</span><span class="p">)</span>
+<span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ms</span><span class="p">.</span><span class="n">channel</span>
+<span class="p">)</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">l</span><span class="p">.</span><span class="n">channel</span><span class="p">,</span>
+<span class="w">    </span><span class="n">l</span><span class="p">.</span><span class="n">ltv</span><span class="p">,</span>
+<span class="w">    </span><span class="k">c</span><span class="p">.</span><span class="n">cac</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">l</span><span class="p">.</span><span class="n">ltv</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="k">c</span><span class="p">.</span><span class="n">cac</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">       </span><span class="k">AS</span><span class="w"> </span><span class="n">ltv_cac_ratio</span><span class="p">,</span>
+<span class="w">    </span><span class="k">CASE</span>
+<span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="n">ltv</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="k">c</span><span class="p">.</span><span class="n">cac</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">'Healthy (≥3×)'</span>
+<span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="n">ltv</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="k">c</span><span class="p">.</span><span class="n">cac</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">'Break-even (1–3×)'</span>
+<span class="w">        </span><span class="k">ELSE</span><span class="w">                                     </span><span class="s1">'Unsustainable (&lt;1×)'</span>
+<span class="w">    </span><span class="k">END</span><span class="w">                                        </span><span class="k">AS</span><span class="w"> </span><span class="n">unit_economics_status</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">ltv_by_channel</span><span class="w"> </span><span class="n">l</span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">cac_by_channel</span><span class="w"> </span><span class="k">c</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="n">channel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">channel</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ltv_cac_ratio</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>Gotchas:</strong></p>
+<ul class="simple">
+<li><p>LTV and CAC must be computed over comparable cohorts and time windows — mixing historical LTV with current CAC distorts the ratio.</p></li>
+<li><p>LTV/CAC &lt; 1 means you lose money on every customer — a structural problem, not a marketing problem.</p></li>
+<li><p>A high ratio can also mean under-investment in growth — use alongside MRR growth rate to check.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="mrr-mrr-growth-rate">
+<h2>§10 — MRR &amp; MRR Growth Rate<a class="headerlink" href="#mrr-mrr-growth-rate" title="Link to this heading">#</a></h2>
+<p><strong>Formula:</strong></p>
+<ul class="simple">
+<li><p>MRR = SUM(monthly_fee) for all active subscribers in a month</p></li>
+<li><p>MRR growth rate = (MRR this month − MRR last month) ÷ MRR last month</p></li>
+</ul>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- MRR per month</span>
+<span class="k">WITH</span><span class="w"> </span><span class="n">mrr_by_month</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="k">month</span><span class="p">,</span>
+<span class="w">        </span><span class="k">SUM</span><span class="p">(</span><span class="n">monthly_fee</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">mrr</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">subscriptions</span>
+<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'active'</span>
+<span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">month</span>
+<span class="p">)</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="k">month</span><span class="p">,</span>
+<span class="w">    </span><span class="n">mrr</span><span class="p">,</span>
+<span class="w">    </span><span class="n">LAG</span><span class="p">(</span><span class="n">mrr</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">month</span><span class="p">)</span><span class="w">                                          </span><span class="k">AS</span><span class="w"> </span><span class="n">prev_mrr</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span>
+<span class="w">        </span><span class="p">(</span><span class="n">mrr</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">LAG</span><span class="p">(</span><span class="n">mrr</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">month</span><span class="p">))</span>
+<span class="w">        </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="n">LAG</span><span class="p">(</span><span class="n">mrr</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">month</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w">                                                                    </span><span class="k">AS</span><span class="w"> </span><span class="n">mrr_growth_rate</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">mrr_by_month</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">month</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>MRR broken down by movement type (new / expansion / churn):</strong></p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">WITH</span><span class="w"> </span><span class="n">this_month</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="n">user_id</span><span class="p">,</span><span class="w"> </span><span class="k">month</span><span class="p">,</span><span class="w"> </span><span class="n">monthly_fee</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">subscriptions</span>
+<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'active'</span>
+<span class="p">),</span>
+<span class="n">last_month</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="n">user_id</span><span class="p">,</span><span class="w"> </span><span class="k">month</span><span class="p">,</span><span class="w"> </span><span class="n">monthly_fee</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">subscriptions</span>
+<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'active'</span>
+<span class="p">),</span>
+<span class="n">movements</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="n">t</span><span class="p">.</span><span class="k">month</span><span class="p">,</span>
+<span class="w">        </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="w">                         </span><span class="k">THEN</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">monthly_fee</span><span class="w"> </span><span class="k">ELSE</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">new_mrr</span><span class="p">,</span>
+<span class="w">        </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span>
+<span class="w">                  </span><span class="k">AND</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">monthly_fee</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="n">monthly_fee</span><span class="w">             </span><span class="k">THEN</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">monthly_fee</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="n">monthly_fee</span><span class="w"> </span><span class="k">ELSE</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">expansion_mrr</span><span class="p">,</span>
+<span class="w">        </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span>
+<span class="w">                  </span><span class="k">AND</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">monthly_fee</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="n">monthly_fee</span><span class="w">             </span><span class="k">THEN</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">monthly_fee</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="n">monthly_fee</span><span class="w"> </span><span class="k">ELSE</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">contraction_mrr</span><span class="p">,</span>
+<span class="w">        </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="w">                         </span><span class="k">THEN</span><span class="w"> </span><span class="o">-</span><span class="n">l</span><span class="p">.</span><span class="n">monthly_fee</span><span class="w"> </span><span class="k">ELSE</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">churned_mrr</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">this_month</span><span class="w"> </span><span class="n">t</span>
+<span class="w">    </span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">last_month</span><span class="w"> </span><span class="n">l</span>
+<span class="w">        </span><span class="k">ON</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="n">user_id</span>
+<span class="w">        </span><span class="k">AND</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="k">month</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">DATE_SUB</span><span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="k">month</span><span class="p">,</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">MONTH</span><span class="p">),</span><span class="w"> </span><span class="s1">'%Y-%m-01'</span><span class="p">)</span>
+<span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="k">month</span>
+<span class="p">)</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">movements</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">month</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>Gotchas:</strong></p>
+<ul class="simple">
+<li><p>Filter <code class="docutils literal notranslate"><span class="pre">status</span> <span class="pre">=</span> <span class="pre">'active'</span></code> before summing — churned rows in the table with a zero or NULL fee will skew MRR down.</p></li>
+<li><p>MRR growth rate argument order: <code class="docutils literal notranslate"><span class="pre">TIMESTAMPDIFF(MONTH,</span> <span class="pre">last_month,</span> <span class="pre">this_month)</span></code> — note the reversed order vs <code class="docutils literal notranslate"><span class="pre">DATEDIFF</span></code>.</p></li>
+<li><p>MRR growth without tracking churn separately is misleading — a business can show MRR growth while churning existing customers and acquiring new ones at a higher rate (acquisition treadmill).</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="ctr-click-through-rate">
+<h2>§11 — CTR (Click-Through Rate)<a class="headerlink" href="#ctr-click-through-rate" title="Link to this heading">#</a></h2>
+<p><strong>Formula:</strong> CTR = clicks ÷ impressions</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- Overall CTR by day</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">event_date</span><span class="p">,</span>
+<span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">event_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'click'</span><span class="w">       </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">clicks</span><span class="p">,</span>
+<span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">event_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'impression'</span><span class="w">  </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">impressions</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">event_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'click'</span><span class="w">      </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">END</span><span class="p">)</span>
+<span class="w">        </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">event_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'impression'</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">END</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w">                                                   </span><span class="k">AS</span><span class="w"> </span><span class="n">ctr</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">ad_events</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">event_date</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">event_date</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>CTR by ad:</strong></p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span>
+<span class="w">    </span><span class="n">ad_id</span><span class="p">,</span>
+<span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">event_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'impression'</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w">   </span><span class="k">AS</span><span class="w"> </span><span class="n">impressions</span><span class="p">,</span>
+<span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">event_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'click'</span><span class="w">      </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w">   </span><span class="k">AS</span><span class="w"> </span><span class="n">clicks</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span>
+<span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">event_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'click'</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">END</span><span class="p">)</span>
+<span class="w">        </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">event_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'impression'</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">END</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w">                                                    </span><span class="k">AS</span><span class="w"> </span><span class="n">ctr</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">ad_events</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">event_date</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="s1">'2024-01-01'</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="s1">'2024-01-31'</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ad_id</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ctr</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>Gotchas:</strong></p>
+<ul class="simple">
+<li><p>High CTR is a vanity metric if post-click conversion is low — always pair CTR with a downstream conversion metric.</p></li>
+<li><p>Optimizing CTR alone incentivizes clickbait — use CTR as an operational metric, not a top-tier target.</p></li>
+<li><p>Unique CTR (distinct users who clicked ÷ distinct users who saw the ad) is more meaningful than raw event CTR.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="gmv-gross-merchandise-value">
+<h2>§12 — GMV (Gross Merchandise Value)<a class="headerlink" href="#gmv-gross-merchandise-value" title="Link to this heading">#</a></h2>
+<p><strong>Formula:</strong> GMV = SUM(transaction_value) across all completed transactions in the period</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- GMV by month</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">transaction_date</span><span class="p">,</span><span class="w"> </span><span class="s1">'%Y-%m'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span>
+<span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="n">transaction_id</span><span class="p">)</span><span class="w">                  </span><span class="k">AS</span><span class="w"> </span><span class="n">total_transactions</span><span class="p">,</span>
+<span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">buyer_id</span><span class="p">)</span><span class="w">               </span><span class="k">AS</span><span class="w"> </span><span class="n">unique_buyers</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="k">SUM</span><span class="p">(</span><span class="n">transaction_value</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">       </span><span class="k">AS</span><span class="w"> </span><span class="n">gmv</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="k">AVG</span><span class="p">(</span><span class="n">transaction_value</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">       </span><span class="k">AS</span><span class="w"> </span><span class="n">avg_transaction_value</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">transactions</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">transaction_date</span><span class="p">,</span><span class="w"> </span><span class="s1">'%Y-%m'</span><span class="p">)</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">year_month</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>Take rate (platform revenue as % of GMV):</strong></p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- Assumes a `platform_fees` table: transaction_id, fee_amount</span>
+<span class="k">WITH</span><span class="w"> </span><span class="n">gmv_monthly</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="n">transaction_date</span><span class="p">,</span><span class="w"> </span><span class="s1">'%Y-%m'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span>
+<span class="w">        </span><span class="k">SUM</span><span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="n">transaction_value</span><span class="p">)</span><span class="w">                 </span><span class="k">AS</span><span class="w"> </span><span class="n">gmv</span><span class="p">,</span>
+<span class="w">        </span><span class="k">SUM</span><span class="p">(</span><span class="n">pf</span><span class="p">.</span><span class="n">fee_amount</span><span class="p">)</span><span class="w">                       </span><span class="k">AS</span><span class="w"> </span><span class="n">platform_revenue</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">transactions</span><span class="w"> </span><span class="n">t</span>
+<span class="w">    </span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">platform_fees</span><span class="w"> </span><span class="n">pf</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">transaction_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pf</span><span class="p">.</span><span class="n">transaction_id</span>
+<span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="n">transaction_date</span><span class="p">,</span><span class="w"> </span><span class="s1">'%Y-%m'</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">year_month</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">gmv</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">                                           </span><span class="k">AS</span><span class="w"> </span><span class="n">gmv</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">platform_revenue</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">                              </span><span class="k">AS</span><span class="w"> </span><span class="n">platform_revenue</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">platform_revenue</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="n">gmv</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">      </span><span class="k">AS</span><span class="w"> </span><span class="n">take_rate_pct</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">gmv_monthly</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">year_month</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>Gotchas:</strong></p>
+<ul class="simple">
+<li><p>GMV is a top-line volume metric — it says nothing about platform profitability. Pair with take rate.</p></li>
+<li><p>Cancelled or refunded transactions should be excluded or subtracted — include only completed transactions.</p></li>
+<li><p>For marketplaces with both B2C and C2C transactions, segment GMV by transaction type to understand which side drives volume.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="quick-reference-metric-formulas">
+<h2>Quick Reference — Metric Formulas<a class="headerlink" href="#quick-reference-metric-formulas" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metric</p></th>
+<th class="head"><p>Formula</p></th>
+<th class="head"><p>Key table(s)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>DAU / WAU / MAU</p></td>
+<td><p>COUNT(DISTINCT user_id) per period</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">events</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>DAU/MAU ratio</p></td>
+<td><p>DAU ÷ MAU</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">events</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>D1/D7/D30 retention</p></td>
+<td><p>active day-n users ÷ cohort size</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">users</span></code>, <code class="docutils literal notranslate"><span class="pre">events</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>K-factor</p></td>
+<td><p>(invites / inviters) × (accepted / invites)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">events</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>NPS</p></td>
+<td><p>% promoters − % detractors</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nps_responses</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Conversion rate</p></td>
+<td><p>converters ÷ visitors</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">events</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>LTV</p></td>
+<td><p>avg order value × frequency × lifespan</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">orders</span></code>, <code class="docutils literal notranslate"><span class="pre">users</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>CAC</p></td>
+<td><p>total spend ÷ new customers</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">marketing_spend</span></code>, <code class="docutils literal notranslate"><span class="pre">users</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>LTV/CAC</p></td>
+<td><p>LTV ÷ CAC</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">orders</span></code>, <code class="docutils literal notranslate"><span class="pre">users</span></code>, <code class="docutils literal notranslate"><span class="pre">marketing_spend</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>MRR</p></td>
+<td><p>SUM(monthly_fee) for active subs</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">subscriptions</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>MRR growth rate</p></td>
+<td><p>(MRR_t − MRR_{t-1}) ÷ MRR_{t-1}</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">subscriptions</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>CTR</p></td>
+<td><p>clicks ÷ impressions</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ad_events</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>GMV</p></td>
+<td><p>SUM(transaction_value)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">transactions</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Metrics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="metrics_Python.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Business Metrics — Python Reference</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../Machine%20Learning/ML0.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Machine Learning</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

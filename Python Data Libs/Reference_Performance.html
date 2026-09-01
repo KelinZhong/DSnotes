@@ -1,0 +1,1301 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Performance &amp; Memory — Technical Reference &#8212; Data Science Interview Prep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Python Data Libs/Reference_Performance';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data Manipulation — Basic" href="DM_Basic.html" />
+    <link rel="prev" title="NumPy — Technical Reference" href="Reference_NumPy.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Science Interview Prep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    Topics
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Reference_Pandas.html">Pandas — Technical Reference</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Reference_NumPy.html">NumPy — Technical Reference</a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Performance &amp; Memory — Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DM_Basic.html">Data Manipulation — Basic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DM_Intermediate.html">Data Manipulation — Intermediate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DM_Advanced.html">Data Manipulation — Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Reference_Sampling.html">Sampling Methods – DS Interview Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Reference_Inference.html">Statistical Inference – DS Interview Reference</a></li>
+
+
+
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-index">Quick Index</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-measure">How to measure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iteration-vs-vectorisation">§1 — Iteration vs Vectorisation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-dtypes-are-the-biggest-lever">§2 — Memory: dtypes are the biggest lever</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#access-patterns">§3 — Access patterns</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copy-vs-view-and-settingwithcopywarning">§4 — Copy vs view, and <code class="docutils literal notranslate"><span class="pre">SettingWithCopyWarning</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-data-that-does-not-fit-in-memory">§5 — Reading data that does not fit in memory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#csv-vs-parquet">§6 — CSV vs Parquet</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-leave-pandas">§7 — When to leave pandas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interview-q-a">Interview Q&amp;A</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gotchas">Gotchas</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../intro.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="Python_Data_Libs.html" class="nav-link">Python Data Libraries</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Performance &amp; Memory — Technical Reference</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="performance-memory-technical-reference">
+<h1>Performance &amp; Memory — Technical Reference<a class="headerlink" href="#performance-memory-technical-reference" title="Link to this heading">#</a></h1>
+<p>Every other notebook in this folder is a snippet reference you read. This one
+<strong>runs</strong>: the numbers below are measured on the machine that builds the book, not
+quoted from a blog post. Re-run it on your own hardware and the ratios will hold
+even though the absolute times will not.</p>
+<section id="quick-index">
+<h2>Quick Index<a class="headerlink" href="#quick-index" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Question</p></th>
+<th class="head text-left"><p>Section</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>How much slower is <code class="docutils literal notranslate"><span class="pre">apply</span></code> than vectorising?</p></td>
+<td class="text-left"><p>§1</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>How do I shrink a DataFrame that will not fit in memory?</p></td>
+<td class="text-left"><p>§2</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Why is my scalar lookup slow?</p></td>
+<td class="text-left"><p>§3</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Why did my assignment not stick? (copy vs view)</p></td>
+<td class="text-left"><p>§4</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>How do I read a file bigger than RAM?</p></td>
+<td class="text-left"><p>§5</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>CSV or Parquet?</p></td>
+<td class="text-left"><p>§6</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>When should I stop using pandas?</p></td>
+<td class="text-left"><p>§7</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="how-to-measure">
+<h2>How to measure<a class="headerlink" href="#how-to-measure" title="Link to this heading">#</a></h2>
+<p>Three tools, in order of how often you need them:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">%timeit</span></code> — repeated timing of a single expression, reports mean ± std</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">df.memory_usage(deep=True)</span></code> — real memory including Python string objects</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">arr.nbytes</span></code> — exact bytes for a NumPy array (no object indirection)</p></li>
+</ul>
+<p>The rule for any performance claim: <strong>measure before and after on your own data</strong>.
+Row count, dtype mix, and cardinality change the answer completely.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">RNG</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">200_000</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">"user_id"</span><span class="p">:</span>  <span class="n">RNG</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20_000</span><span class="p">,</span> <span class="n">N</span><span class="p">),</span>
+    <span class="s2">"country"</span><span class="p">:</span>  <span class="n">RNG</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s2">"US"</span><span class="p">,</span> <span class="s2">"UK"</span><span class="p">,</span> <span class="s2">"DE"</span><span class="p">,</span> <span class="s2">"FR"</span><span class="p">,</span> <span class="s2">"JP"</span><span class="p">],</span> <span class="n">N</span><span class="p">),</span>   <span class="c1"># low cardinality</span>
+    <span class="s2">"channel"</span><span class="p">:</span>  <span class="n">RNG</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s2">"organic"</span><span class="p">,</span> <span class="s2">"paid"</span><span class="p">,</span> <span class="s2">"email"</span><span class="p">,</span> <span class="s2">"referral"</span><span class="p">],</span> <span class="n">N</span><span class="p">),</span>
+    <span class="s2">"revenue"</span><span class="p">:</span>  <span class="n">RNG</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+    <span class="s2">"quantity"</span><span class="p">:</span> <span class="n">RNG</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">N</span><span class="p">),</span>
+    <span class="s2">"ts"</span><span class="p">:</span>       <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">"2024-01-01"</span><span class="p">)</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">RNG</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">86_400</span> <span class="o">*</span> <span class="mi">90</span><span class="p">,</span> <span class="n">N</span><span class="p">),</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"s"</span><span class="p">),</span>
+<span class="p">})</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> rows x </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> columns"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">bench</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Median wall time over n runs, in milliseconds. %timeit is better for</span>
+<span class="sd">    micro-benchmarks; this is used so results render in the built book."""</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+        <span class="n">fn</span><span class="p">()</span>
+        <span class="n">ts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">ts</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>200,000 rows x 6 columns
+user_id              int64
+country             object
+channel             object
+revenue            float64
+quantity             int64
+ts          datetime64[ns]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="iteration-vs-vectorisation">
+<h2>§1 — Iteration vs Vectorisation<a class="headerlink" href="#iteration-vs-vectorisation" title="Link to this heading">#</a></h2>
+<p>The single most common pandas performance mistake is a row-wise <code class="docutils literal notranslate"><span class="pre">apply</span></code>. The
+ladder below goes from slowest to fastest, computing the same column each time.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">v_iterrows</span><span class="p">():</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20_000</span><span class="p">)</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>          <span class="c1"># 20k only -- it is that slow</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">"revenue"</span><span class="p">]</span> <span class="o">*</span> <span class="n">row</span><span class="p">[</span><span class="s2">"quantity"</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">v_itertuples</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">revenue</span> <span class="o">*</span> <span class="n">r</span><span class="o">.</span><span class="n">quantity</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20_000</span><span class="p">)</span><span class="o">.</span><span class="n">itertuples</span><span class="p">()]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">v_apply_axis1</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20_000</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s2">"revenue"</span><span class="p">]</span> <span class="o">*</span> <span class="n">r</span><span class="p">[</span><span class="s2">"quantity"</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">v_zip</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"revenue"</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s2">"quantity"</span><span class="p">])]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">v_vectorised</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="s2">"revenue"</span><span class="p">]</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s2">"quantity"</span><span class="p">]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">v_numpy</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="s2">"revenue"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s2">"quantity"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+<span class="c1"># First three run on 20k rows, last three on all 200k -- normalise to per-row.</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"iterrows"</span><span class="p">,</span>          <span class="n">bench</span><span class="p">(</span><span class="n">v_iterrows</span><span class="p">)</span>    <span class="o">/</span> <span class="mi">20_000</span> <span class="o">*</span> <span class="n">N</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"apply(axis=1)"</span><span class="p">,</span>     <span class="n">bench</span><span class="p">(</span><span class="n">v_apply_axis1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">20_000</span> <span class="o">*</span> <span class="n">N</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"itertuples"</span><span class="p">,</span>        <span class="n">bench</span><span class="p">(</span><span class="n">v_itertuples</span><span class="p">)</span>  <span class="o">/</span> <span class="mi">20_000</span> <span class="o">*</span> <span class="n">N</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"zip(Series)"</span><span class="p">,</span>       <span class="n">bench</span><span class="p">(</span><span class="n">v_zip</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s2">"vectorised pandas"</span><span class="p">,</span> <span class="n">bench</span><span class="p">(</span><span class="n">v_vectorised</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s2">"numpy arrays"</span><span class="p">,</span>      <span class="n">bench</span><span class="p">(</span><span class="n">v_numpy</span><span class="p">)),</span>
+<span class="p">]</span>
+
+<span class="n">base</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'method'</span><span class="si">:</span><span class="s2">22s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'ms / 200k rows'</span><span class="si">:</span><span class="s2">&gt;15s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'vs numpy'</span><span class="si">:</span><span class="s2">&gt;10s</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">ms</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">22s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ms</span><span class="si">:</span><span class="s2">15.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ms</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">base</span><span class="si">:</span><span class="s2">9.0f</span><span class="si">}</span><span class="s2">x"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>method                  ms / 200k rows   vs numpy
+iterrows                       2875.17     14349x
+apply(axis=1)                   729.50      3641x
+itertuples                      161.91       808x
+zip(Series)                      20.17       101x
+vectorised pandas                 0.30         1x
+numpy arrays                      0.20         1x
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]</span>
+<span class="n">times</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="s2">"#c44"</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="p">[</span><span class="s2">"#999"</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">"#4a7"</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">"log"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"milliseconds per 200k rows (log scale)"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Row-wise iteration vs vectorisation"</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">times</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">t</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">t</span><span class="si">:</span><span class="s2">,.1f</span><span class="si">}</span><span class="s2"> ms"</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/7d3f46b7157e258b9e7cc314b2a763413a6cde68d3021dc9a0cffd2bd20b1ac4.png" src="../_images/7d3f46b7157e258b9e7cc314b2a763413a6cde68d3021dc9a0cffd2bd20b1ac4.png" />
+</div>
+</div>
+<p><strong>What the ladder shows</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">iterrows</span></code> is slowest because it constructs a Series for every row. <code class="docutils literal notranslate"><span class="pre">apply(axis=1)</span></code>
+does the same thing with nicer syntax. <code class="docutils literal notranslate"><span class="pre">itertuples</span></code> avoids the Series construction
+and is roughly an order of magnitude better. Plain <code class="docutils literal notranslate"><span class="pre">zip</span></code> over two Series beats all
+of them. Vectorised pandas and raw NumPy are faster again, and the gap widens with
+row count.</p>
+<p><strong>When <code class="docutils literal notranslate"><span class="pre">apply</span></code> is still the right call</strong></p>
+<ul class="simple">
+<li><p>The operation genuinely has no vectorised equivalent (parsing, an API call, ragged text)</p></li>
+<li><p>The frame is small and clarity matters more than milliseconds</p></li>
+<li><p>You are prototyping and will vectorise later</p></li>
+</ul>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">apply(axis=1)</span></code> on a frame with millions of rows and assuming pandas optimises it — it does not; it is a Python loop</p></li>
+<li><p>Reaching for <code class="docutils literal notranslate"><span class="pre">np.vectorize</span></code> expecting a speedup; it is a convenience wrapper around a loop, not a vectoriser</p></li>
+<li><p>Growing a list inside <code class="docutils literal notranslate"><span class="pre">iterrows</span></code> and calling <code class="docutils literal notranslate"><span class="pre">pd.concat</span></code> per iteration, which is quadratic</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="memory-dtypes-are-the-biggest-lever">
+<h2>§2 — Memory: dtypes are the biggest lever<a class="headerlink" href="#memory-dtypes-are-the-biggest-lever" title="Link to this heading">#</a></h2>
+<p>Before reaching for chunking or a different library, check the dtypes. Two
+changes — <code class="docutils literal notranslate"><span class="pre">category</span></code> for low-cardinality strings and downcast numerics — routinely
+cut a frame by more than half.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">mem_mb</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">d</span><span class="o">.</span><span class="n">memory_usage</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span>   <span class="c1"># deep=True counts str objects</span>
+
+<span class="n">before</span> <span class="o">=</span> <span class="n">mem_mb</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">opt</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">opt</span><span class="p">[</span><span class="s2">"country"</span><span class="p">]</span>  <span class="o">=</span> <span class="n">opt</span><span class="p">[</span><span class="s2">"country"</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"category"</span><span class="p">)</span>    <span class="c1"># 5 distinct values</span>
+<span class="n">opt</span><span class="p">[</span><span class="s2">"channel"</span><span class="p">]</span>  <span class="o">=</span> <span class="n">opt</span><span class="p">[</span><span class="s2">"channel"</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"category"</span><span class="p">)</span>    <span class="c1"># 4 distinct values</span>
+<span class="n">opt</span><span class="p">[</span><span class="s2">"user_id"</span><span class="p">]</span>  <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">opt</span><span class="p">[</span><span class="s2">"user_id"</span><span class="p">],</span>  <span class="n">downcast</span><span class="o">=</span><span class="s2">"unsigned"</span><span class="p">)</span>
+<span class="n">opt</span><span class="p">[</span><span class="s2">"quantity"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">opt</span><span class="p">[</span><span class="s2">"quantity"</span><span class="p">],</span> <span class="n">downcast</span><span class="o">=</span><span class="s2">"unsigned"</span><span class="p">)</span>
+<span class="n">opt</span><span class="p">[</span><span class="s2">"revenue"</span><span class="p">]</span>  <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">opt</span><span class="p">[</span><span class="s2">"revenue"</span><span class="p">],</span>  <span class="n">downcast</span><span class="o">=</span><span class="s2">"float"</span><span class="p">)</span>
+
+<span class="n">after</span> <span class="o">=</span> <span class="n">mem_mb</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
+
+<span class="n">per_col</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">"before_MB"</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">memory_usage</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+    <span class="s2">"after_MB"</span><span class="p">:</span>  <span class="n">opt</span><span class="o">.</span><span class="n">memory_usage</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+<span class="p">})</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">saved_pct</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">d</span><span class="p">[</span><span class="s2">"after_MB"</span><span class="p">]</span> <span class="o">/</span> <span class="n">d</span><span class="p">[</span><span class="s2">"before_MB"</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">per_col</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">total: </span><span class="si">{</span><span class="n">before</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> MB -&gt; </span><span class="si">{</span><span class="n">after</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> MB  (</span><span class="si">{</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">after</span><span class="o">/</span><span class="n">before</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">% smaller)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"dtypes now: </span><span class="si">{</span><span class="nb">dict</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>          before_MB  after_MB  saved_pct
+Index          0.00      0.00       0.00
+user_id        1.53      0.38      75.00
+country       11.25      0.19      98.30
+channel       12.02      0.19      98.41
+revenue        1.53      0.76      50.00
+quantity       1.53      0.19      87.50
+ts             1.53      1.53       0.00
+
+total: 29.4 MB -&gt; 3.2 MB  (89% smaller)
+dtypes now: {'user_id': 'uint16', 'country': 'category', 'channel': 'category', 'revenue': 'float32', 'quantity': 'uint8', 'ts': 'datetime64[ns]'}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Where the dtype ceiling is -- pick the smallest type that fits your range.</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">dt</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"int8"</span><span class="p">,</span> <span class="s2">"int16"</span><span class="p">,</span> <span class="s2">"int32"</span><span class="p">,</span> <span class="s2">"int64"</span><span class="p">,</span> <span class="s2">"float32"</span><span class="p">,</span> <span class="s2">"float64"</span><span class="p">]:</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">iinfo</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span> <span class="k">if</span> <span class="n">dt</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"int"</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"dtype"</span><span class="p">:</span> <span class="n">dt</span><span class="p">,</span> <span class="s2">"bytes"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span><span class="o">.</span><span class="n">itemsize</span><span class="p">,</span>
+                 <span class="s2">"min"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">info</span><span class="o">.</span><span class="n">min</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"max"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">info</span><span class="o">.</span><span class="n">max</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">"</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+<span class="c1"># category stores integer codes + a lookup table, so its advantage shrinks as</span>
+<span class="c1"># cardinality rises and reverses once nearly every value is distinct AND long.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">category vs plain strings, 200k rows:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"5 distinct"</span><span class="p">,</span>              <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">RNG</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">N</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s2">"5,000 distinct"</span><span class="p">,</span>          <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">RNG</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5_000</span><span class="p">,</span> <span class="n">N</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s2">"100,000 distinct"</span><span class="p">,</span>        <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">RNG</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">,</span> <span class="n">N</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s2">"all unique, short"</span><span class="p">,</span>       <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s2">"all unique, long (25ch)"</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="sa">f</span><span class="s2">"user_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="s1">'x'</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">18</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)])),</span>
+<span class="p">]:</span>
+    <span class="n">o</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">memory_usage</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"category"</span><span class="p">)</span><span class="o">.</span><span class="n">memory_usage</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">verdict</span> <span class="o">=</span> <span class="s2">"category wins"</span> <span class="k">if</span> <span class="n">c</span> <span class="o">&lt;</span> <span class="n">o</span> <span class="k">else</span> <span class="s2">"category LOSES"</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">label</span><span class="si">:</span><span class="s2">24s</span><span class="si">}</span><span class="s2">: plain </span><span class="si">{</span><span class="n">o</span><span class="si">:</span><span class="s2">6.2f</span><span class="si">}</span><span class="s2"> MB | category </span><span class="si">{</span><span class="n">c</span><span class="si">:</span><span class="s2">6.2f</span><span class="si">}</span><span class="s2"> MB  -&gt; </span><span class="si">{</span><span class="n">verdict</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  dtype  bytes       min      max
+   int8      1      -128      127
+  int16      2 -3.28e+04 3.28e+04
+  int32      4 -2.15e+09 2.15e+09
+  int64      8 -9.22e+18 9.22e+18
+float32      4  -3.4e+38  3.4e+38
+float64      8 -1.8e+308 1.8e+308
+
+category vs plain strings, 200k rows:
+  5 distinct              : plain  11.06 MB | category   0.19 MB  -&gt; category wins
+  5,000 distinct          : plain  11.59 MB | category   0.80 MB  -&gt; category wins
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  100,000 distinct        : plain  11.80 MB | category   7.88 MB  -&gt; category wins
+  all unique, short       : plain  11.91 MB | category  16.70 MB  -&gt; category LOSES
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  all unique, long (25ch) : plain  16.49 MB | category  21.28 MB  -&gt; category LOSES
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">memory_usage()</span></code> without <code class="docutils literal notranslate"><span class="pre">deep=True</span></code> — it reports the pointer array for object
+columns, not the strings themselves, and can understate by 10× or more</p></li>
+<li><p>Converting a high-cardinality column to <code class="docutils literal notranslate"><span class="pre">category</span></code>: once nearly every value is
+distinct, the codes plus the lookup table cost <em>more</em> than the raw strings</p></li>
+<li><p>Downcasting an id column to <code class="docutils literal notranslate"><span class="pre">int8</span></code> because today’s data fits — the range is a
+property of the domain, not of the current sample</p></li>
+<li><p>Assuming <code class="docutils literal notranslate"><span class="pre">category</span></code> speeds up everything; it speeds up groupby and comparison,
+but string operations on categories can be slower</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="access-patterns">
+<h2>§3 — Access patterns<a class="headerlink" href="#access-patterns" title="Link to this heading">#</a></h2>
+<p>Same value, six ways to fetch it. The spread here is modest — roughly 1.5× between
+best and worst — which is itself the lesson: scalar-access micro-optimisation is
+not where slow pandas code loses its time. §1 is. Reach for <code class="docutils literal notranslate"><span class="pre">.at</span></code> inside a loop,
+but if you are in a loop at all, that is the thing worth fixing.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">50_000</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">COL</span><span class="p">,</span> <span class="n">ROW</span> <span class="o">=</span> <span class="s2">"revenue"</span><span class="p">,</span> <span class="mi">25_000</span>
+
+<span class="n">access</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">".at[row, col]"</span><span class="p">,</span>       <span class="k">lambda</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">ROW</span><span class="p">,</span> <span class="n">COL</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s2">".iat[row, colpos]"</span><span class="p">,</span>   <span class="k">lambda</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">iat</span><span class="p">[</span><span class="n">ROW</span><span class="p">,</span> <span class="mi">3</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s2">".loc[row, col]"</span><span class="p">,</span>      <span class="k">lambda</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ROW</span><span class="p">,</span> <span class="n">COL</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s2">".iloc[row, colpos]"</span><span class="p">,</span>  <span class="k">lambda</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">ROW</span><span class="p">,</span> <span class="mi">3</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s2">"df[col][row]"</span><span class="p">,</span>        <span class="k">lambda</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="n">COL</span><span class="p">][</span><span class="n">ROW</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s2">"values[row, colpos]"</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="n">COL</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()[</span><span class="n">ROW</span><span class="p">]),</span>
+<span class="p">]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2000</span><span class="p">):</span>
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">fn</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span> <span class="o">*</span> <span class="mf">1e6</span>      <span class="c1"># microseconds per call</span>
+
+<span class="n">acc</span> <span class="o">=</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">rep</span><span class="p">(</span><span class="n">fn</span><span class="p">))</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">access</span><span class="p">]</span>
+<span class="n">fast</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">acc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'access'</span><span class="si">:</span><span class="s2">22s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'us / call'</span><span class="si">:</span><span class="s2">&gt;10s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'vs fastest'</span><span class="si">:</span><span class="s2">&gt;11s</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">us</span> <span class="ow">in</span> <span class="n">acc</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">22s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">us</span><span class="si">:</span><span class="s2">10.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">us</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">fast</span><span class="si">:</span><span class="s2">10.1f</span><span class="si">}</span><span class="s2">x"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>access                  us / call  vs fastest
+.at[row, col]                1.68        1.1x
+.iat[row, colpos]            6.63        4.2x
+.loc[row, col]               3.41        2.2x
+.iloc[row, colpos]           8.43        5.4x
+df[col][row]                 1.87        1.2x
+values[row, colpos]          1.57        1.0x
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filtering: query() vs boolean mask vs isin, on 200k rows</span>
+<span class="n">filt</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"boolean mask"</span><span class="p">,</span>  <span class="k">lambda</span><span class="p">:</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s2">"revenue"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"quantity"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)]),</span>
+    <span class="p">(</span><span class="s2">"query()"</span><span class="p">,</span>       <span class="k">lambda</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">"revenue &gt; 100 and quantity &gt; 5"</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s2">"numpy mask"</span><span class="p">,</span>    <span class="k">lambda</span><span class="p">:</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s2">"revenue"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">)</span>
+                                 <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"quantity"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)]),</span>
+    <span class="p">(</span><span class="s2">"isin (5 vals)"</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">"country"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">"US"</span><span class="p">,</span> <span class="s2">"UK"</span><span class="p">])]),</span>
+<span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'filter'</span><span class="si">:</span><span class="s2">18s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'ms'</span><span class="si">:</span><span class="s2">&gt;8s</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">filt</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">18s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">bench</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># groupby: category dtype vs object</span>
+<span class="n">g_obj</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">g_cat</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">g_cat</span><span class="p">[</span><span class="s2">"country"</span><span class="p">]</span> <span class="o">=</span> <span class="n">g_cat</span><span class="p">[</span><span class="s2">"country"</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"category"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">groupby on object   : </span><span class="si">{</span><span class="n">bench</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span><span class="w"> </span><span class="n">g_obj</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'country'</span><span class="p">)[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="si">:</span><span class="s2">6.2f</span><span class="si">}</span><span class="s2"> ms"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"groupby on category : </span><span class="si">{</span><span class="n">bench</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span><span class="w"> </span><span class="n">g_cat</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'country'</span><span class="p">,</span><span class="w"> </span><span class="n">observed</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="si">:</span><span class="s2">6.2f</span><span class="si">}</span><span class="s2"> ms"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>filter                   ms
+boolean mask           2.41
+query()                3.11
+numpy mask             1.50
+isin (5 vals)          5.09
+
+groupby on object   :   5.41 ms
+groupby on category :   2.06 ms
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">.loc</span></code> inside a loop for scalar reads — <code class="docutils literal notranslate"><span class="pre">.at</span></code> skips the alignment
+machinery, though the win is ~1.4×, not the order of magnitude often quoted</p></li>
+<li><p>Assuming <code class="docutils literal notranslate"><span class="pre">query()</span></code> is always faster; it parses an expression string, so it wins
+on very large frames and loses on small ones. Its real advantage is readability</p></li>
+<li><p>Forgetting <code class="docutils literal notranslate"><span class="pre">observed=True</span></code> when grouping a <code class="docutils literal notranslate"><span class="pre">category</span></code> — pandas otherwise
+materialises every unused category combination, which can be catastrophic on
+multi-key groupbys</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="copy-vs-view-and-settingwithcopywarning">
+<h2>§4 — Copy vs view, and <code class="docutils literal notranslate"><span class="pre">SettingWithCopyWarning</span></code><a class="headerlink" href="#copy-vs-view-and-settingwithcopywarning" title="Link to this heading">#</a></h2>
+<p>This is a correctness issue that masquerades as a performance topic: the
+“optimisation” of avoiding a copy is what makes assignments silently fail.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">base</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1_000</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># ── The trap: chained indexing ──────────────────────────────────────────────</span>
+<span class="n">subset</span> <span class="o">=</span> <span class="n">base</span><span class="p">[</span><span class="n">base</span><span class="p">[</span><span class="s2">"revenue"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">]</span>      <span class="c1"># a NEW object (a copy)</span>
+<span class="n">subset</span><span class="p">[</span><span class="s2">"flag"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>                        <span class="c1"># may warn: writing to a copy</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"did the write reach the parent?"</span><span class="p">,</span> <span class="s2">"flag"</span> <span class="ow">in</span> <span class="n">base</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>   <span class="c1"># False</span>
+
+<span class="c1"># ── The fix: one .loc call, no chaining ─────────────────────────────────────</span>
+<span class="n">base</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">base</span><span class="p">[</span><span class="s2">"revenue"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">"flag"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"after .loc, parent has flag:"</span><span class="p">,</span> <span class="s2">"flag"</span> <span class="ow">in</span> <span class="n">base</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>      <span class="c1"># True</span>
+
+<span class="c1"># ── Being explicit when you DO want an independent frame ────────────────────</span>
+<span class="n">subset</span> <span class="o">=</span> <span class="n">base</span><span class="p">[</span><span class="n">base</span><span class="p">[</span><span class="s2">"revenue"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">subset</span><span class="p">[</span><span class="s2">"flag"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>                        <span class="c1"># unambiguous, no warning</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"parent unchanged:"</span><span class="p">,</span> <span class="n">base</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">base</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">'flag'</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># ── NumPy makes the same distinction, but visibly ───────────────────────────</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>              <span class="c1"># slice  -&gt; VIEW</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="p">[[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span>        <span class="c1"># fancy  -&gt; COPY</span>
+<span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">99</span><span class="p">,</span> <span class="mi">77</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">after writing to a view : a[2] = </span><span class="si">{</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">   (changed)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"after writing to a copy: a[3] = </span><span class="si">{</span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s2">   (unchanged)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"v.base is a:"</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">base</span> <span class="ow">is</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"| c.base is None:"</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">base</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>did the write reach the parent? False
+after .loc, parent has flag: True
+parent unchanged: 1.0
+
+after writing to a view : a[2] = 99   (changed)
+after writing to a copy: a[3] = 3   (unchanged)
+v.base is a: True | c.base is None: True
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_3431/3187392173.py:5: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  subset["flag"] = 1                        # may warn: writing to a copy
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Copy or view?</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Operation</p></th>
+<th class="head text-left"><p>Result</p></th>
+<th class="head text-left"><p>Writes reach the parent?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">arr[2:5]</span></code> (basic slice)</p></td>
+<td class="text-left"><p>view</p></td>
+<td class="text-left"><p>✅ yes</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">arr[[2,3,4]]</span></code> (fancy)</p></td>
+<td class="text-left"><p>copy</p></td>
+<td class="text-left"><p>❌ no</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">arr[mask]</span></code> (boolean)</p></td>
+<td class="text-left"><p>copy</p></td>
+<td class="text-left"><p>❌ no</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">df[df.x</span> <span class="pre">&gt;</span> <span class="pre">1]</span></code></p></td>
+<td class="text-left"><p>copy</p></td>
+<td class="text-left"><p>❌ no</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">df.loc[mask,</span> <span class="pre">'c']</span> <span class="pre">=</span> <span class="pre">v</span></code></p></td>
+<td class="text-left"><p>in place</p></td>
+<td class="text-left"><p>✅ yes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Chained assignment <code class="docutils literal notranslate"><span class="pre">df[mask]['col']</span> <span class="pre">=</span> <span class="pre">x</span></code>, which writes to a temporary</p></li>
+<li><p>Suppressing <code class="docutils literal notranslate"><span class="pre">SettingWithCopyWarning</span></code> instead of fixing it — it is usually right</p></li>
+<li><p>Assuming <code class="docutils literal notranslate"><span class="pre">.copy()</span></code> is deep for object columns; it copies the container, not the
+Python objects inside it</p></li>
+<li><p>Relying on the warning to catch every case; it is a heuristic and misses some.
+Pandas 3.0’s copy-on-write makes the semantics consistent, which is another
+reason to write <code class="docutils literal notranslate"><span class="pre">.loc</span></code> assignments rather than chained ones</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="reading-data-that-does-not-fit-in-memory">
+<h2>§5 — Reading data that does not fit in memory<a class="headerlink" href="#reading-data-that-does-not-fit-in-memory" title="Link to this heading">#</a></h2>
+<p>Three levers, cheapest first: read fewer columns, read smaller dtypes, read in
+chunks. Most “I need Spark” problems are solved by the first two.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span>
+<span class="n">tmp</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">()</span>
+<span class="n">csv_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="s2">"sample.csv"</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">csv_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"CSV on disk: </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">csv_path</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> MB"</span><span class="p">)</span>
+
+<span class="c1"># 1. usecols -- never read columns you will not use</span>
+<span class="n">sub</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv_path</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s2">"user_id"</span><span class="p">,</span> <span class="s2">"revenue"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"usecols (2 of 6 cols): </span><span class="si">{</span><span class="n">mem_mb</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> MB in memory"</span><span class="p">)</span>
+
+<span class="c1"># 2. dtype= -- declare types up front instead of letting pandas infer wide ones</span>
+<span class="n">typed</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv_path</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="p">{</span><span class="s2">"country"</span><span class="p">:</span> <span class="s2">"category"</span><span class="p">,</span> <span class="s2">"channel"</span><span class="p">:</span> <span class="s2">"category"</span><span class="p">,</span>
+                                     <span class="s2">"quantity"</span><span class="p">:</span> <span class="s2">"uint8"</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"with dtype= declared : </span><span class="si">{</span><span class="n">mem_mb</span><span class="p">(</span><span class="n">typed</span><span class="p">)</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> MB"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"naive read_csv       : </span><span class="si">{</span><span class="n">mem_mb</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv_path</span><span class="p">))</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> MB"</span><span class="p">)</span>
+
+<span class="c1"># 3. chunksize -- stream and aggregate, never holding the whole file</span>
+<span class="n">total</span><span class="p">,</span> <span class="n">rows</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv_path</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="mi">50_000</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s2">"revenue"</span><span class="p">]):</span>
+    <span class="n">total</span> <span class="o">+=</span> <span class="n">chunk</span><span class="p">[</span><span class="s2">"revenue"</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">rows</span>  <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">streamed </span><span class="si">{</span><span class="n">rows</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> rows in chunks | total revenue = </span><span class="si">{</span><span class="n">total</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"one-shot check       : </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CSV on disk: 8.3 MB
+usecols (2 of 6 cols): 3.1 MB in memory
+with dtype= declared : 18.1 MB
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>naive read_csv       : 42.3 MB
+
+streamed 200,000 rows in chunks | total revenue = 20,028,642
+one-shot check       : 20,028,642
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="csv-vs-parquet">
+<h2>§6 — CSV vs Parquet<a class="headerlink" href="#csv-vs-parquet" title="Link to this heading">#</a></h2>
+<p>CSV is text: every number is re-parsed on read, dtypes are guessed, and nothing
+is compressed. Parquet is columnar and typed, so it round-trips exactly and lets
+you read individual columns off disk.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pq_ok</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">pq_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="s2">"sample.parquet"</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">pq_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>                     <span class="c1"># pyarrow/fastparquet not installed</span>
+    <span class="n">pq_ok</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Parquet unavailable in this environment (</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">); "</span>
+          <span class="sa">f</span><span class="s2">"showing CSV numbers only."</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'format'</span><span class="si">:</span><span class="s2">26s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'disk MB'</span><span class="si">:</span><span class="s2">&gt;9s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'write ms'</span><span class="si">:</span><span class="s2">&gt;10s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'read ms'</span><span class="si">:</span><span class="s2">&gt;9s</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'CSV'</span><span class="si">:</span><span class="s2">26s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">csv_path</span><span class="p">)</span><span class="o">/</span><span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="si">:</span><span class="s2">9.1f</span><span class="si">}</span><span class="s2"> "</span>
+      <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">bench</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span><span class="w"> </span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">csv_path</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s2">10.0f</span><span class="si">}</span><span class="s2"> "</span>
+      <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">bench</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span><span class="w"> </span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv_path</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s2">9.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">pq_ok</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'Parquet (snappy)'</span><span class="si">:</span><span class="s2">26s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">pq_path</span><span class="p">)</span><span class="o">/</span><span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="si">:</span><span class="s2">9.1f</span><span class="si">}</span><span class="s2"> "</span>
+          <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">bench</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span><span class="w"> </span><span class="n">df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">pq_path</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s2">10.0f</span><span class="si">}</span><span class="s2"> "</span>
+          <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">bench</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span><span class="w"> </span><span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">pq_path</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s2">9.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'Parquet, 2 columns'</span><span class="si">:</span><span class="s2">26s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'--'</span><span class="si">:</span><span class="s2">&gt;9s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'--'</span><span class="si">:</span><span class="s2">&gt;10s</span><span class="si">}</span><span class="s2"> "</span>
+          <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">bench</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span><span class="w"> </span><span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">pq_path</span><span class="p">,</span><span class="w"> </span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">,</span><span class="s1">'revenue'</span><span class="p">]),</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s2">9.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="c1"># dtypes survive a Parquet round-trip; CSV loses them</span>
+    <span class="n">rt_csv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv_path</span><span class="p">)</span>
+    <span class="n">rt_pq</span>  <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">pq_path</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">ts dtype after CSV round-trip    : </span><span class="si">{</span><span class="n">rt_csv</span><span class="p">[</span><span class="s1">'ts'</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"ts dtype after Parquet round-trip: </span><span class="si">{</span><span class="n">rt_pq</span><span class="p">[</span><span class="s1">'ts'</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>format                       disk MB   write ms   read ms
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CSV                              8.3        400       106
+Parquet (snappy)                 2.9         47        18
+Parquet, 2 columns                --         --         3
+
+ts dtype after CSV round-trip    : object
+ts dtype after Parquet round-trip: datetime64[ns]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Choosing a format:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>CSV</p></th>
+<th class="head text-left"><p>Parquet</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Human readable</p></td>
+<td class="text-left"><p>✅</p></td>
+<td class="text-left"><p>❌</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Preserves dtypes</p></td>
+<td class="text-left"><p>❌ (all text)</p></td>
+<td class="text-left"><p>✅</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Compressed</p></td>
+<td class="text-left"><p>❌</p></td>
+<td class="text-left"><p>✅</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Read one column only</p></td>
+<td class="text-left"><p>❌</p></td>
+<td class="text-left"><p>✅</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Universal tool support</p></td>
+<td class="text-left"><p>✅</p></td>
+<td class="text-left"><p>mostly</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Storing datetimes in CSV and re-parsing them on every read; Parquet keeps the dtype</p></li>
+<li><p>Writing CSV with the index by accident — <code class="docutils literal notranslate"><span class="pre">index=False</span></code> unless you mean it</p></li>
+<li><p>Using Parquet for a file a human needs to open in a spreadsheet</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="when-to-leave-pandas">
+<h2>§7 — When to leave pandas<a class="headerlink" href="#when-to-leave-pandas" title="Link to this heading">#</a></h2>
+<p>An honest answer to “how would you scale this?” is more useful than a rehearsed
+“use Spark”. The ladder, cheapest first:</p>
+<ol class="arabic simple">
+<li><p><strong>Fix dtypes</strong> (§2) — often a 2–4× reduction for one line of code</p></li>
+<li><p><strong>Read less</strong> (§5) — <code class="docutils literal notranslate"><span class="pre">usecols</span></code>, <code class="docutils literal notranslate"><span class="pre">dtype=</span></code>, Parquet column pruning</p></li>
+<li><p><strong>Chunk and aggregate</strong> (§5) — works whenever the operation is associative</p></li>
+<li><p><strong>Change library</strong> — below</p></li>
+<li><p><strong>Distribute</strong> — Spark or Dask, last, because it adds real operational cost</p></li>
+</ol>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Tool</p></th>
+<th class="head text-left"><p>Good at</p></th>
+<th class="head text-left"><p>Trade-off</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>pandas</strong></p></td>
+<td class="text-left"><p>anything up to ~1–5 GB in RAM</p></td>
+<td class="text-left"><p>single-threaded, memory-hungry</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>polars</strong></p></td>
+<td class="text-left"><p>multi-core, lazy queries, 5–10× faster on groupby/join</p></td>
+<td class="text-left"><p>different API to learn</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>DuckDB</strong></p></td>
+<td class="text-left"><p>SQL over Parquet/CSV, larger-than-memory, zero setup</p></td>
+<td class="text-left"><p>SQL rather than DataFrame idioms</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Dask</strong></p></td>
+<td class="text-left"><p>pandas API across cores or machines</p></td>
+<td class="text-left"><p>overhead; slower than pandas when data fits</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Spark</strong></p></td>
+<td class="text-left"><p>genuinely distributed, TB scale</p></td>
+<td class="text-left"><p>heavy ops burden, slow for small data</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># DuckDB: SQL directly against a Parquet file, no load step</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
+<span class="n">duckdb</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">"SELECT country, sum(revenue) FROM 'sample.parquet' GROUP BY 1"</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+
+<span class="c1"># polars: lazy scan, predicate pushdown, multi-threaded</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">polars</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pl</span>
+<span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">scan_parquet</span><span class="p">(</span><span class="s2">"sample.parquet"</span><span class="p">)</span>
+   <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"revenue"</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">)</span>
+   <span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="s2">"country"</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"revenue"</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+   <span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+</pre></div>
+</div>
+<p><strong>The interview answer.</strong> “It depends on where the bottleneck is.” If the frame
+fits after a dtype pass, stay in pandas. If it fits on disk but not in RAM, DuckDB
+or polars’ lazy scan. Only reach for a cluster when a single machine genuinely
+cannot hold the working set — distributing a 4 GB job usually makes it slower.</p>
+</section>
+<hr class="docutils" />
+<section id="interview-q-a">
+<h2>Interview Q&amp;A<a class="headerlink" href="#interview-q-a" title="Link to this heading">#</a></h2>
+<p><strong>Q: This pandas job takes 40 minutes. How do you speed it up?</strong>
+A: Profile before changing anything — the bottleneck is usually one step, not the
+whole pipeline. In practice it is a row-wise <code class="docutils literal notranslate"><span class="pre">apply</span></code>, a merge on an unindexed
+column, or a groupby over object dtype. I’d time each stage, then work the ladder:
+vectorise the hot loop, fix dtypes, and only then consider a different library.</p>
+<p><strong>Q: Why is <code class="docutils literal notranslate"><span class="pre">apply(axis=1)</span></code> slow when <code class="docutils literal notranslate"><span class="pre">apply</span></code> on a column is fine?</strong>
+A: Column-wise <code class="docutils literal notranslate"><span class="pre">apply</span></code> calls the function once per column; row-wise calls it once
+per row and constructs a Series each time. On a million rows that is a million
+Python objects. The fix is almost always a vectorised expression or <code class="docutils literal notranslate"><span class="pre">np.select</span></code>
+for conditional logic.</p>
+<p><strong>Q: A frame does not fit in memory. What now?</strong>
+A: Cheapest first. Check dtypes — <code class="docutils literal notranslate"><span class="pre">category</span></code> on low-cardinality strings and
+downcast numerics often halve it. Then read only the columns needed, ideally from
+Parquet. Then chunk, if the aggregation is associative. Only after those would I
+change tools, and I’d reach for DuckDB or polars before a cluster.</p>
+<p><strong>Q: When is <code class="docutils literal notranslate"><span class="pre">category</span></code> a bad idea?</strong>
+A: At high cardinality. It stores integer codes plus a lookup table, so once most
+values are distinct it costs more than the raw strings. The measurement in §2
+shows the crossover directly.</p>
+<p><strong>Q: You assigned to a filtered frame and the original did not change.</strong>
+A: Chained indexing. <code class="docutils literal notranslate"><span class="pre">df[mask]['col']</span> <span class="pre">=</span> <span class="pre">x</span></code> produces a temporary copy and writes to
+that. The fix is a single <code class="docutils literal notranslate"><span class="pre">.loc</span></code> call: <code class="docutils literal notranslate"><span class="pre">df.loc[mask,</span> <span class="pre">'col']</span> <span class="pre">=</span> <span class="pre">x</span></code>. If an
+independent frame is what I actually wanted, <code class="docutils literal notranslate"><span class="pre">.copy()</span></code> makes it explicit.</p>
+<p><strong>Q: Which is faster, <code class="docutils literal notranslate"><span class="pre">.loc</span></code> or <code class="docutils literal notranslate"><span class="pre">.at</span></code>?</strong>
+A: <code class="docutils literal notranslate"><span class="pre">.at</span></code> for a single scalar, but measure before optimising for it — §3 puts the
+gap at roughly 1.3–1.5×, not the order of magnitude often claimed. Both are around
+10 µs, so the difference only matters inside a loop running tens of thousands of
+times, and at that point the real fix is to stop looping and vectorise.</p>
+<section id="gotchas">
+<h3>Gotchas<a class="headerlink" href="#gotchas" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Benchmarks on 1k rows do not predict 10M rows; complexity differences only appear at scale</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">%timeit</span></code> caches: a second run may hit warm memory and look faster than reality</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">memory_usage()</span></code> without <code class="docutils literal notranslate"><span class="pre">deep=True</span></code> badly understates object columns</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">inplace=True</span></code> usually still copies internally — it saves a name, not memory</p></li>
+<li><p>Repeated <code class="docutils literal notranslate"><span class="pre">pd.concat</span></code> in a loop is quadratic; collect into a list and concat once</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Python Data Libs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Reference_NumPy.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">NumPy — Technical Reference</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="DM_Basic.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Data Manipulation — Basic</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

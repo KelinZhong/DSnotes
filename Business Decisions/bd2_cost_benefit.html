@@ -1,0 +1,1098 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How do you translate model results into a business case? &#8212; Data Science Interview Prep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Business Decisions/bd2_cost_benefit';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="How do you make the final shipping decision?" href="bd3_shipping_decision.html" />
+    <link rel="prev" title="How do you evaluate results for a business decision?" href="bd1_evaluating_results.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Science Interview Prep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    Topics
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Python%20Data%20Libs/Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Python%20Data%20Libs/Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="bd1_evaluating_results.html">How do you evaluate results for a business decision?</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">How do you translate model results into a business case?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bd3_shipping_decision.html">How do you make the final shipping decision?</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abbreviation-reference">Abbreviation Reference</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#translating-lift-into-business-value">1. Translating lift into business value</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-core-formula">The core formula</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#by-outcome-type">By outcome type</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-mistakes">Common mistakes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gotchas">Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-cost">2. Implementation cost</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-time-costs">One-time costs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ongoing-costs">Ongoing costs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inference-cost">3. Inference cost</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#latency-vs-accuracy-tradeoff">Latency vs. accuracy tradeoff</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cost-per-prediction">Cost per prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accuracy-vs-cost-decision-table">Accuracy vs. cost decision table</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#break-even-analysis">4. Break-even analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-formula">The formula</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#worked-example">Worked example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sensitivity-table">Sensitivity table</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#opportunity-cost">5. Opportunity cost</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-it-is">What it is</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#questions-to-ask">Questions to ask</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-good-enough-threshold">The “good enough” threshold</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-table">6. Decision table</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#combined-signal-framework">Combined signal framework</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-revisit-vs-abandon">When to revisit vs. abandon</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interview-q-a">Interview Q&amp;A</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Gotchas</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../intro.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="bd0_overview.html" class="nav-link">Business decision on implementing ML models — overview</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">How do you translate model results into a business case?</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="how-do-you-translate-model-results-into-a-business-case">
+<h1>How do you translate model results into a business case?<a class="headerlink" href="#how-do-you-translate-model-results-into-a-business-case" title="Link to this heading">#</a></h1>
+<p><strong>Topics:</strong> Lift to Business Value · Implementation Cost · Inference Cost · Break-Even Analysis · Opportunity Cost</p>
+<hr class="docutils" />
+<section id="abbreviation-reference">
+<h2>Abbreviation Reference<a class="headerlink" href="#abbreviation-reference" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Abbreviation</p></th>
+<th class="head"><p>Full Name</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>AUC</p></td>
+<td><p>Area Under the Curve</p></td>
+</tr>
+<tr class="row-odd"><td><p>CAC</p></td>
+<td><p>Customer Acquisition Cost</p></td>
+</tr>
+<tr class="row-even"><td><p>CI</p></td>
+<td><p>Confidence Interval</p></td>
+</tr>
+<tr class="row-odd"><td><p>CTR</p></td>
+<td><p>Click-Through Rate</p></td>
+</tr>
+<tr class="row-even"><td><p>LTV</p></td>
+<td><p>Lifetime Value</p></td>
+</tr>
+<tr class="row-odd"><td><p>MDE</p></td>
+<td><p>Minimum Detectable Effect</p></td>
+</tr>
+<tr class="row-even"><td><p>ML</p></td>
+<td><p>Machine Learning</p></td>
+</tr>
+<tr class="row-odd"><td><p>MRR</p></td>
+<td><p>Monthly Recurring Revenue</p></td>
+</tr>
+<tr class="row-even"><td><p>ROI</p></td>
+<td><p>Return on Investment</p></td>
+</tr>
+<tr class="row-odd"><td><p>SLA</p></td>
+<td><p>Service Level Agreement</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="translating-lift-into-business-value">
+<h2>1. Translating lift into business value<a class="headerlink" href="#translating-lift-into-business-value" title="Link to this heading">#</a></h2>
+<section id="the-core-formula">
+<h3>The core formula<a class="headerlink" href="#the-core-formula" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Business value = measured lift × affected volume × value per unit</p></li>
+<li><p>Always apply lift to the correct base — targeted users, not all users</p></li>
+</ul>
+</section>
+<section id="by-outcome-type">
+<h3>By outcome type<a class="headerlink" href="#by-outcome-type" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Outcome type</p></th>
+<th class="head"><p>Formula</p></th>
+<th class="head"><p>Example</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Revenue impact</p></td>
+<td><p>lift in conversion rate × targeted users × average order value</p></td>
+<td><p>+2% conversion × 100k users × <span class="math notranslate nohighlight">\(50 AOV = \)</span>100k</p></td>
+</tr>
+<tr class="row-odd"><td><p>Cost savings</p></td>
+<td><p>reduction in error rate × volume of decisions × cost per error</p></td>
+<td><p>−5% false negative rate × 10k cases × <span class="math notranslate nohighlight">\(200 cost = \)</span>100k</p></td>
+</tr>
+<tr class="row-even"><td><p>Risk reduction</p></td>
+<td><p>reduction in false negative rate × volume × cost of a miss</p></td>
+<td><p>−3% miss rate × 50k events × <span class="math notranslate nohighlight">\(500 = \)</span>750k</p></td>
+</tr>
+<tr class="row-odd"><td><p>Engagement</p></td>
+<td><p>lift in retention × churned users saved × LTV per user</p></td>
+<td><p>+1% retention × 5k users × <span class="math notranslate nohighlight">\(300 LTV = \)</span>15k</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="common-mistakes">
+<h3>Common mistakes<a class="headerlink" href="#common-mistakes" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mistake</p></th>
+<th class="head"><p>Why it matters</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Applying relative lift to wrong base</p></td>
+<td><p>“10% lift” on 1% baseline = 0.1% absolute — sounds big, is small</p></td>
+</tr>
+<tr class="row-odd"><td><p>Using point estimate without Confidence Interval (CI)</p></td>
+<td><p>Lower bound of CI may be below break-even</p></td>
+</tr>
+<tr class="row-even"><td><p>Ignoring segment heterogeneity</p></td>
+<td><p>Average lift across all users hides that the model helps some and hurts others</p></td>
+</tr>
+<tr class="row-odd"><td><p>Double-counting with existing models</p></td>
+<td><p>New model replaces old model — the gain is the delta, not the full lift</p></td>
+</tr>
+<tr class="row-even"><td><p>Using training-set lift in the business case</p></td>
+<td><p>Always use held-out or A/B lift — training lift is optimistic</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="gotchas">
+<h3>Gotchas<a class="headerlink" href="#gotchas" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Always use the lower bound of the 95% CI as the conservative estimate in the business case</p></li>
+<li><p>If the lower bound is below break-even, the result is not strong enough to justify investment</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="implementation-cost">
+<h2>2. Implementation cost<a class="headerlink" href="#implementation-cost" title="Link to this heading">#</a></h2>
+<section id="one-time-costs">
+<h3>One-time costs<a class="headerlink" href="#one-time-costs" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Cost item</p></th>
+<th class="head"><p>Questions to ask</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Engineering time</p></td>
+<td><p>How many weeks of eng time to integrate, test, and deploy?</p></td>
+</tr>
+<tr class="row-odd"><td><p>Infrastructure changes</p></td>
+<td><p>New serving stack, database schema changes, API changes?</p></td>
+</tr>
+<tr class="row-even"><td><p>Data pipeline changes</p></td>
+<td><p>New features require new data sources or ETL jobs?</p></td>
+</tr>
+<tr class="row-odd"><td><p>Migration</p></td>
+<td><p>What happens to existing model predictions during cutover?</p></td>
+</tr>
+<tr class="row-even"><td><p>Labeling</p></td>
+<td><p>Does the new model require labeled data that doesn’t yet exist?</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="ongoing-costs">
+<h3>Ongoing costs<a class="headerlink" href="#ongoing-costs" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Cost item</p></th>
+<th class="head"><p>Questions to ask</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Retraining cadence</p></td>
+<td><p>Weekly, monthly, or on-trigger? Each run has compute and engineering cost</p></td>
+</tr>
+<tr class="row-odd"><td><p>Monitoring</p></td>
+<td><p>Who owns the dashboard? What is the on-call burden?</p></td>
+</tr>
+<tr class="row-even"><td><p>Maintenance</p></td>
+<td><p>Feature drift, dependency updates, model decay management</p></td>
+</tr>
+<tr class="row-odd"><td><p>Human review loops</p></td>
+<td><p>Does the model output require human review before action?</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id1">
+<h3>Gotchas<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Hidden costs (monitoring, maintenance, labeling) often exceed the initial build cost over 12 months</p></li>
+<li><p>“Simple” integrations frequently uncover downstream dependencies that multiply eng time</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="inference-cost">
+<h2>3. Inference cost<a class="headerlink" href="#inference-cost" title="Link to this heading">#</a></h2>
+<section id="latency-vs-accuracy-tradeoff">
+<h3>Latency vs. accuracy tradeoff<a class="headerlink" href="#latency-vs-accuracy-tradeoff" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Serving mode</p></th>
+<th class="head"><p>Latency target</p></th>
+<th class="head"><p>Model complexity constraint</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Real-time (user-facing)</p></td>
+<td><p>&lt; 100ms Service Level Agreement (SLA)</p></td>
+<td><p>Lightweight models only; deep learning often infeasible</p></td>
+</tr>
+<tr class="row-odd"><td><p>Near real-time (async)</p></td>
+<td><p>&lt; 1s</p></td>
+<td><p>Moderate complexity acceptable</p></td>
+</tr>
+<tr class="row-even"><td><p>Batch (offline scoring)</p></td>
+<td><p>Hours</p></td>
+<td><p>No latency constraint; large models feasible</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="cost-per-prediction">
+<h3>Cost per prediction<a class="headerlink" href="#cost-per-prediction" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Estimate: (compute cost per hour × inference time per prediction × daily prediction volume × 365)</p></li>
+<li><p>Compare: does the annual inference cost fit within the expected Return on Investment (ROI)?</p></li>
+<li><p>Larger model ≠ better ROI — accuracy-cost tradeoff must be explicit</p></li>
+</ul>
+</section>
+<section id="accuracy-vs-cost-decision-table">
+<h3>Accuracy vs. cost decision table<a class="headerlink" href="#accuracy-vs-cost-decision-table" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scenario</p></th>
+<th class="head"><p>Recommendation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Small model, small lift</p></td>
+<td><p>Only ship if implementation cost is also very low</p></td>
+</tr>
+<tr class="row-odd"><td><p>Small model, large lift</p></td>
+<td><p>Ship — best ROI</p></td>
+</tr>
+<tr class="row-even"><td><p>Large model, small lift</p></td>
+<td><p>Do not ship — inference cost likely exceeds value</p></td>
+</tr>
+<tr class="row-odd"><td><p>Large model, large lift</p></td>
+<td><p>Evaluate carefully — check if a smaller model captures most of the lift</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id2">
+<h3>Gotchas<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Always benchmark a simpler baseline before committing to a complex model</p></li>
+<li><p>A model that is 2% more accurate but 10× more expensive to serve is rarely the right choice</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="break-even-analysis">
+<h2>4. Break-even analysis<a class="headerlink" href="#break-even-analysis" title="Link to this heading">#</a></h2>
+<section id="the-formula">
+<h3>The formula<a class="headerlink" href="#the-formula" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Minimum lift needed = total cost / (affected volume × value per unit lift)</p></li>
+<li><p>Match the time horizons: a 12-month cost must be divided by 12 months of volume, not a single month</p></li>
+<li><p>If measured lift (lower CI bound) &lt; minimum lift needed → do not ship</p></li>
+</ul>
+</section>
+<section id="worked-example">
+<h3>Worked example<a class="headerlink" href="#worked-example" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Total cost (one-time + 12-month ongoing)</p></td>
+<td><p>$200,000</p></td>
+</tr>
+<tr class="row-odd"><td><p>Affected volume (monthly users)</p></td>
+<td><p>500,000</p></td>
+</tr>
+<tr class="row-even"><td><p>Annualized volume (× 12 months)</p></td>
+<td><p>6,000,000</p></td>
+</tr>
+<tr class="row-odd"><td><p>Value per conversion</p></td>
+<td><p>$40</p></td>
+</tr>
+<tr class="row-even"><td><p>Current conversion rate</p></td>
+<td><p>5%</p></td>
+</tr>
+<tr class="row-odd"><td><p>Annual baseline value</p></td>
+<td><p>6,000,000 × 0.05 × <span class="math notranslate nohighlight">\(40 = \)</span>12,000,000</p></td>
+</tr>
+<tr class="row-even"><td><p>Minimum lift needed</p></td>
+<td><p><span class="math notranslate nohighlight">\(200k / \)</span>12M = 1.67% relative lift</p></td>
+</tr>
+<tr class="row-odd"><td><p>Measured lift (lower CI bound)</p></td>
+<td><p>1.2% relative</p></td>
+</tr>
+<tr class="row-even"><td><p>Decision</p></td>
+<td><p>Do not ship — measured lift is below break-even</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="sensitivity-table">
+<h3>Sensitivity table<a class="headerlink" href="#sensitivity-table" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Run break-even across a range of cost and volume assumptions</p></li>
+<li><p>Identifies which assumptions the decision is most sensitive to</p></li>
+<li><p>(Holding annualized volume at 6M, conversion at 5%, value at <span class="math notranslate nohighlight">\(40 → \)</span>120k of value per 1% relative lift per year)</p></li>
+</ul>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>If cost is…</p></th>
+<th class="head"><p>Break-even lift needed</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>$100k</p></td>
+<td><p>0.83% relative</p></td>
+</tr>
+<tr class="row-odd"><td><p>$200k</p></td>
+<td><p>1.67% relative</p></td>
+</tr>
+<tr class="row-even"><td><p>$400k</p></td>
+<td><p>3.33% relative</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id3">
+<h3>Gotchas<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Do not use the point estimate of lift in the business case — use the lower bound of the 95% CI</p></li>
+<li><p>Break-even is a floor, not a target — a model that barely breaks even often isn’t worth the operational burden</p></li>
+<li><p>Watch the units: dividing an annual cost by a single month’s volume overstates the required lift by ~12×</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="opportunity-cost">
+<h2>5. Opportunity cost<a class="headerlink" href="#opportunity-cost" title="Link to this heading">#</a></h2>
+<section id="what-it-is">
+<h3>What it is<a class="headerlink" href="#what-it-is" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Every engineering week spent on this model is a week not spent on something else</p></li>
+<li><p>Opportunity cost is real even when the model has positive ROI</p></li>
+</ul>
+</section>
+<section id="questions-to-ask">
+<h3>Questions to ask<a class="headerlink" href="#questions-to-ask" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Question</p></th>
+<th class="head"><p>Why it matters</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>What else could the team build in the same time?</p></td>
+<td><p>A new feature may deliver more value than a marginal model improvement</p></td>
+</tr>
+<tr class="row-odd"><td><p>Is this the highest-leverage ML problem available?</p></td>
+<td><p>Prioritize problems with large volume × high value per unit</p></td>
+</tr>
+<tr class="row-even"><td><p>Are we in diminishing returns on this model?</p></td>
+<td><p>If the last three improvements were each smaller, it may be time to move on</p></td>
+</tr>
+<tr class="row-odd"><td><p>Does this unblock other work or create dependencies?</p></td>
+<td><p>Shared infrastructure investments have leverage; one-off models don’t</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="the-good-enough-threshold">
+<h3>The “good enough” threshold<a class="headerlink" href="#the-good-enough-threshold" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Define upfront the performance level at which further improvement is not worth the cost</p></li>
+<li><p>Once a model crosses this threshold, redirect effort to the next highest-value problem</p></li>
+<li><p>Typical signal: marginal gains from model iteration are smaller than noise in production metrics</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>Gotchas<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Sunk cost fallacy: “we’ve already invested 3 months” is not a reason to continue a low-ROI project</p></li>
+<li><p>A model that works but nobody acts on delivers zero value — validate the decision workflow before building</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="decision-table">
+<h2>6. Decision table<a class="headerlink" href="#decision-table" title="Link to this heading">#</a></h2>
+<section id="combined-signal-framework">
+<h3>Combined signal framework<a class="headerlink" href="#combined-signal-framework" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Lift confidence</p></th>
+<th class="head"><p>Cost</p></th>
+<th class="head"><p>Break-even met?</p></th>
+<th class="head"><p>Recommendation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>High (tight CI, above MDE)</p></td>
+<td><p>Low</p></td>
+<td><p>Yes</p></td>
+<td><p>Ship</p></td>
+</tr>
+<tr class="row-odd"><td><p>High</p></td>
+<td><p>High</p></td>
+<td><p>Yes</p></td>
+<td><p>Ship — monitor inference cost closely</p></td>
+</tr>
+<tr class="row-even"><td><p>High</p></td>
+<td><p>Low</p></td>
+<td><p>No</p></td>
+<td><p>Revisit cost assumptions or reduce scope</p></td>
+</tr>
+<tr class="row-odd"><td><p>Moderate (wide CI, borderline)</p></td>
+<td><p>Low</p></td>
+<td><p>Yes</p></td>
+<td><p>Ship with canary rollout and guardrails</p></td>
+</tr>
+<tr class="row-even"><td><p>Moderate</p></td>
+<td><p>High</p></td>
+<td><p>Yes</p></td>
+<td><p>Reduce model complexity first, re-evaluate</p></td>
+</tr>
+<tr class="row-odd"><td><p>Low (CI includes zero)</p></td>
+<td><p>Any</p></td>
+<td><p>No</p></td>
+<td><p>Do not ship — gather more evidence</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="when-to-revisit-vs-abandon">
+<h3>When to revisit vs. abandon<a class="headerlink" href="#when-to-revisit-vs-abandon" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Situation</p></th>
+<th class="head"><p>Action</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Lift is real but below break-even</p></td>
+<td><p>Reduce cost (simpler model, less infra) or increase volume (broader targeting)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Break-even met but opportunity cost is high</p></td>
+<td><p>Deprioritize — ship only if it unblocks other work</p></td>
+</tr>
+<tr class="row-even"><td><p>Multiple iterations with diminishing gains</p></td>
+<td><p>Abandon — set “good enough” threshold and move on</p></td>
+</tr>
+<tr class="row-odd"><td><p>No A/B validation possible</p></td>
+<td><p>Raise evidence bar — require stronger causal validation before shipping</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="interview-q-a">
+<h2>Interview Q&amp;A<a class="headerlink" href="#interview-q-a" title="Link to this heading">#</a></h2>
+<p><strong>Q: Walk me through sizing the business value of a churn model.</strong>
+A: I’d build it as a chain and be explicit about the weakest link. Start with
+the population at risk per period, multiply by the model’s precision at the
+deployment threshold to get true positives, then by the intervention’s success
+rate — which is a <em>causal</em> quantity and usually the shakiest input — then by
+the margin retained per save. Subtract intervention cost across everyone
+contacted, including false positives. I’d present a range driven by the success
+rate rather than a single number, because that is where the uncertainty
+concentrates.</p>
+<p><strong>Q: What is the most common error in these calculations?</strong>
+A: Treating the model’s identified population as the model’s incremental
+impact. Some of the customers flagged as at-risk would have stayed regardless,
+and the intervention only creates value for the ones whose behaviour it
+changes. That is an uplift question, not a prediction question — the honest
+version needs a holdout, or an uplift model.</p>
+<p><strong>Q: How do you handle a break-even that depends on an unknown input?</strong>
+A: Invert the question. Rather than guessing the input, solve for the value at
+which the project breaks even and ask whether that value is plausible. “This
+pays for itself if the intervention works 4% of the time” is a much easier
+conversation than defending a made-up 12%, and it hands the domain expert a
+question they can actually answer.</p>
+<p><strong>Q: The model is worth $2M a year. Should we build it?</strong>
+A: Only relative to the alternative. The relevant comparison is not against
+doing nothing, it is against the next-best use of the same team-quarters — and
+against the simple heuristic baseline, which frequently captures a large share
+of the value at a fraction of the cost. If a rules-based version gets 70% of
+the benefit in two weeks, the ML project has to justify the remaining 30%.</p>
+<p><strong>Q: How do you account for ongoing cost?</strong>
+A: I separate one-time build cost from the run rate: inference, monitoring,
+retraining, on-call, and the human review capacity the threshold implies. The
+review cost is the one people forget, and it scales with false positives — so
+the threshold choice and the cost model are the same decision, not two.</p>
+<section id="id5">
+<h3>Gotchas<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Annualising a lift measured over two weeks assumes no novelty decay and no seasonality; both are usually false</p></li>
+<li><p>Benefits are typically estimated with uncertainty and costs stated as points, which biases every business case optimistic</p></li>
+<li><p>A cost-benefit case built on uncalibrated probabilities is arithmetically fine and substantively wrong</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Business Decisions"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="bd1_evaluating_results.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">How do you evaluate results for a business decision?</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="bd3_shipping_decision.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">How do you make the final shipping decision?</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

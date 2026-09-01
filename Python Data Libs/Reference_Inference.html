@@ -1,0 +1,1717 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Statistical Inference – DS Interview Reference &#8212; Data Science Interview Prep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Python Data Libs/Reference_Inference';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Business Metrics" href="../Metrics/metrics0.html" />
+    <link rel="prev" title="Sampling Methods – DS Interview Reference" href="Reference_Sampling.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Science Interview Prep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    Topics
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Reference_Pandas.html">Pandas — Technical Reference</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Reference_NumPy.html">NumPy — Technical Reference</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Reference_Performance.html">Performance &amp; Memory — Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DM_Basic.html">Data Manipulation — Basic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DM_Intermediate.html">Data Manipulation — Intermediate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DM_Advanced.html">Data Manipulation — Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Reference_Sampling.html">Sampling Methods – DS Interview Reference</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Statistical Inference – DS Interview Reference</a></li>
+
+
+
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Statistical Inference – DS Interview Reference</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-index">Quick Index</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shared-helpers-used-throughout">Shared helpers (used throughout)</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1-estimation">Part 1 – Estimation</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#point-estimation-bias-and-the-bias-variance-tradeoff">§1 – Point Estimation, Bias, and the Bias-Variance Tradeoff</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#confidence-intervals-unified">§2 – Confidence Intervals, Unified</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2-hypothesis-testing">Part 2 – Hypothesis Testing</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-testing-framework-and-the-two-error-types">§3 – The Testing Framework and the Two Error Types</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-peeking-problem">§4 – The Peeking Problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-sample-tests-from-scratch">§5 – One-Sample Tests from Scratch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-sample-tests-and-effect-size">§6 – Two-Sample Tests and Effect Size</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-testing-correction">§7 – Multiple Testing Correction</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-3-experimental-design">Part 3 – Experimental Design</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-power-via-simulation">§8 – Statistical Power via Simulation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-size-and-minimum-detectable-effect">§9 – Sample Size and Minimum Detectable Effect</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#end-to-end-a-b-test-design">§10 – End-to-End A/B Test Design</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-to-the-sampling-notebook">Connection to the Sampling Notebook</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interview-q-a">Interview Q&amp;A</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gotchas">Gotchas</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../intro.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="Python_Data_Libs.html" class="nav-link">Python Data Libraries</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Statistical Inference – DS Interview Reference</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="statistical-inference-ds-interview-reference">
+<h1>Statistical Inference – DS Interview Reference<a class="headerlink" href="#statistical-inference-ds-interview-reference" title="Link to this heading">#</a></h1>
+<p>Companion to the <em>Sampling Methods</em> notebook. Where that notebook covers <strong>how to
+collect data</strong>, this one covers <strong>how to draw reliable conclusions from it</strong>.
+Everything is implemented in <strong>NumPy and pandas only</strong> (plus Python’s stdlib <code class="docutils literal notranslate"><span class="pre">math</span></code>
+for a couple of special functions), the way you would in a live coding round.</p>
+<section id="quick-index">
+<h2>Quick Index<a class="headerlink" href="#quick-index" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Goal</p></th>
+<th class="head text-left"><p>Section</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Point estimates, bias, why n-1, bias-variance tradeoff</p></td>
+<td class="text-left"><p>§1</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Confidence intervals – z, t, bootstrap in one place</p></td>
+<td class="text-left"><p>§2</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Hypothesis testing framework, Type I/II errors</p></td>
+<td class="text-left"><p>§3</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>The peeking problem (why you can’t check A/B tests early)</p></td>
+<td class="text-left"><p>§4</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>One-sample z and t tests from scratch</p></td>
+<td class="text-left"><p>§5</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Two-sample tests + effect size (Welch, two-proportion z)</p></td>
+<td class="text-left"><p>§6</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Multiple testing correction (Bonferroni, BH/FDR)</p></td>
+<td class="text-left"><p>§7</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Statistical power via simulation</p></td>
+<td class="text-left"><p>§8</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Sample size &amp; minimum detectable effect</p></td>
+<td class="text-left"><p>§9</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>End-to-end A/B test design</p></td>
+<td class="text-left"><p>§10</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interview note:</strong> This notebook avoids scipy. Two helper functions (<code class="docutils literal notranslate"><span class="pre">norm_cdf</span></code>
+and <code class="docutils literal notranslate"><span class="pre">t_two_sided_p</span></code>) are built from <code class="docutils literal notranslate"><span class="pre">math.erfc</span></code> and the incomplete beta function so
+that p-values are exact. In a real interview, you can often replace these with the
+<code class="docutils literal notranslate"><span class="pre">z</span> <span class="pre">=</span> <span class="pre">1.96</span></code> approximation for <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">&gt;=</span> <span class="pre">30</span></code> – but knowing how to compute exact p-values
+from scratch is a strong signal.</p>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="shared-helpers-used-throughout">
+<h2>Shared helpers (used throughout)<a class="headerlink" href="#shared-helpers-used-throughout" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+<span class="c1"># ── p-value helpers (pure stdlib math -- no scipy) ───────────────────────────</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">norm_cdf</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Standard normal CDF via the error function."""</span>
+    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">erfc</span><span class="p">(</span><span class="o">-</span><span class="n">z</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">norm_two_sided_p</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Two-sided p-value for a z-statistic."""</span>
+    <span class="k">return</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">norm_cdf</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">z</span><span class="p">)))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_reg_inc_beta</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Regularized incomplete beta I(x;a,b) via Lentz's continued fraction."""</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span> <span class="k">return</span> <span class="mf">0.0</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mf">1.0</span><span class="p">:</span> <span class="k">return</span> <span class="mf">1.0</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">_reg_inc_beta</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">x</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+    <span class="n">lbeta</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">lgamma</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">lgamma</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">lgamma</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+    <span class="n">front</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">lbeta</span><span class="p">)</span> <span class="o">/</span> <span class="n">a</span>
+    <span class="n">TINY</span> <span class="o">=</span> <span class="mf">1e-30</span><span class="p">;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">TINY</span><span class="p">;</span> <span class="n">C</span> <span class="o">=</span> <span class="n">f</span><span class="p">;</span> <span class="n">D</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">300</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">m</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">s</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">num</span> <span class="o">=</span> <span class="mf">1.0</span>
+            <span class="k">elif</span> <span class="n">s</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">num</span> <span class="o">=</span> <span class="n">m</span><span class="o">*</span><span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">m</span><span class="p">)</span><span class="o">*</span><span class="n">x</span> <span class="o">/</span> <span class="p">((</span><span class="n">a</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>        <span class="n">num</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">m</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">m</span><span class="p">)</span><span class="o">*</span><span class="n">x</span> <span class="o">/</span> <span class="p">((</span><span class="n">a</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">D</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">num</span><span class="o">*</span><span class="n">D</span><span class="p">;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">TINY</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">D</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">TINY</span> <span class="k">else</span> <span class="n">D</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">num</span><span class="o">/</span><span class="n">C</span><span class="p">;</span> <span class="n">C</span> <span class="o">=</span> <span class="n">TINY</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">TINY</span> <span class="k">else</span> <span class="n">C</span>
+            <span class="n">D</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">D</span><span class="p">;</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">C</span> <span class="o">*</span> <span class="n">D</span><span class="p">;</span> <span class="n">f</span> <span class="o">*=</span> <span class="n">delta</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">delta</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-14</span><span class="p">:</span> <span class="k">return</span> <span class="n">front</span> <span class="o">*</span> <span class="n">f</span>
+    <span class="k">return</span> <span class="n">front</span> <span class="o">*</span> <span class="n">f</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">t_two_sided_p</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Two-sided p-value for a t-statistic with df degrees of freedom."""</span>
+    <span class="k">return</span> <span class="n">_reg_inc_beta</span><span class="p">(</span><span class="n">df</span> <span class="o">/</span> <span class="p">(</span><span class="n">df</span> <span class="o">+</span> <span class="n">t</span><span class="o">*</span><span class="n">t</span><span class="p">),</span> <span class="n">df</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">t_ppf</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Inverse t-CDF via bisection (for confidence intervals)."""</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">t_cdf</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="mf">0.5</span>
+        <span class="n">ib</span> <span class="o">=</span> <span class="n">_reg_inc_beta</span><span class="p">(</span><span class="n">df</span> <span class="o">/</span> <span class="p">(</span><span class="n">df</span> <span class="o">+</span> <span class="n">t</span><span class="o">*</span><span class="n">t</span><span class="p">),</span> <span class="n">df</span><span class="o">/</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">ib</span> <span class="k">if</span> <span class="n">t</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">ib</span>
+    <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="o">-</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">100.0</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">lo</span> <span class="o">+</span> <span class="n">hi</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="k">if</span> <span class="n">t_cdf</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">p</span><span class="p">:</span> <span class="n">lo</span> <span class="o">=</span> <span class="n">mid</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">mid</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">lo</span> <span class="o">+</span> <span class="n">hi</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+<span class="c1"># Quick self-check</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"norm_two_sided_p(1.96) ="</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">norm_two_sided_p</span><span class="p">(</span><span class="mf">1.96</span><span class="p">),</span> <span class="mi">4</span><span class="p">),</span> <span class="s2">"(expect ~0.05)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"t_ppf(0.975, df=39)    ="</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">t_ppf</span><span class="p">(</span><span class="mf">0.975</span><span class="p">,</span> <span class="mi">39</span><span class="p">),</span> <span class="mi">4</span><span class="p">),</span> <span class="s2">"(expect ~2.0227)"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>norm_two_sided_p(1.96) = 0.05 (expect ~0.05)
+t_ppf(0.975, df=39)    = 2.0227 (expect ~2.0227)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="part-1-estimation">
+<h1>Part 1 – Estimation<a class="headerlink" href="#part-1-estimation" title="Link to this heading">#</a></h1>
+<hr class="docutils" />
+<section id="point-estimation-bias-and-the-bias-variance-tradeoff">
+<h2>§1 – Point Estimation, Bias, and the Bias-Variance Tradeoff<a class="headerlink" href="#point-estimation-bias-and-the-bias-variance-tradeoff" title="Link to this heading">#</a></h2>
+<p><strong>Intuition:</strong> An estimator is a recipe for guessing a population quantity from a
+sample. Two things matter: is it <strong>biased</strong> (systematically off), and how much does
+it <strong>vary</strong> from sample to sample? The deepest idea in this section is that these
+trade off against each other – a slightly biased estimator with low variance can
+beat an unbiased one with high variance, measured by mean squared error:</p>
+<div class="math notranslate nohighlight">
+\[\text{MSE} = \text{Bias}^2 + \text{Variance}\]</div>
+<p>This is <em>the</em> concept behind regularization, shrinkage, and why “unbiased” is not
+always the goal.</p>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interview prompts:</strong>
+<em>(a) Why does sample variance divide by n-1 instead of n?</em>
+<em>(b) Give an example where a biased estimator is better than an unbiased one.</em></p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># ── (a) Why n-1? Demonstrate the bias empirically ────────────────────────────</span>
+<span class="n">population</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">)</span>
+<span class="n">true_var</span>   <span class="o">=</span> <span class="n">population</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>                                          <span class="c1"># population variance</span>
+
+<span class="n">biased</span><span class="p">,</span> <span class="n">unbiased</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5000</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">biased</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>                                      <span class="c1"># divide by n</span>
+    <span class="n">unbiased</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>                                    <span class="c1"># divide by n-1</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Why n-1 (Bessel's correction):"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  True population variance     : </span><span class="si">{</span><span class="n">true_var</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  E[sample var] with /n  (ddof=0): </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">biased</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">  &lt;- biased LOW"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  E[sample var] with /n-1(ddof=1): </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">unbiased</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">  &lt;- unbiased"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"  Dividing by n systematically underestimates because the sample mean"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"  is closer to the sample than the true mean is."</span><span class="p">)</span>
+
+<span class="c1"># ── (b) Bias-variance tradeoff: a shrinkage estimator ────────────────────────</span>
+<span class="c1"># Estimate a mean from small samples. Compare the sample mean (unbiased) against</span>
+<span class="c1"># a shrinkage estimator that pulls toward a prior guess (biased, lower variance).</span>
+<span class="n">true_mean</span> <span class="o">=</span> <span class="mf">50.0</span>
+<span class="n">prior</span>     <span class="o">=</span> <span class="mf">45.0</span>                                                      <span class="c1"># prior guess (slightly wrong)</span>
+<span class="n">lam</span>       <span class="o">=</span> <span class="mf">0.3</span>                                                       <span class="c1"># shrinkage strength</span>
+<span class="n">n</span>         <span class="o">=</span> <span class="mi">10</span>
+
+<span class="c1"># Compute bias, variance, and MSE of each estimator directly</span>
+<span class="n">sample_ests</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">true_mean</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5000</span><span class="p">)])</span>
+<span class="n">shrunk_ests</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">lam</span><span class="p">)</span> <span class="o">*</span> <span class="n">sample_ests</span> <span class="o">+</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">prior</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Bias-variance tradeoff (estimating a mean, n=10):"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="s1">'Estimator'</span><span class="si">:</span><span class="s2">&lt;18</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'Bias'</span><span class="si">:</span><span class="s2">&gt;8</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'Variance'</span><span class="si">:</span><span class="s2">&gt;10</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'MSE'</span><span class="si">:</span><span class="s2">&gt;8</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="s1">'Sample mean'</span><span class="si">:</span><span class="s2">&lt;18</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">sample_ests</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">-</span><span class="n">true_mean</span><span class="si">:</span><span class="s2">&gt;8.3f</span><span class="si">}</span><span class="s2"> "</span>
+      <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">sample_ests</span><span class="o">.</span><span class="n">var</span><span class="p">()</span><span class="si">:</span><span class="s2">&gt;10.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">sample_ests</span><span class="o">-</span><span class="n">true_mean</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="si">:</span><span class="s2">&gt;8.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="s1">'Shrunk (lam=0.3)'</span><span class="si">:</span><span class="s2">&lt;18</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">shrunk_ests</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">-</span><span class="n">true_mean</span><span class="si">:</span><span class="s2">&gt;8.3f</span><span class="si">}</span><span class="s2"> "</span>
+      <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">shrunk_ests</span><span class="o">.</span><span class="n">var</span><span class="p">()</span><span class="si">:</span><span class="s2">&gt;10.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">shrunk_ests</span><span class="o">-</span><span class="n">true_mean</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="si">:</span><span class="s2">&gt;8.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">  The shrinkage estimator is BIASED but has lower VARIANCE and lower MSE."</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"  This is why regularization (which biases estimates toward zero) often wins."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Why n-1 (Bessel's correction):
+  True population variance     : 100.74
+  E[sample var] with /n  (ddof=0): 97.98  &lt;- biased LOW
+  E[sample var] with /n-1(ddof=1): 101.36  &lt;- unbiased
+  Dividing by n systematically underestimates because the sample mean
+  is closer to the sample than the true mean is.
+
+Bias-variance tradeoff (estimating a mean, n=10):
+  Estimator              Bias   Variance      MSE
+  Sample mean           0.006      9.651    9.651
+  Shrunk (lam=0.3)     -1.496      4.729    6.966
+
+  The shrinkage estimator is BIASED but has lower VARIANCE and lower MSE.
+  This is why regularization (which biases estimates toward zero) often wins.
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Key takeaways:</strong></p>
+<ul class="simple">
+<li><p><strong>Bias</strong> = expected estimate minus true value. <strong>Variance</strong> = how much the estimate jumps between samples.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ddof=1</span></code> (divide by n-1) makes the variance estimator unbiased – always use it for sample variance/std.</p></li>
+<li><p><strong>MSE = Bias² + Variance.</strong> Minimizing MSE sometimes means accepting bias to cut variance.</p></li>
+<li><p>Shrinkage and regularization are deliberate bias-for-variance trades. This is why “unbiased” is not always the goal.</p></li>
+</ul>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">np.var(x)</span></code> (defaults to <code class="docutils literal notranslate"><span class="pre">ddof=0</span></code>) when you want the unbiased sample variance – pandas <code class="docutils literal notranslate"><span class="pre">.var()</span></code> defaults to <code class="docutils literal notranslate"><span class="pre">ddof=1</span></code>, NumPy defaults to <code class="docutils literal notranslate"><span class="pre">ddof=0</span></code>; this inconsistency trips people up constantly</p></li>
+<li><p>Equating “unbiased” with “best” – MSE is usually what you actually care about</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="confidence-intervals-unified">
+<h2>§2 – Confidence Intervals, Unified<a class="headerlink" href="#confidence-intervals-unified" title="Link to this heading">#</a></h2>
+<p><strong>Intuition:</strong> A 95% confidence interval is a recipe that, across many repeated
+samples, captures the true parameter 95% of the time. It is <strong>not</strong> “a 95% chance
+the true value is in this particular interval” – the true value is fixed; the
+interval is what’s random. There are three workhorse constructions:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Method</p></th>
+<th class="head text-left"><p>Use when</p></th>
+<th class="head text-left"><p>Formula</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>z-interval</strong></p></td>
+<td class="text-left"><p>n large (&gt;= 30), or known variance</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\bar{x} \pm z \cdot s/\sqrt{n}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>t-interval</strong></p></td>
+<td class="text-left"><p>n small, normal-ish data</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\bar{x} \pm t_{\alpha/2,n-1} \cdot s/\sqrt{n}\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Bootstrap</strong></p></td>
+<td class="text-left"><p>any statistic, no assumptions</p></td>
+<td class="text-left"><p>percentiles of resampled stats</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interview prompt:</strong> <em>“Construct a 95% CI for the mean three ways – normal
+approximation, t-distribution, and bootstrap – and explain when each is appropriate.”</em></p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">rng</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>                                         <span class="c1"># small-ish sample</span>
+<span class="n">n</span>    <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">xbar</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">s</span>    <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">se</span>   <span class="o">=</span> <span class="n">s</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="c1"># ── 1. z-interval (normal approximation) ─────────────────────────────────────</span>
+<span class="n">z_ci</span> <span class="o">=</span> <span class="p">(</span><span class="n">xbar</span> <span class="o">-</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">se</span><span class="p">,</span> <span class="n">xbar</span> <span class="o">+</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">se</span><span class="p">)</span>
+
+<span class="c1"># ── 2. t-interval (small-sample correct) ─────────────────────────────────────</span>
+<span class="n">t_crit</span> <span class="o">=</span> <span class="n">t_ppf</span><span class="p">(</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">t_ci</span>   <span class="o">=</span> <span class="p">(</span><span class="n">xbar</span> <span class="o">-</span> <span class="n">t_crit</span> <span class="o">*</span> <span class="n">se</span><span class="p">,</span> <span class="n">xbar</span> <span class="o">+</span> <span class="n">t_crit</span> <span class="o">*</span> <span class="n">se</span><span class="p">)</span>
+
+<span class="c1"># ── 3. Bootstrap percentile interval ─────────────────────────────────────────</span>
+<span class="n">boot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5000</span><span class="p">)])</span>
+<span class="n">b_ci</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">boot</span><span class="p">,</span> <span class="p">[</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">97.5</span><span class="p">]))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Sample mean: </span><span class="si">{</span><span class="n">xbar</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">,  SE: </span><span class="si">{</span><span class="n">se</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">,  n: </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="si">{</span><span class="s1">'Method'</span><span class="si">:</span><span class="s2">&lt;14</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'95% CI'</span><span class="si">:</span><span class="s2">&gt;22</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'Width'</span><span class="si">:</span><span class="s2">&gt;8</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'z-interval'</span><span class="si">:</span><span class="s2">&lt;14</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">z_ci</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">z_ci</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">) </span><span class="si">{</span><span class="n">z_ci</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">z_ci</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">&gt;8.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'t-interval'</span><span class="si">:</span><span class="s2">&lt;14</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">t_ci</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">t_ci</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">) </span><span class="si">{</span><span class="n">t_ci</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">t_ci</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">&gt;8.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'bootstrap'</span><span class="si">:</span><span class="s2">&lt;14</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">b_ci</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">b_ci</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">) </span><span class="si">{</span><span class="n">b_ci</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">b_ci</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">&gt;8.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">t_crit = </span><span class="si">{</span><span class="n">t_crit</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> vs z = 1.96 -- the t-interval is wider, correctly"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"reflecting the extra uncertainty from estimating the variance at small n."</span><span class="p">)</span>
+
+<span class="c1"># ── Coverage check: does the t-interval really cover 95%? ─────────────────────</span>
+<span class="n">covered</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5000</span><span class="p">):</span>
+    <span class="n">s2</span>  <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">se2</span> <span class="o">=</span> <span class="n">s2</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">s2</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">t_crit</span><span class="o">*</span><span class="n">se2</span><span class="p">,</span> <span class="n">s2</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">+</span> <span class="n">t_crit</span><span class="o">*</span><span class="n">se2</span>
+    <span class="k">if</span> <span class="n">lo</span> <span class="o">&lt;=</span> <span class="mi">50</span> <span class="o">&lt;=</span> <span class="n">hi</span><span class="p">:</span>
+        <span class="n">covered</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">t-interval empirical coverage: </span><span class="si">{</span><span class="n">covered</span><span class="o">/</span><span class="mi">5000</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">% (target 95%)"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sample mean: 50.383,  SE: 1.306,  n: 40
+
+Method                         95% CI    Width
+z-interval     (47.823, 52.942)    5.119
+t-interval     (47.741, 53.024)    5.282
+bootstrap      (47.862, 53.023)    5.160
+
+t_crit = 2.0227 vs z = 1.96 -- the t-interval is wider, correctly
+reflecting the extra uncertainty from estimating the variance at small n.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>t-interval empirical coverage: 95.3% (target 95%)
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Misinterpreting a CI as “95% probability the parameter is in <em>this</em> interval” – the correct frequentist reading is about the long-run behavior of the procedure</p></li>
+<li><p>Using the z-interval at small n – it is too narrow because it ignores the uncertainty in estimating the standard deviation; use t</p></li>
+<li><p>Forgetting that the bootstrap CI is the only one that works for non-mean statistics (median, ratios, AUC) without new formulas</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="part-2-hypothesis-testing">
+<h1>Part 2 – Hypothesis Testing<a class="headerlink" href="#part-2-hypothesis-testing" title="Link to this heading">#</a></h1>
+<hr class="docutils" />
+<section id="the-testing-framework-and-the-two-error-types">
+<h2>§3 – The Testing Framework and the Two Error Types<a class="headerlink" href="#the-testing-framework-and-the-two-error-types" title="Link to this heading">#</a></h2>
+<p><strong>Intuition:</strong> A hypothesis test asks whether the data is surprising under a “null”
+assumption (<span class="math notranslate nohighlight">\(H_0\)</span>, usually “no effect”). You compute a test statistic, then a
+<strong>p-value</strong> – the probability of seeing data at least this extreme <em>if <span class="math notranslate nohighlight">\(H_0\)</span> were
+true</em>. Small p-value -&gt; the data is surprising under <span class="math notranslate nohighlight">\(H_0\)</span> -&gt; reject it.</p>
+<p>Two ways to be wrong:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p><span class="math notranslate nohighlight">\(H_0\)</span> true</p></th>
+<th class="head text-left"><p><span class="math notranslate nohighlight">\(H_0\)</span> false</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>Reject <span class="math notranslate nohighlight">\(H_0\)</span></strong></p></td>
+<td class="text-left"><p>Type I error (false positive), rate <span class="math notranslate nohighlight">\(\alpha\)</span></p></td>
+<td class="text-left"><p>Correct (power)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Fail to reject</strong></p></td>
+<td class="text-left"><p>Correct</p></td>
+<td class="text-left"><p>Type II error (false negative), rate <span class="math notranslate nohighlight">\(\beta\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Power = 1 - β</strong> is the probability of detecting a real effect.</p>
+<blockquote>
+<div><p><strong>What a p-value is NOT:</strong> it is not the probability that <span class="math notranslate nohighlight">\(H_0\)</span> is true, and not
+the probability your result happened by chance. It is P(data this extreme | <span class="math notranslate nohighlight">\(H_0\)</span>).</p>
+</div></blockquote>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interview prompt:</strong> <em>“Simulate to show that your test’s Type I error rate
+actually matches alpha, and measure its power against a specific alternative.”</em></p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">TRIALS</span> <span class="o">=</span> <span class="mi">5000</span>
+
+<span class="c1"># ── Type I error: H0 is TRUE (true mean = 0). How often do we wrongly reject? ─</span>
+<span class="n">type1</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">TRIALS</span><span class="p">):</span>
+    <span class="n">s</span>  <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>                                        <span class="c1"># H0 true: mean = 0</span>
+    <span class="n">z</span>  <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1.96</span><span class="p">:</span>                                                 <span class="c1"># reject at alpha=0.05</span>
+        <span class="n">type1</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Type I error rate : </span><span class="si">{</span><span class="n">type1</span><span class="o">/</span><span class="n">TRIALS</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">   (target alpha = </span><span class="si">{</span><span class="n">alpha</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+
+<span class="c1"># ── Type II error &amp; power: H1 is TRUE (true mean = 0.4) ──────────────────────</span>
+<span class="n">type2</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">TRIALS</span><span class="p">):</span>
+    <span class="n">s</span>  <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>                                        <span class="c1"># H1 true: mean = 0.4</span>
+    <span class="n">z</span>  <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1.96</span><span class="p">:</span>                                                <span class="c1"># fail to reject</span>
+        <span class="n">type2</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="n">beta</span>  <span class="o">=</span> <span class="n">type2</span> <span class="o">/</span> <span class="n">TRIALS</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Type II error rate: </span><span class="si">{</span><span class="n">beta</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Power (1 - beta)  : </span><span class="si">{</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">beta</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">   (probability of detecting the real effect)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">The Type I rate matches alpha by construction. Power depends on effect"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"size, sample size, and alpha -- quantified directly in Part 3."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type I error rate : 0.0540   (target alpha = 0.05)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type II error rate: 0.1962
+Power (1 - beta)  : 0.8038   (probability of detecting the real effect)
+
+The Type I rate matches alpha by construction. Power depends on effect
+size, sample size, and alpha -- quantified directly in Part 3.
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Reporting “p = 0.03 means 97% chance the effect is real” – false; the p-value says nothing directly about P(H₁)</p></li>
+<li><p>Treating “fail to reject” as “proved H₀ true” – absence of evidence is not evidence of absence; it may just be low power</p></li>
+<li><p>Forgetting that a high Type I rate is the <em>defined</em> behavior at the chosen alpha – 5% of true nulls will be rejected by design</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="the-peeking-problem">
+<h2>§4 – The Peeking Problem<a class="headerlink" href="#the-peeking-problem" title="Link to this heading">#</a></h2>
+<p><strong>Intuition:</strong> In an A/B test it is tempting to check results continuously and stop
+as soon as you see significance. This <strong>inflates the false-positive rate
+dramatically</strong>. Each peek is another chance to cross the significance threshold by
+luck. If you peek 20 times, your real Type I error rate can be 4-5x the nominal 5%.
+This is one of the most consequential and frequently-tested ideas in industry
+experimentation.</p>
+<p><strong>Why it happens:</strong> the significance threshold assumes a <em>single</em> test. Repeated
+looks at accumulating data are multiple correlated tests – the math no longer holds.</p>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interview prompt:</strong> <em>“An analyst checks their A/B test every day and stops when
+p &lt; 0.05. What’s wrong with this? Demonstrate it by simulation.”</em></p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># ── Simulate experiments where H0 is ALWAYS TRUE (no real effect) ────────────</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">experiment_rejects</span><span class="p">(</span><span class="n">peek</span><span class="p">,</span> <span class="n">seed</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Run an experiment of 200 observations under H0 (no effect).</span>
+<span class="sd">    peek=True  : test repeatedly as data accumulates, stop if ever significant.</span>
+<span class="sd">    peek=False : test ONCE at the end (the correct procedure).</span>
+<span class="sd">    Returns True if H0 was (wrongly) rejected.</span>
+<span class="sd">    """</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>                                    <span class="c1"># H0 TRUE: mean = 0</span>
+    <span class="k">if</span> <span class="n">peek</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">n_so_far</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">201</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>                          <span class="c1"># peek every 10 obs</span>
+            <span class="n">s</span>  <span class="o">=</span> <span class="n">data</span><span class="p">[:</span><span class="n">n_so_far</span><span class="p">]</span>
+            <span class="n">z</span>  <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n_so_far</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1.96</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>                                           <span class="c1"># stop early, declare winner</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">200</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1.96</span>
+
+<span class="n">REPS</span> <span class="o">=</span> <span class="mi">3000</span>
+<span class="n">fp_peek</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">experiment_rejects</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span>  <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">REPS</span><span class="p">)])</span>
+<span class="n">fp_single</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">experiment_rejects</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">REPS</span><span class="p">)])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"False-positive rate (H0 is true in every experiment):"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  WITH peeking (test every 10 obs) : </span><span class="si">{</span><span class="n">fp_peek</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%   &lt;- massively inflated"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  WITHOUT peeking (one test at end): </span><span class="si">{</span><span class="n">fp_single</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%   &lt;- correct, ~5%"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">  Peeking inflated the error rate by ~</span><span class="si">{</span><span class="n">fp_peek</span><span class="o">/</span><span class="n">fp_single</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">x."</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"  Fixes: fix the sample size in advance, or use sequential-testing"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"  corrections (alpha-spending, always-valid p-values)."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>False-positive rate (H0 is true in every experiment):
+  WITH peeking (test every 10 obs) : 22.8%   &lt;- massively inflated
+  WITHOUT peeking (one test at end): 4.8%   &lt;- correct, ~5%
+
+  Peeking inflated the error rate by ~4.7x.
+  Fixes: fix the sample size in advance, or use sequential-testing
+  corrections (alpha-spending, always-valid p-values).
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Stopping an experiment the moment it hits significance – this is peeking, and it manufactures false positives</p></li>
+<li><p>Restarting or extending an experiment because the result “wasn’t quite significant” – same problem in reverse</p></li>
+<li><p>Not fixing the sample size (or a valid sequential procedure) before launching</p></li>
+</ul>
+<p><strong>The fix:</strong> decide the sample size in advance (Part 3), or use methods designed for continuous monitoring (sequential testing, Bayesian approaches).</p>
+</section>
+<hr class="docutils" />
+<section id="one-sample-tests-from-scratch">
+<h2>§5 – One-Sample Tests from Scratch<a class="headerlink" href="#one-sample-tests-from-scratch" title="Link to this heading">#</a></h2>
+<p><strong>Intuition:</strong> Test whether a sample’s mean differs from a hypothesized value
+<span class="math notranslate nohighlight">\(\mu_0\)</span>. Use a <strong>z-test</strong> if the population variance is known (rare) or n is large;
+use a <strong>t-test</strong> when you estimate the variance from the sample (the usual case).
+The test statistic measures how many standard errors the sample mean sits from <span class="math notranslate nohighlight">\(\mu_0\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[z = \frac{\bar{x} - \mu_0}{\sigma/\sqrt{n}}, \qquad t = \frac{\bar{x} - \mu_0}{s/\sqrt{n}}\]</div>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interview prompt:</strong> <em>“Implement a one-sample t-test from scratch (statistic and
+p-value) without scipy, and check it against a known case.”</em></p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Sample with true mean 52; test against H0: mu = 50</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">52</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+<span class="n">mu_0</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">n</span>    <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># ── One-sample z-test (treats sigma as known / large n) ──────────────────────</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">one_sample_z</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mu0</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">mu0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">z</span><span class="p">,</span> <span class="n">norm_two_sided_p</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+<span class="c1"># ── One-sample t-test (variance estimated from the sample) ───────────────────</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">one_sample_t</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mu0</span><span class="p">):</span>
+    <span class="n">n</span>  <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">se</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">t</span>  <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">mu0</span><span class="p">)</span> <span class="o">/</span> <span class="n">se</span>
+    <span class="k">return</span> <span class="n">t</span><span class="p">,</span> <span class="n">t_two_sided_p</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">z_stat</span><span class="p">,</span> <span class="n">z_p</span> <span class="o">=</span> <span class="n">one_sample_z</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mu_0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">t_stat</span><span class="p">,</span> <span class="n">t_p</span> <span class="o">=</span> <span class="n">one_sample_t</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mu_0</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Sample mean: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  (H0: mu = </span><span class="si">{</span><span class="n">mu_0</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="si">{</span><span class="s1">'Test'</span><span class="si">:</span><span class="s2">&lt;16</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'Statistic'</span><span class="si">:</span><span class="s2">&gt;10</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'p-value'</span><span class="si">:</span><span class="s2">&gt;10</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'Reject H0?'</span><span class="si">:</span><span class="s2">&gt;12</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'z-test'</span><span class="si">:</span><span class="s2">&lt;16</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">z_stat</span><span class="si">:</span><span class="s2">&gt;10.4f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">z_p</span><span class="si">:</span><span class="s2">&gt;10.4f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">z_p</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.05</span><span class="p">)</span><span class="si">:</span><span class="s2">&gt;12</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'t-test'</span><span class="si">:</span><span class="s2">&lt;16</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">t_stat</span><span class="si">:</span><span class="s2">&gt;10.4f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">t_p</span><span class="si">:</span><span class="s2">&gt;10.4f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">t_p</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.05</span><span class="p">)</span><span class="si">:</span><span class="s2">&gt;12</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">The t-test is the honest choice here -- we estimated the SD from the data."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sample mean: 52.653  (H0: mu = 50)
+
+Test              Statistic    p-value   Reject H0?
+z-test               2.0549     0.0399         True
+t-test               2.6155     0.0113         True
+
+The t-test is the honest choice here -- we estimated the SD from the data.
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Using a z-test when the variance is estimated from the sample – technically wrong, though the gap shrinks as n grows</p></li>
+<li><p>Reporting a one-sided p-value without pre-registering the direction – default to two-sided</p></li>
+<li><p>Confusing the standard deviation (<code class="docutils literal notranslate"><span class="pre">s</span></code>) with the standard error (<code class="docutils literal notranslate"><span class="pre">s/√n</span></code>) in the denominator</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="two-sample-tests-and-effect-size">
+<h2>§6 – Two-Sample Tests and Effect Size<a class="headerlink" href="#two-sample-tests-and-effect-size" title="Link to this heading">#</a></h2>
+<p><strong>Intuition:</strong> Compare two groups. For means, <strong>Welch’s t-test</strong> is the industry
+default – unlike Student’s t-test, it does <em>not</em> assume the two groups have equal
+variance, so it is safer with no real downside. For conversion rates (binary
+outcomes), use the <strong>two-proportion z-test</strong>.</p>
+<p>But a p-value alone is incomplete. Always pair it with an <strong>effect size</strong> –
+how <em>big</em> is the difference? <strong>Cohen’s d</strong> expresses the gap in standard-deviation
+units; <strong>relative lift</strong> expresses it as a percentage change.</p>
+<div class="math notranslate nohighlight">
+\[t_{Welch} = \frac{\bar{x}_b - \bar{x}_a}{\sqrt{s_a^2/n_a + s_b^2/n_b}}, \qquad d = \frac{\bar{x}_b - \bar{x}_a}{s_{pooled}}\]</div>
+<p>This connects directly to §9 of the sampling notebook, which solved the same problem
+with the bootstrap and permutation tests. Here are the parametric versions.</p>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interview prompt:</strong> <em>“Implement Welch’s t-test and a two-proportion z-test from
+scratch. Report effect sizes alongside the p-values. Compare to the bootstrap
+result from the sampling notebook.”</em></p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># ── Continuous outcome: Welch's t-test + Cohen's d ───────────────────────────</span>
+<span class="n">group_a</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">group_b</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">53</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">180</span><span class="p">)</span>                                     <span class="c1"># different mean AND variance</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">welch_t_test</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Welch's two-sample t-test (unequal variances). Returns (t, df, p)."""</span>
+    <span class="n">na</span><span class="p">,</span> <span class="n">nb</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="n">va</span><span class="p">,</span> <span class="n">vb</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">b</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">se</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">va</span><span class="o">/</span><span class="n">na</span> <span class="o">+</span> <span class="n">vb</span><span class="o">/</span><span class="n">nb</span><span class="p">)</span>
+    <span class="n">t</span>  <span class="o">=</span> <span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">se</span>
+    <span class="c1"># Welch-Satterthwaite degrees of freedom</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="p">(</span><span class="n">va</span><span class="o">/</span><span class="n">na</span> <span class="o">+</span> <span class="n">vb</span><span class="o">/</span><span class="n">nb</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">((</span><span class="n">va</span><span class="o">/</span><span class="n">na</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="n">na</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">vb</span><span class="o">/</span><span class="n">nb</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="n">nb</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">t</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">t_two_sided_p</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">cohens_d</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="n">na</span><span class="p">,</span> <span class="n">nb</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="n">pooled_sd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(((</span><span class="n">na</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">a</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">nb</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">na</span><span class="o">+</span><span class="n">nb</span><span class="o">-</span><span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">pooled_sd</span>
+
+<span class="n">t_stat</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">p_val</span> <span class="o">=</span> <span class="n">welch_t_test</span><span class="p">(</span><span class="n">group_a</span><span class="p">,</span> <span class="n">group_b</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">cohens_d</span><span class="p">(</span><span class="n">group_a</span><span class="p">,</span> <span class="n">group_b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Continuous outcome -- Welch's t-test:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  mean A = </span><span class="si">{</span><span class="n">group_a</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, mean B = </span><span class="si">{</span><span class="n">group_b</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  t = </span><span class="si">{</span><span class="n">t_stat</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, df = </span><span class="si">{</span><span class="n">df</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">, p = </span><span class="si">{</span><span class="n">p_val</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Cohen's d = </span><span class="si">{</span><span class="n">d</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  (</span><span class="si">{</span><span class="s1">'small'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">&lt;</span><span class="mf">0.5</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'medium'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">&lt;</span><span class="mf">0.8</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'large'</span><span class="si">}</span><span class="s2"> effect)"</span><span class="p">)</span>
+
+<span class="c1"># ── Binary outcome: two-proportion z-test + relative lift ────────────────────</span>
+<span class="n">conv_a</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.08</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>                                  <span class="c1"># control: 8%</span>
+<span class="n">conv_b</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.11</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>                                  <span class="c1"># treatment: 11%</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">two_proportion_z</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Two-proportion z-test (pooled). Returns (z, p)."""</span>
+    <span class="n">na</span><span class="p">,</span> <span class="n">nb</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="n">pa</span><span class="p">,</span> <span class="n">pb</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">b</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">p_pool</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">na</span> <span class="o">+</span> <span class="n">nb</span><span class="p">)</span>
+    <span class="n">se</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">p_pool</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p_pool</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">na</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="n">nb</span><span class="p">))</span>
+    <span class="n">z</span>  <span class="o">=</span> <span class="p">(</span><span class="n">pb</span> <span class="o">-</span> <span class="n">pa</span><span class="p">)</span> <span class="o">/</span> <span class="n">se</span>
+    <span class="k">return</span> <span class="n">z</span><span class="p">,</span> <span class="n">norm_two_sided_p</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+<span class="n">z_stat</span><span class="p">,</span> <span class="n">p_prop</span> <span class="o">=</span> <span class="n">two_proportion_z</span><span class="p">(</span><span class="n">conv_a</span><span class="p">,</span> <span class="n">conv_b</span><span class="p">)</span>
+<span class="n">lift</span> <span class="o">=</span> <span class="p">(</span><span class="n">conv_b</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">conv_a</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">conv_a</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Binary outcome -- two-proportion z-test:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  rate A = </span><span class="si">{</span><span class="n">conv_a</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, rate B = </span><span class="si">{</span><span class="n">conv_b</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  z = </span><span class="si">{</span><span class="n">z_stat</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, p = </span><span class="si">{</span><span class="n">p_prop</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Relative lift = </span><span class="si">{</span><span class="n">lift</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">+.1f</span><span class="si">}</span><span class="s2">%  &lt;- the number the business actually cares about"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Compare: the sampling notebook's bootstrap/permutation tests on the same"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"kind of data gave consistent p-values -- three routes to the same conclusion."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Continuous outcome -- Welch's t-test:
+  mean A = 49.70, mean B = 53.58
+  t = 3.5048, df = 321.6, p = 0.0005
+  Cohen's d = 0.366  (small effect)
+
+Binary outcome -- two-proportion z-test:
+  rate A = 0.0700, rate B = 0.1180
+  z = 2.6007, p = 0.0093
+  Relative lift = +68.6%  &lt;- the number the business actually cares about
+
+Compare: the sampling notebook's bootstrap/permutation tests on the same
+kind of data gave consistent p-values -- three routes to the same conclusion.
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Effect size reference (Cohen’s d):</strong> ~0.2 small, ~0.5 medium, ~0.8 large.</p>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Defaulting to Student’s t-test (equal-variance) – Welch’s is safer and nearly always preferred in practice</p></li>
+<li><p>Reporting statistical significance without effect size – a tiny, useless difference can be “significant” at large n</p></li>
+<li><p>Using a t-test on binary conversion data – use the two-proportion z-test</p></li>
+<li><p>Confusing absolute difference (3 percentage points) with relative lift (+37.5%) – be explicit about which</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="multiple-testing-correction">
+<h2>§7 – Multiple Testing Correction<a class="headerlink" href="#multiple-testing-correction" title="Link to this heading">#</a></h2>
+<p><strong>Intuition:</strong> Run 20 independent tests at <span class="math notranslate nohighlight">\(\alpha = 0.05\)</span> and you expect one false
+positive <em>even if nothing is real</em>. Testing many hypotheses inflates the chance of
+spurious “discoveries.” Two corrections:</p>
+<ul class="simple">
+<li><p><strong>Bonferroni:</strong> compare each p-value to <span class="math notranslate nohighlight">\(\alpha/m\)</span>. Controls the probability of
+<em>any</em> false positive (Family-Wise Error Rate). Simple but conservative – it
+misses real effects when m is large.</p></li>
+<li><p><strong>Benjamini-Hochberg (BH):</strong> controls the <em>expected proportion</em> of false positives
+among rejections (False Discovery Rate). More powerful – recovers more true
+effects while keeping false discoveries bounded. The industry default for
+large-scale testing.</p></li>
+</ul>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interview prompt:</strong> <em>“You ran 20 A/B tests. Implement Bonferroni and
+Benjamini-Hochberg correction from scratch and show how they differ.”</em></p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># ── Simulate 20 tests: 8 have a real effect, 12 are null ─────────────────────</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">m</span>   <span class="o">=</span> <span class="mi">20</span>
+<span class="n">n_real</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">p_values</span><span class="p">,</span> <span class="n">is_real</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n_real</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.45</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>                                  <span class="c1"># real effect</span>
+        <span class="n">is_real</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>                                   <span class="c1"># null</span>
+        <span class="n">is_real</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">80</span><span class="p">))</span>
+    <span class="n">p_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">norm_two_sided_p</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
+<span class="n">p_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">p_values</span><span class="p">);</span> <span class="n">is_real</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">is_real</span><span class="p">)</span>
+
+<span class="c1"># ── No correction ─────────────────────────────────────────────────────────────</span>
+<span class="n">raw_reject</span> <span class="o">=</span> <span class="n">p_values</span> <span class="o">&lt;</span> <span class="mf">0.05</span>
+
+<span class="c1"># ── Bonferroni: threshold alpha / m ──────────────────────────────────────────</span>
+<span class="n">bonf_reject</span> <span class="o">=</span> <span class="n">p_values</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mf">0.05</span> <span class="o">/</span> <span class="n">m</span><span class="p">)</span>
+
+<span class="c1"># ── Benjamini-Hochberg: step-up procedure ────────────────────────────────────</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">benjamini_hochberg</span><span class="p">(</span><span class="n">p_values</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
+    <span class="n">m</span>     <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">p_values</span><span class="p">)</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">p_values</span><span class="p">)</span>                                     <span class="c1"># ascending</span>
+    <span class="n">ranked</span> <span class="o">=</span> <span class="n">p_values</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+    <span class="n">thresh</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">alpha</span>                       <span class="c1"># i/m * alpha</span>
+    <span class="n">below</span>  <span class="o">=</span> <span class="n">ranked</span> <span class="o">&lt;=</span> <span class="n">thresh</span>
+    <span class="n">reject</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">below</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">below</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>                                 <span class="c1"># largest passing rank</span>
+        <span class="n">reject</span><span class="p">[</span><span class="n">order</span><span class="p">[:</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">True</span>                                 <span class="c1"># reject all up to k</span>
+    <span class="k">return</span> <span class="n">reject</span>
+
+<span class="n">bh_reject</span> <span class="o">=</span> <span class="n">benjamini_hochberg</span><span class="p">(</span><span class="n">p_values</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+
+<span class="c1"># ── Compare ───────────────────────────────────────────────────────────────────</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">summarize</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">rej</span><span class="p">):</span>
+    <span class="n">tp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">rej</span> <span class="o">&amp;</span>  <span class="n">is_real</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>                                <span class="c1"># true positives</span>
+    <span class="n">fp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">rej</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">is_real</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>                                <span class="c1"># false positives</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">&lt;22</span><span class="si">}</span><span class="s2"> rejected </span><span class="si">{</span><span class="n">rej</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">&gt;2</span><span class="si">}</span><span class="s2">  -&gt;  </span><span class="si">{</span><span class="n">tp</span><span class="si">}</span><span class="s2"> true, </span><span class="si">{</span><span class="n">fp</span><span class="si">}</span><span class="s2"> false"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ground truth: </span><span class="si">{</span><span class="n">n_real</span><span class="si">}</span><span class="s2"> real effects out of </span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2"> tests</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">summarize</span><span class="p">(</span><span class="s2">"No correction"</span><span class="p">,</span> <span class="n">raw_reject</span><span class="p">)</span>
+<span class="n">summarize</span><span class="p">(</span><span class="s2">"Bonferroni (FWER)"</span><span class="p">,</span> <span class="n">bonf_reject</span><span class="p">)</span>
+<span class="n">summarize</span><span class="p">(</span><span class="s2">"Benjamini-Hochberg (FDR)"</span><span class="p">,</span> <span class="n">bh_reject</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Bonferroni is conservative -- it misses real effects to avoid any false"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"positive. BH recovers more true effects while controlling the false-discovery"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"proportion. BH is the default when you run many tests."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ground truth: 8 real effects out of 20 tests
+
+  No correction          rejected  8  -&gt;  8 true, 0 false
+  Bonferroni (FWER)      rejected  6  -&gt;  6 true, 0 false
+  Benjamini-Hochberg (FDR) rejected  8  -&gt;  8 true, 0 false
+
+Bonferroni is conservative -- it misses real effects to avoid any false
+positive. BH recovers more true effects while controlling the false-discovery
+proportion. BH is the default when you run many tests.
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Bonferroni vs. BH:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>Controls</p></th>
+<th class="head text-left"><p>Power</p></th>
+<th class="head text-left"><p>Use when</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Bonferroni</p></td>
+<td class="text-left"><p>Family-Wise Error Rate (any false positive)</p></td>
+<td class="text-left"><p>Lower</p></td>
+<td class="text-left"><p>Few tests, false positives very costly</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Benjamini-Hochberg</p></td>
+<td class="text-left"><p>False Discovery Rate (proportion of false positives)</p></td>
+<td class="text-left"><p>Higher</p></td>
+<td class="text-left"><p>Many tests, some false positives tolerable</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Running many tests and reporting raw p &lt; 0.05 – guarantees false discoveries</p></li>
+<li><p>Applying Bonferroni to hundreds of tests – so conservative you miss almost everything; use BH</p></li>
+<li><p>Implementing BH as a simple threshold – it is a <em>step-up</em> procedure: find the largest rank that passes, then reject everything below it</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="part-3-experimental-design">
+<h1>Part 3 – Experimental Design<a class="headerlink" href="#part-3-experimental-design" title="Link to this heading">#</a></h1>
+<hr class="docutils" />
+<section id="statistical-power-via-simulation">
+<h2>§8 – Statistical Power via Simulation<a class="headerlink" href="#statistical-power-via-simulation" title="Link to this heading">#</a></h2>
+<p><strong>Intuition:</strong> Power is the probability your test detects a real effect of a given
+size. Rather than memorize a formula (which needs distributional assumptions), you
+can <strong>simulate</strong> it directly: generate data under the alternative many times, run
+the test each time, and count how often it correctly rejects. This is intuitive,
+pure NumPy, and impressive in an interview.</p>
+<p>Power increases with: larger effect size, larger sample size, larger alpha.</p>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interview prompt:</strong> <em>“Estimate the power of a two-sample test to detect an effect
+of 0.4 standard deviations at various sample sizes, using simulation.”</em></p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">simulate_power</span><span class="p">(</span><span class="n">effect_size</span><span class="p">,</span> <span class="n">n_per_group</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Estimate power by simulation: fraction of experiments that detect the effect.</span>
+<span class="sd">    effect_size : true difference in means (in SD units, since SD=1 here)</span>
+<span class="sd">    """</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">z_crit</span> <span class="o">=</span> <span class="mf">1.96</span> <span class="k">if</span> <span class="n">alpha</span> <span class="o">==</span> <span class="mf">0.05</span> <span class="k">else</span> <span class="kc">None</span>                          <span class="c1"># 95% two-sided</span>
+    <span class="n">rejections</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">B</span><span class="p">):</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span>         <span class="mi">1</span><span class="p">,</span> <span class="n">n_per_group</span><span class="p">)</span>                  <span class="c1"># control</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">effect_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_per_group</span><span class="p">)</span>                  <span class="c1"># treatment</span>
+        <span class="n">se</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">n_per_group</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">n_per_group</span><span class="p">)</span>
+        <span class="n">z</span>  <span class="o">=</span> <span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">se</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">z_crit</span><span class="p">:</span>
+            <span class="n">rejections</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">rejections</span> <span class="o">/</span> <span class="n">B</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Power to detect an effect of 0.4 SD (two-sample, alpha=0.05):"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="s1">'n per group'</span><span class="si">:</span><span class="s2">&gt;12</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'power'</span><span class="si">:</span><span class="s2">&gt;8</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">]:</span>
+    <span class="n">pw</span> <span class="o">=</span> <span class="n">simulate_power</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">bar</span> <span class="o">=</span> <span class="s2">"#"</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">pw</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">n</span><span class="si">:</span><span class="s2">&gt;12</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">pw</span><span class="si">:</span><span class="s2">&gt;8.3f</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">bar</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Power climbs with sample size. The conventional target is 0.80 --"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"an 80</span><span class="si">% c</span><span class="s2">hance of detecting the effect if it is really there."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Power to detect an effect of 0.4 SD (two-sample, alpha=0.05):
+   n per group    power
+            20    0.264  ##########
+            50    0.516  ####################
+           100    0.799  ###############################
+           150    0.926  #####################################
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>           200    0.982  #######################################
+
+Power climbs with sample size. The conventional target is 0.80 --
+an 80% chance of detecting the effect if it is really there.
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Running an underpowered experiment – if power is 0.4, you’ll miss a real effect more often than you catch it, and a null result tells you almost nothing</p></li>
+<li><p>Confusing power with significance – alpha controls false positives (Type I); power controls false negatives (Type II)</p></li>
+<li><p>Forgetting that observed/post-hoc power computed from your actual result is circular and uninformative – power is a <em>design-time</em> quantity</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="sample-size-and-minimum-detectable-effect">
+<h2>§9 – Sample Size and Minimum Detectable Effect<a class="headerlink" href="#sample-size-and-minimum-detectable-effect" title="Link to this heading">#</a></h2>
+<p><strong>Intuition:</strong> Two sides of the same coin, both answerable by inverting the power
+simulation from §8:</p>
+<ul class="simple">
+<li><p><strong>Sample size:</strong> “I want 80% power to detect an effect of 0.4 – how many users
+do I need?” Search upward in n until simulated power hits the target.</p></li>
+<li><p><strong>Minimum Detectable Effect (MDE):</strong> “I can only get 100 users per group – what’s
+the smallest effect I can reliably detect?” Search across effect sizes at fixed n.</p></li>
+</ul>
+<p>These are the questions product teams ask <em>before</em> launching an experiment.</p>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interview prompt:</strong> <em>“How many samples per group do you need for 80% power to
+detect a 0.4 SD effect? And given 100 per group, what’s your MDE?”</em></p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># (reuses simulate_power from the previous cell)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">simulate_power</span><span class="p">(</span><span class="n">effect_size</span><span class="p">,</span> <span class="n">n_per_group</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">rejections</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">B</span><span class="p">):</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span>         <span class="mi">1</span><span class="p">,</span> <span class="n">n_per_group</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">effect_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_per_group</span><span class="p">)</span>
+        <span class="n">se</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">n_per_group</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">n_per_group</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">((</span><span class="n">b</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">se</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1.96</span><span class="p">:</span>
+            <span class="n">rejections</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">rejections</span> <span class="o">/</span> <span class="n">B</span>
+
+<span class="c1"># ── Required sample size for a target power ───────────────────────────────────</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">required_n</span><span class="p">(</span><span class="n">effect_size</span><span class="p">,</span> <span class="n">target_power</span><span class="o">=</span><span class="mf">0.80</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="k">while</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">5000</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">simulate_power</span><span class="p">(</span><span class="n">effect_size</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">target_power</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">n</span>
+        <span class="n">n</span> <span class="o">+=</span> <span class="mi">10</span>
+    <span class="k">return</span> <span class="kc">None</span>
+
+<span class="c1"># ── Minimum detectable effect at a fixed sample size ─────────────────────────</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">minimum_detectable_effect</span><span class="p">(</span><span class="n">n_per_group</span><span class="p">,</span> <span class="n">target_power</span><span class="o">=</span><span class="mf">0.80</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">es</span> <span class="o">=</span> <span class="mf">0.05</span>
+    <span class="k">while</span> <span class="n">es</span> <span class="o">&lt;=</span> <span class="mf">2.0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">simulate_power</span><span class="p">(</span><span class="n">es</span><span class="p">,</span> <span class="n">n_per_group</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">target_power</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">es</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">es</span> <span class="o">+=</span> <span class="mf">0.05</span>
+    <span class="k">return</span> <span class="kc">None</span>
+
+<span class="n">n_needed</span> <span class="o">=</span> <span class="n">required_n</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">target_power</span><span class="o">=</span><span class="mf">0.80</span><span class="p">)</span>
+<span class="n">mde_100</span>  <span class="o">=</span> <span class="n">minimum_detectable_effect</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">target_power</span><span class="o">=</span><span class="mf">0.80</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Experiment planning (two-sample, alpha=0.05, target power=0.80):"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  To detect effect 0.4  -&gt; need n = </span><span class="si">{</span><span class="n">n_needed</span><span class="si">}</span><span class="s2"> per group"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Given n = 100/group   -&gt; MDE = </span><span class="si">{</span><span class="n">mde_100</span><span class="si">}</span><span class="s2"> SD"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Consistency check: effect 0.4 needs ~100/group, and 100/group detects"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"~0.4 -- the two calculations agree, as they should."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Experiment planning (two-sample, alpha=0.05, target power=0.80):
+  To detect effect 0.4  -&gt; need n = 100 per group
+  Given n = 100/group   -&gt; MDE = 0.4 SD
+
+Consistency check: effect 0.4 needs ~100/group, and 100/group detects
+~0.4 -- the two calculations agree, as they should.
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Launching without a sample-size calculation, then peeking until significant (see §4) – the two mistakes compound</p></li>
+<li><p>Powering for a tiny effect that isn’t practically meaningful – requires enormous samples for no business value; power for the <em>minimum effect worth acting on</em></p></li>
+<li><p>Ignoring that real A/B tests need the sample size <em>per variant</em>, and that multiple variants or metrics require further correction (§7)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="end-to-end-a-b-test-design">
+<h2>§10 – End-to-End A/B Test Design<a class="headerlink" href="#end-to-end-a-b-test-design" title="Link to this heading">#</a></h2>
+<p><strong>Intuition:</strong> Putting Parts 1-3 together into the workflow a data scientist actually
+runs: decide the sample size <em>before</em> launching, collect exactly that much data,
+run <em>one</em> test at the end, and report significance <strong>and</strong> effect size with a
+confidence interval. This is the disciplined alternative to “launch, peek, stop when
+green” – which §4 showed manufactures false positives.</p>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Interview prompt:</strong> <em>“Design and analyze a complete A/B test for a checkout
+conversion change. Current rate is 8%; you want 80% power to detect a 2 percentage
+point lift. Walk through sample size, then analyze the result.”</em></p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># ── STEP 1: design -- required sample size BEFORE launch ─────────────────────</span>
+<span class="n">baseline_rate</span> <span class="o">=</span> <span class="mf">0.08</span>
+<span class="n">target_lift</span>   <span class="o">=</span> <span class="mf">0.02</span>                                                  <span class="c1"># detect 8% -&gt; 10%</span>
+<span class="n">treatment_rate_assumed</span> <span class="o">=</span> <span class="n">baseline_rate</span> <span class="o">+</span> <span class="n">target_lift</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">required_n_proportions</span><span class="p">(</span><span class="n">p0</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">target_power</span><span class="o">=</span><span class="mf">0.80</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">rng_s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="k">while</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">50_000</span><span class="p">:</span>
+        <span class="n">rej</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">B</span><span class="p">):</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">rng_s</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">rng_s</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="n">p_pool</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">+</span><span class="n">b</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">se</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">p_pool</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p_pool</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="n">n</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">se</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">((</span><span class="n">b</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">-</span><span class="n">a</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="o">/</span><span class="n">se</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1.96</span><span class="p">:</span>
+                <span class="n">rej</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">rej</span><span class="o">/</span><span class="n">B</span> <span class="o">&gt;=</span> <span class="n">target_power</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">n</span>
+        <span class="n">n</span> <span class="o">+=</span> <span class="mi">500</span>
+    <span class="k">return</span> <span class="kc">None</span>
+
+<span class="n">n_design</span> <span class="o">=</span> <span class="n">required_n_proportions</span><span class="p">(</span><span class="n">baseline_rate</span><span class="p">,</span> <span class="n">treatment_rate_assumed</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"STEP 1 -- Design"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Baseline: </span><span class="si">{</span><span class="n">baseline_rate</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">, target lift: +</span><span class="si">{</span><span class="n">target_lift</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2"> "</span>
+      <span class="sa">f</span><span class="s2">"(detect </span><span class="si">{</span><span class="n">treatment_rate_assumed</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Required sample size: </span><span class="si">{</span><span class="n">n_design</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> per variant for 80% power"</span><span class="p">)</span>
+
+<span class="c1"># ── STEP 2: collect exactly n_design per variant (simulate the real test) ────</span>
+<span class="c1"># Suppose the TRUE treatment effect is a ~2.8pt lift (above our 2pt MDE)</span>
+<span class="n">true_treatment_rate</span> <span class="o">=</span> <span class="mf">0.108</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">43</span><span class="p">)</span>   <span class="c1"># seed for the data-collection draw</span>
+<span class="n">control</span>   <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">baseline_rate</span><span class="p">,</span>       <span class="n">n_design</span><span class="p">)</span>
+<span class="n">treatment</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">true_treatment_rate</span><span class="p">,</span> <span class="n">n_design</span><span class="p">)</span>
+
+<span class="c1"># ── STEP 3: analyze ONCE at the end ──────────────────────────────────────────</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">two_proportion_z</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="n">na</span><span class="p">,</span> <span class="n">nb</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="n">p_pool</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">+</span><span class="n">b</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="o">/</span><span class="p">(</span><span class="n">na</span><span class="o">+</span><span class="n">nb</span><span class="p">)</span>
+    <span class="n">se</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">p_pool</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p_pool</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">na</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="n">nb</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">-</span><span class="n">a</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="o">/</span><span class="n">se</span>
+
+<span class="n">z</span>   <span class="o">=</span> <span class="n">two_proportion_z</span><span class="p">(</span><span class="n">control</span><span class="p">,</span> <span class="n">treatment</span><span class="p">)</span>
+<span class="n">p</span>   <span class="o">=</span> <span class="n">norm_two_sided_p</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+<span class="n">diff</span> <span class="o">=</span> <span class="n">treatment</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">control</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">lift</span> <span class="o">=</span> <span class="n">diff</span> <span class="o">/</span> <span class="n">control</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># CI on the difference (bootstrap, from the sampling notebook's toolkit)</span>
+<span class="n">boot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">treatment</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">treatment</span><span class="p">),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span>
+    <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">control</span><span class="p">,</span>   <span class="nb">len</span><span class="p">(</span><span class="n">control</span><span class="p">),</span>   <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+<span class="p">])</span>
+<span class="n">ci</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">boot</span><span class="p">,</span> <span class="p">[</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">97.5</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">STEP 2-3 -- Collect &amp; Analyze (one test at the end)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Control   conversion: </span><span class="si">{</span><span class="n">control</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Treatment conversion: </span><span class="si">{</span><span class="n">treatment</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Absolute difference : </span><span class="si">{</span><span class="n">diff</span><span class="si">:</span><span class="s2">+.4f</span><span class="si">}</span><span class="s2">  (</span><span class="si">{</span><span class="n">diff</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">+.2f</span><span class="si">}</span><span class="s2"> pp)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Relative lift       : </span><span class="si">{</span><span class="n">lift</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">+.1f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  z = </span><span class="si">{</span><span class="n">z</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">,  p = </span><span class="si">{</span><span class="n">p</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  -&gt;  </span><span class="si">{</span><span class="s1">'SIGNIFICANT'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.05</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'not significant'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  95% CI on difference: (</span><span class="si">{</span><span class="n">ci</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">+.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">ci</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">+.4f</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Decision: report significance, effect size, AND the CI. The CI shows the"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"plausible range of the true lift -- essential for the business decision,"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"not just a yes/no on significance."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>STEP 1 -- Design
+  Baseline: 8%, target lift: +2% (detect 10%)
+  Required sample size: 3,100 per variant for 80% power
+
+STEP 2-3 -- Collect &amp; Analyze (one test at the end)
+  Control   conversion: 0.0816
+  Treatment conversion: 0.1094
+  Absolute difference : +0.0277  (+2.77 pp)
+  Relative lift       : +34.0%
+  z = 3.716,  p = 0.0002  -&gt;  SIGNIFICANT
+  95% CI on difference: (+0.0129, +0.0423)
+
+Decision: report significance, effect size, AND the CI. The CI shows the
+plausible range of the true lift -- essential for the business decision,
+not just a yes/no on significance.
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>The disciplined A/B workflow:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Design first</strong> – compute required sample size for your minimum meaningful effect (§9)</p></li>
+<li><p><strong>Collect</strong> exactly that much data – no early stopping (§4)</p></li>
+<li><p><strong>Test once</strong> at the end with the right test (§6)</p></li>
+<li><p><strong>Report</strong> significance <em>and</em> effect size <em>and</em> a confidence interval (§2, §6)</p></li>
+<li><p><strong>Correct</strong> for multiplicity if running several variants or metrics (§7)</p></li>
+</ol>
+<p><strong>Why this matters:</strong> every shortcut – peeking, skipping the power calculation,
+reporting p-values without effect sizes – systematically corrupts the conclusion.
+The discipline <em>is</em> the method.</p>
+</section>
+<hr class="docutils" />
+<section id="connection-to-the-sampling-notebook">
+<h2>Connection to the Sampling Notebook<a class="headerlink" href="#connection-to-the-sampling-notebook" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>This notebook (inference)</p></th>
+<th class="head text-left"><p>Sampling notebook</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>§2 CI – unified z/t/bootstrap</p></td>
+<td class="text-left"><p>Bootstrap CI scattered across methods</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>§6 Two-sample parametric tests</p></td>
+<td class="text-left"><p>§9 Two-sample bootstrap &amp; permutation</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>§7 Multiple testing correction</p></td>
+<td class="text-left"><p>§9 Single A/B test</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>§8-9 Power &amp; sample size</p></td>
+<td class="text-left"><p>§2 Stratified split (who’s in the test)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>§10 A/B design capstone</p></td>
+<td class="text-left"><p>Pulls in <code class="docutils literal notranslate"><span class="pre">df.sample</span></code>, stratification, bootstrap</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Together they cover the full loop: <strong>design the sample -&gt; collect it -&gt; infer from it.</strong></p>
+</section>
+<hr class="docutils" />
+<section id="interview-q-a">
+<h2>Interview Q&amp;A<a class="headerlink" href="#interview-q-a" title="Link to this heading">#</a></h2>
+<p><strong>Q: Explain a p-value to a non-technical stakeholder.</strong>
+A: The probability of seeing a difference at least this large if the change did
+nothing. It is not the probability the change works, and it is not the size of the
+effect. I’d then move the conversation to the confidence interval, because the
+range of plausible effects is what a launch decision actually needs.</p>
+<p><strong>Q: Your PM checks the dashboard daily and stops when it hits significance.</strong>
+A: That is the peeking problem, and it inflates the false-positive rate far above
+5% — with enough looks you will eventually cross the line by chance. Either fix
+the sample size in advance and look once, or use a method built for continuous
+monitoring: sequential testing with alpha spending, or a Bayesian formulation
+where stopping rules are less fragile.</p>
+<p><strong>Q: How do you pick a sample size?</strong>
+A: Work backwards from the minimum detectable effect. Given the baseline rate, the
+smallest lift worth shipping, alpha, and desired power, the sample size follows.
+The important half is the conversation about the MDE — if the business only cares
+about a 5% lift, powering for 0.5% wastes weeks.</p>
+<p><strong>Q: You tested 20 metrics and one came back at p = 0.04.</strong>
+A: At alpha 0.05, one false positive in 20 is the expected outcome, so on its own
+that result is uninformative. I’d want to know which metric was pre-registered as
+primary. For the rest, correct for multiplicity — Bonferroni if the count is small
+and I want strict control, Benjamini-Hochberg if I care about false discovery rate
+across many metrics.</p>
+<p><strong>Q: The test is not significant. Does the feature not work?</strong>
+A: It means we could not detect an effect at our power, which is not the same as
+no effect. The confidence interval is the honest answer: if it runs from −0.1% to
++0.3%, we have genuinely ruled out anything large; if it runs from −5% to +6%, the
+test was underpowered and we learned very little.</p>
+<p><strong>Q: When would you use a bootstrap CI instead of the t-interval?</strong>
+A: When the statistic is not a mean, or the distribution is heavily skewed with a
+small sample. Revenue per user is the standard case: a long right tail means the
+CLT converges slowly, and the t-interval can undercover badly at realistic sample
+sizes.</p>
+<section id="gotchas">
+<h3>Gotchas<a class="headerlink" href="#gotchas" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Statistical significance is not practical significance; with a large enough sample everything is significant</p></li>
+<li><p>A CI that excludes zero and a p &lt; 0.05 are the same statement — reporting both as separate evidence double-counts</p></li>
+<li><p>One-sided tests need to be justified before seeing the data, not chosen after</p></li>
+<li><p>Multiple comparisons include metrics, segments, <em>and</em> time slices — segment-hunting after the fact is uncontrolled multiplicity</p></li>
+<li><p>Normality of the <em>data</em> is not required for a t-test on a large sample; normality of the <em>sampling distribution of the mean</em> is</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Python Data Libs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Reference_Sampling.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Sampling Methods – DS Interview Reference</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../Metrics/metrics0.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Business Metrics</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

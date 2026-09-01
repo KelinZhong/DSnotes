@@ -1,0 +1,1002 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How do models find similarity and boundaries? &#8212; Data Science Interview Prep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Machine Learning/ML6_similarity_boundaries';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="How do you handle imbalance, calibration, and thresholds?" href="ML7_imbalance_calibration.html" />
+    <link rel="prev" title="How do tree-based models make decisions?" href="ML5_tree_based_models.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Science Interview Prep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    Topics
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Python%20Data%20Libs/Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Python%20Data%20Libs/Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ML1_how_models_learn.html">What is ML and how do models learn?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ML2_model_evaluation.html">How do we know if a model is good?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ML3_data_preparation.html">How do we prepare data for models?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ML4_unsupervised_learning.html">How do models find structure without labels?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ML5_tree_based_models.html">How do tree-based models make decisions?</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">How do models find similarity and boundaries?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ML7_imbalance_calibration.html">How do you handle imbalance, calibration, and thresholds?</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k-nearest-neighbors-k-nn">1. K-Nearest Neighbors (k-NN)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-it-is">What it is</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-intuition">Key intuition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distance-metrics">Distance metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use">When to use</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-not-to-use">When not to use</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interview-q-a">Interview Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gotchas">Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#support-vector-machines-svm">2. Support Vector Machines (SVM)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">What it is</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Key intuition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hard-margin-vs-soft-margin">Hard margin vs soft margin</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">When to use</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">When not to use</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Interview Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-kernel-trick">3. The Kernel Trick</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">What it is</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Key intuition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-kernels">Common kernels</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">When to use</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Interview Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Gotchas</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../intro.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="ML0.html" class="nav-link">Machine Learning</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">How do models find similarity and boundaries?</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="how-do-models-find-similarity-and-boundaries">
+<h1>How do models find similarity and boundaries?<a class="headerlink" href="#how-do-models-find-similarity-and-boundaries" title="Link to this heading">#</a></h1>
+<p><strong>Topics:</strong> K-Nearest Neighbors (k-NN) · Support Vector Machines (SVM) · Kernel Trick</p>
+<hr class="docutils" />
+<section id="k-nearest-neighbors-k-nn">
+<h2>1. K-Nearest Neighbors (k-NN)<a class="headerlink" href="#k-nearest-neighbors-k-nn" title="Link to this heading">#</a></h2>
+<section id="what-it-is">
+<h3>What it is<a class="headerlink" href="#what-it-is" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Non-parametric algorithm — no training phase, just stores data</p></li>
+<li><p>Classifies a new point by majority vote of its K nearest neighbors</p></li>
+<li><p>For regression: predicts the mean of K nearest neighbors’ values</p></li>
+</ul>
+</section>
+<section id="key-intuition">
+<h3>Key intuition<a class="headerlink" href="#key-intuition" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>“You are who your neighbors are”</p></li>
+<li><p>Distance determines similarity — nearest neighbors = most similar training points</p></li>
+<li><p>No model is learned — prediction time does all the work</p></li>
+</ul>
+</section>
+<section id="distance-metrics">
+<h3>Distance metrics<a class="headerlink" href="#distance-metrics" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metric</p></th>
+<th class="head"><p>Formula</p></th>
+<th class="head"><p>Best for</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Euclidean</p></td>
+<td><p>sqrt(Σ(xᵢ - yᵢ)²)</p></td>
+<td><p>Continuous features</p></td>
+</tr>
+<tr class="row-odd"><td><p>Manhattan</p></td>
+<td><p>Σ|xᵢ - yᵢ|</p></td>
+<td><p>High dimensions, robust to outliers</p></td>
+</tr>
+<tr class="row-even"><td><p>Minkowski</p></td>
+<td><p>(Σ|xᵢ - yᵢ|^p)^(1/p)</p></td>
+<td><p>Generalization of above</p></td>
+</tr>
+<tr class="row-odd"><td><p>Cosine</p></td>
+<td><p>1 - (x·y)/(‖x‖‖y‖)</p></td>
+<td><p>Text, sparse data</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="when-to-use">
+<h3>When to use<a class="headerlink" href="#when-to-use" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Small datasets where prediction speed is not critical</p></li>
+<li><p>Non-linear decision boundaries</p></li>
+<li><p>Simple baseline that is hard to beat on some tasks</p></li>
+</ul>
+</section>
+<section id="when-not-to-use">
+<h3>When not to use<a class="headerlink" href="#when-not-to-use" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Large datasets — prediction is O(n) per query (slow)</p></li>
+<li><p>High-dimensional data — distances become meaningless (curse of dimensionality)</p></li>
+<li><p>Features on very different scales without normalization</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNeighborsClassifier</span><span class="p">,</span> <span class="n">KNeighborsRegressor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_classification</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">cross_val_score</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_classification</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Always scale before k-NN</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_train_s</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test_s</span>  <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># ── k-NN Classifier ──</span>
+<span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">'euclidean'</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="s1">'uniform'</span><span class="p">)</span>
+<span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"k=5 test accuracy: </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_s</span><span class="p">))</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Distance-weighted k-NN (closer neighbors have more influence)</span>
+<span class="n">knn_w</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="s1">'distance'</span><span class="p">)</span>
+<span class="n">knn_w</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"k=5 weighted acc : </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">knn_w</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_s</span><span class="p">))</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Choosing K</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="si">{</span><span class="s1">'K'</span><span class="si">:</span><span class="s2">&lt;6</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'CV Accuracy'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">21</span><span class="p">]:</span>
+    <span class="n">knn_k</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">knn_k</span><span class="p">,</span> <span class="n">X_train_s</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">'accuracy'</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">&lt;6</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Get neighbors for a new point</span>
+<span class="n">distances</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">kneighbors</span><span class="p">(</span><span class="n">X_test_s</span><span class="p">[:</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Nearest neighbor indices  : </span><span class="si">{</span><span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Distances to neighbors    : </span><span class="si">{</span><span class="n">distances</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>k=5 test accuracy: 0.890
+k=5 weighted acc : 0.890
+
+K      CV Accuracy
+1      0.830
+3      0.855
+5      0.870
+7      0.875
+11     0.855
+15     0.860
+21     0.867
+
+Nearest neighbor indices  : [146 197 272 118   7]
+Distances to neighbors    : [1.635 1.958 2.135 2.242 2.359]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="interview-q-a">
+<h3>Interview Q&amp;A<a class="headerlink" href="#interview-q-a" title="Link to this heading">#</a></h3>
+<p><strong>How do you choose K?</strong></p>
+<ul class="simple">
+<li><p>Small K → complex boundary, high variance (overfitting)</p></li>
+<li><p>Large K → smooth boundary, high bias (underfitting)</p></li>
+<li><p>Use cross-validation to find optimal K — typically odd values to avoid ties</p></li>
+</ul>
+<p><strong>Why must you scale features for k-NN?</strong></p>
+<ul class="simple">
+<li><p>Distance is computed across all features</p></li>
+<li><p>A feature with range [0, 1000] dominates one with range [0, 1]</p></li>
+<li><p>StandardScaler or MinMaxScaler required</p></li>
+</ul>
+<p><strong>What is the curse of dimensionality in k-NN?</strong></p>
+<ul class="simple">
+<li><p>In high dimensions, all points become roughly equidistant</p></li>
+<li><p>Nearest neighbors are no longer meaningfully “near”</p></li>
+<li><p>k-NN degrades badly above ~20 features</p></li>
+</ul>
+</section>
+<section id="gotchas">
+<h3>Gotchas<a class="headerlink" href="#gotchas" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>k-NN has no training phase but prediction is O(n×d) — very slow on large datasets</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">KDTree</span></code> or <code class="docutils literal notranslate"><span class="pre">BallTree</span></code> (set algorithm=’kd_tree’) to speed up neighbor search</p></li>
+<li><p>weights=’distance’ generally outperforms uniform — closer neighbors should matter more</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="support-vector-machines-svm">
+<h2>2. Support Vector Machines (SVM)<a class="headerlink" href="#support-vector-machines-svm" title="Link to this heading">#</a></h2>
+<section id="id1">
+<h3>What it is<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Finds the <strong>maximum margin hyperplane</strong> that best separates classes</p></li>
+<li><p>Support vectors = the data points closest to the decision boundary (they define it)</p></li>
+<li><p>Can handle non-linear boundaries using the kernel trick</p></li>
+</ul>
+</section>
+<section id="id2">
+<h3>Key intuition<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Draw the widest possible “street” between two classes — the boundary is the center of the street</p></li>
+<li><p>Only the support vectors matter — removing other points doesn’t change the boundary</p></li>
+<li><p>Larger margin → better generalization</p></li>
+</ul>
+</section>
+<section id="hard-margin-vs-soft-margin">
+<h3>Hard margin vs soft margin<a class="headerlink" href="#hard-margin-vs-soft-margin" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Hard margin</strong> → no misclassification allowed — only works if data is linearly separable</p></li>
+<li><p><strong>Soft margin</strong> → allows some misclassification (controlled by C parameter)</p>
+<ul>
+<li><p>High C → narrow margin, few errors, risk of overfitting</p></li>
+<li><p>Low C → wide margin, more errors allowed, more regularized</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id3">
+<h3>When to use<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Small to medium datasets (&lt; 100k samples)</p></li>
+<li><p>High-dimensional data (text classification)</p></li>
+<li><p>Clear margin of separation between classes</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>When not to use<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Large datasets — training is O(n²) to O(n³), very slow</p></li>
+<li><p>Need probability outputs — SVM gives distances not probabilities by default</p></li>
+<li><p>Many overlapping classes — SVM struggles with noise near the boundary</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.svm</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVC</span><span class="p">,</span> <span class="n">SVR</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_classification</span><span class="p">,</span> <span class="n">make_moons</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="c1"># ── Linear SVM ──</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_classification</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_train_s</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test_s</span>  <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="n">svm_linear</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">'linear'</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">svm_linear</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Linear SVM accuracy    : </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">svm_linear</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_s</span><span class="p">))</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Support vectors        : </span><span class="si">{</span><span class="n">svm_linear</span><span class="o">.</span><span class="n">n_support_</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># ── RBF kernel SVM (non-linear) ──</span>
+<span class="n">X_nl</span><span class="p">,</span> <span class="n">y_nl</span> <span class="o">=</span> <span class="n">make_moons</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X_tr</span><span class="p">,</span> <span class="n">X_te</span><span class="p">,</span> <span class="n">y_tr</span><span class="p">,</span> <span class="n">y_te</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_nl</span><span class="p">,</span> <span class="n">y_nl</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">X_tr</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_tr</span><span class="p">)</span>
+<span class="n">X_te</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_te</span><span class="p">)</span>
+
+<span class="n">svm_rbf</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">'rbf'</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="s1">'scale'</span><span class="p">)</span>
+<span class="n">svm_rbf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_tr</span><span class="p">,</span> <span class="n">y_tr</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"RBF SVM accuracy       : </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_te</span><span class="p">,</span><span class="w"> </span><span class="n">svm_rbf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_te</span><span class="p">))</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># ── Tuning C and gamma ──</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'C'</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="s1">'gamma'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'scale'</span><span class="p">,</span> <span class="s1">'auto'</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]}</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">'rbf'</span><span class="p">),</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">'accuracy'</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_tr</span><span class="p">,</span> <span class="n">y_tr</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Best params            : </span><span class="si">{</span><span class="n">grid</span><span class="o">.</span><span class="n">best_params_</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Best CV accuracy       : </span><span class="si">{</span><span class="n">grid</span><span class="o">.</span><span class="n">best_score_</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Linear SVM accuracy    : 0.890
+Support vectors        : [55 59]
+RBF SVM accuracy       : 0.950
+Best params            : {'C': 10, 'gamma': 'scale'}
+Best CV accuracy       : 0.991
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id5">
+<h3>Interview Q&amp;A<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p><strong>What are support vectors?</strong></p>
+<ul class="simple">
+<li><p>The training points that lie on or within the margin</p></li>
+<li><p>They are the only points that define the decision boundary</p></li>
+<li><p>Removing non-support vectors does not change the model</p></li>
+</ul>
+<p><strong>What does the C parameter control?</strong></p>
+<ul class="simple">
+<li><p>Regularization strength — tradeoff between margin width and misclassification</p></li>
+<li><p>High C → hard margin, fits training data closely, risk of overfitting</p></li>
+<li><p>Low C → wide margin, allows more errors, better generalization</p></li>
+</ul>
+<p><strong>Why scale features for SVM?</strong></p>
+<ul class="simple">
+<li><p>SVM optimizes based on distances — unscaled features dominate</p></li>
+<li><p>Always StandardScaler before SVM</p></li>
+</ul>
+</section>
+<section id="id6">
+<h3>Gotchas<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>SVM is slow on large datasets — use LinearSVC for large linear problems (much faster)</p></li>
+<li><p>probability=True adds significant training cost (Platt scaling) — avoid unless needed</p></li>
+<li><p>GridSearch C and gamma together — they interact strongly</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="the-kernel-trick">
+<h2>3. The Kernel Trick<a class="headerlink" href="#the-kernel-trick" title="Link to this heading">#</a></h2>
+<section id="id7">
+<h3>What it is<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>A mathematical technique that allows SVM (and other algorithms) to operate in high-dimensional feature spaces without explicitly computing the transformation</p></li>
+<li><p>Replaces dot products with a kernel function K(x, z) = φ(x)·φ(z)</p></li>
+<li><p>Effectively maps data to a higher dimension where it becomes linearly separable</p></li>
+</ul>
+</section>
+<section id="id8">
+<h3>Key intuition<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Data not linearly separable in 2D → transform to 3D where it is → find linear boundary there</p></li>
+<li><p>Kernel trick: compute the dot product in high-dim space without actually going there → computationally cheap</p></li>
+</ul>
+</section>
+<section id="common-kernels">
+<h3>Common kernels<a class="headerlink" href="#common-kernels" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Kernel</p></th>
+<th class="head"><p>Formula</p></th>
+<th class="head"><p>When to use</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Linear</p></td>
+<td><p>x·z</p></td>
+<td><p>Linearly separable, high-dim data (text)</p></td>
+</tr>
+<tr class="row-odd"><td><p>RBF (Gaussian)</p></td>
+<td><p>exp(-γ‖x-z‖²)</p></td>
+<td><p>Most common default, non-linear boundaries</p></td>
+</tr>
+<tr class="row-even"><td><p>Polynomial</p></td>
+<td><p>(x·z + c)^d</p></td>
+<td><p>Polynomial relationships between features</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sigmoid</p></td>
+<td><p>tanh(γx·z + c)</p></td>
+<td><p>Rarely used</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id9">
+<h3>When to use<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Data is not linearly separable in original feature space</p></li>
+<li><p>RBF kernel is the default go-to for non-linear problems</p></li>
+<li><p>Linear kernel for high-dimensional sparse data (text/NLP)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.svm</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVC</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_circles</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="c1"># Concentric circles — not linearly separable</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_circles</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_train_s</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test_s</span>  <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Compare kernels on non-linearly separable data</span>
+<span class="n">kernels</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'linear'</span>     <span class="p">:</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">'linear'</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mf">1.0</span><span class="p">),</span>
+    <span class="s1">'rbf'</span>        <span class="p">:</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">'rbf'</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="s1">'scale'</span><span class="p">),</span>
+    <span class="s1">'poly (d=3)'</span> <span class="p">:</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">'poly'</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mf">1.0</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">kernels</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_s</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">&lt;14</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">acc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Manual RBF kernel intuition</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">rbf_kernel</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="c1"># Computes pairwise RBF kernel matrix</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">Z</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>       <span class="c1"># (n, m, d)</span>
+    <span class="n">sq_dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">diff</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>           <span class="c1"># (n, m)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">gamma</span> <span class="o">*</span> <span class="n">sq_dist</span><span class="p">)</span>
+
+<span class="n">K</span> <span class="o">=</span> <span class="n">rbf_kernel</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">[:</span><span class="mi">5</span><span class="p">],</span> <span class="n">X_train_s</span><span class="p">[:</span><span class="mi">5</span><span class="p">],</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">RBF kernel matrix (5x5 sample):"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Diagonal = 1.0 (each point is perfectly similar to itself)"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>linear        : 0.625
+rbf           : 1.000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>poly (d=3)    : 0.613
+
+RBF kernel matrix (5x5 sample):
+[[1.    0.729 0.465 0.08  0.27 ]
+ [0.729 1.    0.654 0.048 0.058]
+ [0.465 0.654 1.    0.236 0.055]
+ [0.08  0.048 0.236 1.    0.094]
+ [0.27  0.058 0.055 0.094 1.   ]]
+Diagonal = 1.0 (each point is perfectly similar to itself)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id10">
+<h3>Interview Q&amp;A<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<p><strong>What problem does the kernel trick solve?</strong></p>
+<ul class="simple">
+<li><p>Explicitly mapping to high-dim space is computationally expensive (or infinite-dimensional for RBF)</p></li>
+<li><p>Kernel trick computes the inner product in that space directly using the original features → same result, much cheaper</p></li>
+</ul>
+<p><strong>What does gamma control in the RBF kernel?</strong></p>
+<ul class="simple">
+<li><p>Controls the “reach” of each training point</p></li>
+<li><p>High gamma → each point influences only its immediate neighbors → complex boundary → overfitting</p></li>
+<li><p>Low gamma → each point influences a wider area → smoother boundary → underfitting</p></li>
+</ul>
+<p><strong>Can the kernel trick be used outside SVM?</strong></p>
+<ul class="simple">
+<li><p>Yes — kernel PCA, kernel ridge regression, Gaussian Processes all use kernels</p></li>
+<li><p>Any algorithm that only needs inner products between samples can use kernel trick</p></li>
+</ul>
+</section>
+<section id="id11">
+<h3>Gotchas<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>RBF kernel with wrong gamma can perform like linear (gamma too low) or overfit completely (gamma too high)</p></li>
+<li><p>Kernel SVM is O(n²) to O(n³) — impractical for large datasets</p></li>
+<li><p>For large datasets use linear kernel with LinearSVC or switch to neural networks</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Machine Learning"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ML5_tree_based_models.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">How do tree-based models make decisions?</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ML7_imbalance_calibration.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">How do you handle imbalance, calibration, and thresholds?</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

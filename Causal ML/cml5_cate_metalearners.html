@@ -1,0 +1,1023 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How do you estimate individual-level treatment effects? &#8212; Data Science Interview Prep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Causal ML/cml5_cate_metalearners';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="How do you do uplift modeling?" href="cml6_uplift_modeling.html" />
+    <link rel="prev" title="How do you identify causal structure?" href="cml4_identification.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Science Interview Prep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    Topics
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Python%20Data%20Libs/Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Python%20Data%20Libs/Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="cml1_foundations.html">Why does causality matter?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cml2_experiments.html">How do you design and analyze experiments?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cml3_observational.html">How do you estimate causal effects from observational data?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cml4_identification.html">How do you identify causal structure?</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">How do you estimate individual-level treatment effects?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cml6_uplift_modeling.html">How do you do uplift modeling?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cml7_causal_forests.html">How do you use causal forests?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cml8_endtoend.html">How do you apply Causal ML end-to-end?</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cate-meta-learners-overview">1. CATE &amp; Meta-Learners Overview</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-it-is">What it is</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-cate-matters">Why CATE matters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#assumptions-all-meta-learners">Assumptions (all meta-learners)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation">Validation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-violated">If violated</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#x-learner-r-learner">2. X-Learner &amp; R-Learner</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#x-learner">X-Learner</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#r-learner">R-Learner</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-which">When to use which</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-assumptions">Additional assumptions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#formula-robinson-decomposition-behind-r-learner-dml">Formula (Robinson decomposition, behind R-learner &amp; DML)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#double-machine-learning-dml">3. Double Machine Learning (DML)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">What it is</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-it-works-two-key-ideas">Why it works — two key ideas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use">When to use</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#assumptions">Assumptions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Reference</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interview-q-a">Interview Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gotchas">Gotchas</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../intro.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="cml0.html" class="nav-link">Causal Machine Learning</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">How do you estimate individual-level treatment effects?</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="how-do-you-estimate-individual-level-treatment-effects">
+<h1>How do you estimate individual-level treatment effects?<a class="headerlink" href="#how-do-you-estimate-individual-level-treatment-effects" title="Link to this heading">#</a></h1>
+<p><strong>Topics:</strong> CATE · S-Learner · T-Learner · X-Learner · R-Learner · DML · EconML</p>
+<blockquote>
+<div><p><strong>Note:</strong> This notebook uses <code class="docutils literal notranslate"><span class="pre">econml</span></code>. Install with: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">econml</span></code></p>
+</div></blockquote>
+<hr class="docutils" />
+<section id="cate-meta-learners-overview">
+<h2>1. CATE &amp; Meta-Learners Overview<a class="headerlink" href="#cate-meta-learners-overview" title="Link to this heading">#</a></h2>
+<section id="what-it-is">
+<h3>What it is<a class="headerlink" href="#what-it-is" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>CATE (Conditional Average Treatment Effect): <span class="math notranslate nohighlight">\(\tau(x) = E[Y(1)-Y(0) \mid X=x]\)</span></p></li>
+<li><p>Individual-level treatment effect that varies with covariates X</p></li>
+<li><p>Meta-learners use any off-the-shelf ML model to estimate CATE</p></li>
+</ul>
+</section>
+<section id="why-cate-matters">
+<h3>Why CATE matters<a class="headerlink" href="#why-cate-matters" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>ATE tells you the average effect — CATE tells you who benefits most</p></li>
+<li><p>Enables personalized treatment policies — target interventions to those who respond</p></li>
+<li><p>Foundation for uplift modeling and causal forests</p></li>
+</ul>
+</section>
+<section id="assumptions-all-meta-learners">
+<h3>Assumptions (all meta-learners)<a class="headerlink" href="#assumptions-all-meta-learners" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Unconfoundedness</strong>: Y(0),Y(1) ⊥ T | X — no unmeasured confounders</p></li>
+<li><p><strong>Positivity/Overlap</strong>: 0 &lt; P(T=1|X) &lt; 1 for all X</p></li>
+<li><p><strong>SUTVA</strong>: no interference between units</p></li>
+</ul>
+</section>
+<section id="validation">
+<h3>Validation<a class="headerlink" href="#validation" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Overlap plot — propensity scores should overlap between groups</p></li>
+<li><p>AUUC (Area Under Uplift Curve) on held-out data</p></li>
+<li><p>Refutation tests — add random confounder, check estimate changes</p></li>
+</ul>
+</section>
+<section id="if-violated">
+<h3>If violated<a class="headerlink" href="#if-violated" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Ignorability violated → IV-based CATE, sensitivity analysis</p></li>
+<li><p>Positivity violated → trim extreme propensity scores, restrict to overlap region</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestRegressor</span><span class="p">,</span> <span class="n">GradientBoostingRegressor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">cross_val_predict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">3000</span>
+
+<span class="c1"># True heterogeneous treatment effect: CATE(x) = 2 + 1.5*x1 - x2</span>
+<span class="n">X1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">);</span> <span class="n">X2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">);</span> <span class="n">X3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">X</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">,</span> <span class="n">X3</span><span class="p">])</span>
+<span class="n">true_cate</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="mf">1.5</span><span class="o">*</span><span class="n">X1</span> <span class="o">-</span> <span class="mf">1.0</span><span class="o">*</span><span class="n">X2</span>
+
+<span class="c1"># Random treatment assignment</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">true_cate</span> <span class="o">*</span> <span class="n">T</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">X1</span> <span class="o">+</span> <span class="mf">0.3</span><span class="o">*</span><span class="n">X2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"True CATE range: [</span><span class="si">{</span><span class="n">true_cate</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">true_cate</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"True ATE       : </span><span class="si">{</span><span class="n">true_cate</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># S-Learner: single model with T as feature</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">s_learner</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">XT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">])</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">XT</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+    <span class="n">cate</span> <span class="o">=</span> <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">X</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">))]))</span> <span class="o">-</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">X</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">))])))</span>
+    <span class="k">return</span> <span class="n">cate</span>
+
+<span class="c1"># T-Learner: separate models per treatment arm</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">t_learner</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="n">m0</span> <span class="o">=</span> <span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">m1</span> <span class="o">=</span> <span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">m0</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">T</span><span class="o">==</span><span class="mi">0</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">T</span><span class="o">==</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">m1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">T</span><span class="o">==</span><span class="mi">1</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">T</span><span class="o">==</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">m1</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">-</span> <span class="n">m0</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">cate_s</span> <span class="o">=</span> <span class="n">s_learner</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+<span class="n">cate_t</span> <span class="o">=</span> <span class="n">t_learner</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+
+<span class="n">corr_s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">true_cate</span><span class="p">,</span> <span class="n">cate_s</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">corr_t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">true_cate</span><span class="p">,</span> <span class="n">cate_t</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"S-Learner correlation with true CATE: </span><span class="si">{</span><span class="n">corr_s</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"T-Learner correlation with true CATE: </span><span class="si">{</span><span class="n">corr_t</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="c1"># True CATE distribution</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">true_cate</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#7F8C8D'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'white'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">true_cate</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#E74C3C'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'ATE=</span><span class="si">{</span><span class="n">true_cate</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'CATE'</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Count'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'True CATE Distribution'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'top'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'right'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># S-Learner vs true</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">true_cate</span><span class="p">,</span> <span class="n">cate_s</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#3498DB'</span><span class="p">)</span>
+<span class="n">lims</span> <span class="o">=</span> <span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="n">true_cate</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">cate_s</span><span class="o">.</span><span class="n">min</span><span class="p">()),</span> <span class="nb">max</span><span class="p">(</span><span class="n">true_cate</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">cate_s</span><span class="o">.</span><span class="n">max</span><span class="p">())]</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lims</span><span class="p">,</span> <span class="n">lims</span><span class="p">,</span> <span class="s1">'r--'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'True CATE'</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Estimated CATE'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'S-Learner (corr=</span><span class="si">{</span><span class="n">corr_s</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">)'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'top'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'right'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># T-Learner vs true</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">true_cate</span><span class="p">,</span> <span class="n">cate_t</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#2ECC71'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lims</span><span class="p">,</span> <span class="n">lims</span><span class="p">,</span> <span class="s1">'r--'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'True CATE'</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Estimated CATE'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'T-Learner (corr=</span><span class="si">{</span><span class="n">corr_t</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">)'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'top'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'right'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">'CATE Estimation: S-Learner vs T-Learner'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'cate_metalearners.png'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">'tight'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True CATE range: [-4.81, 7.92]
+True ATE       : 2.086
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>S-Learner correlation with true CATE: 0.981
+T-Learner correlation with true CATE: 0.979
+</pre></div>
+</div>
+<img alt="../_images/65f4db4a1447c3176ab677b13442754d08f12d1cbf29a15cbe4cdbbebb855cbb.png" src="../_images/65f4db4a1447c3176ab677b13442754d08f12d1cbf29a15cbe4cdbbebb855cbb.png" />
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="x-learner-r-learner">
+<h2>2. X-Learner &amp; R-Learner<a class="headerlink" href="#x-learner-r-learner" title="Link to this heading">#</a></h2>
+<section id="x-learner">
+<h3>X-Learner<a class="headerlink" href="#x-learner" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Improves T-Learner when treatment groups are imbalanced</p></li>
+<li><p>Step 1: Fit outcome models mu_0, mu_1 per group (like T-Learner)</p></li>
+<li><p>Step 2: Impute counterfactual treatment effects for each unit</p></li>
+<li><p>Step 3: Fit CATE models on imputed effects</p></li>
+<li><p>Step 4: Combine using propensity-weighted average</p></li>
+</ul>
+</section>
+<section id="r-learner">
+<h3>R-Learner<a class="headerlink" href="#r-learner" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Based on Robinson (1988) decomposition</p></li>
+<li><p>Residualizes both outcome and treatment on covariates X</p></li>
+<li><p>Fits CATE to predict outcome residuals from treatment residuals</p></li>
+<li><p>Most statistically efficient meta-learner — recommended default</p></li>
+</ul>
+</section>
+<section id="when-to-use-which">
+<h3>When to use which<a class="headerlink" href="#when-to-use-which" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Learner</p></th>
+<th class="head"><p>Best when</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>S-Learner</p></td>
+<td><p>Simple, few features, small dataset</p></td>
+</tr>
+<tr class="row-odd"><td><p>T-Learner</p></td>
+<td><p>Balanced groups, flexible baseline</p></td>
+</tr>
+<tr class="row-even"><td><p>X-Learner</p></td>
+<td><p>Imbalanced treatment groups</p></td>
+</tr>
+<tr class="row-odd"><td><p>R-Learner</p></td>
+<td><p>Default — most robust, best statistical properties</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="additional-assumptions">
+<h3>Additional assumptions<a class="headerlink" href="#additional-assumptions" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>X-Learner: good base learner fit in each treatment arm</p></li>
+<li><p>R-Learner: cross-fitting assumption — nuisance models fit on held-out data</p></li>
+</ul>
+</section>
+<section id="formula-robinson-decomposition-behind-r-learner-dml">
+<h3>Formula (Robinson decomposition, behind R-learner &amp; DML)<a class="headerlink" href="#formula-robinson-decomposition-behind-r-learner-dml" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Residualize:
+$<span class="math notranslate nohighlight">\(Y - m(X) = \big(T - e(X)\big) \cdot \tau(X) + \varepsilon\)</span>$</p></li>
+<li><p>Regress outcome residual on treatment residual, weighted by <span class="math notranslate nohighlight">\((T - e(X))^2\)</span>, to recover <span class="math notranslate nohighlight">\(\tau(X)\)</span></p></li>
+</ul>
+</section>
+<section id="reference">
+<h3>Reference<a class="headerlink" href="#reference" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Künzel, Sekhon, Bickel &amp; Yu (2019) on meta-learners; Nie &amp; Wager (2021) on the R-learner</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">GradientBoostingRegressor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">cross_val_predict</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">3000</span>
+<span class="n">X1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">);</span> <span class="n">X2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">X</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">])</span>
+<span class="n">true_cate</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="mf">1.5</span><span class="o">*</span><span class="n">X1</span> <span class="o">-</span> <span class="mf">1.0</span><span class="o">*</span><span class="n">X2</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">true_cate</span> <span class="o">*</span> <span class="n">T</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">X1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="c1"># R-Learner from scratch</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">r_learner</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">KFold</span>
+    <span class="n">kf</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="n">n_splits</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">m_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>   <span class="c1"># E[Y|X]</span>
+    <span class="n">e_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>   <span class="c1"># E[T|X]</span>
+    <span class="k">for</span> <span class="n">tr_idx</span><span class="p">,</span> <span class="n">val_idx</span> <span class="ow">in</span> <span class="n">kf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+        <span class="n">rf_y</span> <span class="o">=</span> <span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+        <span class="n">rf_y</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">tr_idx</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">tr_idx</span><span class="p">])</span>
+        <span class="n">m_hat</span><span class="p">[</span><span class="n">val_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">rf_y</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">val_idx</span><span class="p">])</span>
+        <span class="n">lr</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+        <span class="n">lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">tr_idx</span><span class="p">],</span> <span class="n">T</span><span class="p">[</span><span class="n">tr_idx</span><span class="p">])</span>
+        <span class="n">e_hat</span><span class="p">[</span><span class="n">val_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">val_idx</span><span class="p">])[:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">Y_res</span> <span class="o">=</span> <span class="n">Y</span> <span class="o">-</span> <span class="n">m_hat</span>
+    <span class="n">T_res</span> <span class="o">=</span> <span class="n">T</span> <span class="o">-</span> <span class="n">e_hat</span>
+    <span class="n">mask</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">T_res</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.01</span>
+    <span class="n">cate_model</span> <span class="o">=</span> <span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">cate_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">Y_res</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">/</span> <span class="n">T_res</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span>
+                   <span class="n">sample_weight</span><span class="o">=</span><span class="n">T_res</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cate_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">cate_r</span> <span class="o">=</span> <span class="n">r_learner</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+<span class="n">corr_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">true_cate</span><span class="p">,</span> <span class="n">cate_r</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"R-Learner correlation with true CATE: </span><span class="si">{</span><span class="n">corr_r</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Try EconML if available</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">econml.dml</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearDML</span>
+    <span class="n">dml</span> <span class="o">=</span> <span class="n">LinearDML</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">dml</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">cate_econml</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">effect</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">corr_econml</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">true_cate</span><span class="p">,</span> <span class="n">cate_econml</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"EconML LinearDML correlation      : </span><span class="si">{</span><span class="n">corr_econml</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">has_econml</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"EconML not installed — install with: pip install econml"</span><span class="p">)</span>
+    <span class="n">cate_econml</span> <span class="o">=</span> <span class="n">cate_r</span>
+    <span class="n">corr_econml</span> <span class="o">=</span> <span class="n">corr_r</span>
+    <span class="n">has_econml</span>  <span class="o">=</span> <span class="kc">False</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="c1"># R-Learner vs true</span>
+<span class="n">lims</span> <span class="o">=</span> <span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="n">true_cate</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">cate_r</span><span class="o">.</span><span class="n">min</span><span class="p">()),</span> <span class="nb">max</span><span class="p">(</span><span class="n">true_cate</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">cate_r</span><span class="o">.</span><span class="n">max</span><span class="p">())]</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">true_cate</span><span class="p">,</span> <span class="n">cate_r</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#9B59B6'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lims</span><span class="p">,</span> <span class="n">lims</span><span class="p">,</span> <span class="s1">'r--'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Perfect prediction'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'True CATE'</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Estimated CATE'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'R-Learner (corr=</span><span class="si">{</span><span class="n">corr_r</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">)'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'top'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'right'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># CATE by X1</span>
+<span class="n">sort_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">X1</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">true_cate</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#7F8C8D'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'True CATE'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">cate_r</span><span class="p">,</span>   <span class="n">alpha</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#9B59B6'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'R-Learner'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'X1 (covariate)'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'CATE'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'CATE varies linearly with X1'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'top'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'right'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">'R-Learner CATE Estimation'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'r_learner.png'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">'tight'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>R-Learner correlation with true CATE: 0.969
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EconML LinearDML correlation      : 1.000
+</pre></div>
+</div>
+<img alt="../_images/2685325ef981d2a79d5c9b19431336614b30d136b1844d351ab9f4ea169b7bfd.png" src="../_images/2685325ef981d2a79d5c9b19431336614b30d136b1844d351ab9f4ea169b7bfd.png" />
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="double-machine-learning-dml">
+<h2>3. Double Machine Learning (DML)<a class="headerlink" href="#double-machine-learning-dml" title="Link to this heading">#</a></h2>
+<section id="id1">
+<h3>What it is<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>A framework for estimating treatment effects (ATE or CATE) using flexible ML for the nuisances</p></li>
+<li><p>Two nuisance functions estimated with any ML model: <span class="math notranslate nohighlight">\(m(x) = E[Y \mid X]\)</span> and <span class="math notranslate nohighlight">\(e(x) = E[T \mid X]\)</span></p></li>
+<li><p>The effect is estimated from the <strong>residuals</strong>, exactly the Robinson decomposition above</p></li>
+<li><p>The R-learner is DML specialized to heterogeneous τ(x)</p></li>
+</ul>
+</section>
+<section id="why-it-works-two-key-ideas">
+<h3>Why it works — two key ideas<a class="headerlink" href="#why-it-works-two-key-ideas" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Neyman orthogonality</strong>: the residual-on-residual score is insensitive to small errors in the
+nuisance estimates, so slow ML rates don’t contaminate the effect estimate</p></li>
+<li><p><strong>Cross-fitting</strong>: fit nuisances on out-of-fold data and predict on the held-out fold, so no unit
+is used to both fit its own nuisance and estimate its effect — removes overfitting bias</p></li>
+</ul>
+</section>
+<section id="when-to-use">
+<h3>When to use<a class="headerlink" href="#when-to-use" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>High-dimensional / nonlinear confounding where a parametric outcome model is implausible</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LinearDML</span></code> (linear-in-X effect), <code class="docutils literal notranslate"><span class="pre">CausalForestDML</span></code> (nonparametric effect) in EconML</p></li>
+</ul>
+</section>
+<section id="assumptions">
+<h3>Assumptions<a class="headerlink" href="#assumptions" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Unconfoundedness + overlap (as all CATE methods)</p></li>
+<li><p>Cross-fitting used; nuisance models converge faster than n^(1/4)</p></li>
+</ul>
+</section>
+<section id="id2">
+<h3>Reference<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Chernozhukov et al. (2018), <em>Double/Debiased Machine Learning</em></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">GradientBoostingRegressor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">KFold</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">3000</span>
+<span class="n">X1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">);</span> <span class="n">X2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">X</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">])</span>
+<span class="n">true_cate</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="mf">1.5</span><span class="o">*</span><span class="n">X1</span> <span class="o">-</span> <span class="mf">1.0</span><span class="o">*</span><span class="n">X2</span>
+<span class="c1"># Confounded assignment: propensity depends on X (not a clean A/B test)</span>
+<span class="n">e_true</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="mf">0.8</span><span class="o">*</span><span class="n">X1</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">X2</span><span class="p">)))</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">e_true</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">true_cate</span><span class="o">*</span><span class="n">T</span> <span class="o">+</span> <span class="mf">1.0</span><span class="o">*</span><span class="n">X1</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">X2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="c1"># DML with cross-fitting: residualize Y and T on X, then regress residuals</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dml_ate</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">kf</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="n">n_splits</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">m_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">);</span> <span class="n">e_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">tr</span><span class="p">,</span> <span class="n">va</span> <span class="ow">in</span> <span class="n">kf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+        <span class="n">gy</span> <span class="o">=</span> <span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">tr</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">tr</span><span class="p">])</span>
+        <span class="n">m_hat</span><span class="p">[</span><span class="n">va</span><span class="p">]</span> <span class="o">=</span> <span class="n">gy</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">va</span><span class="p">])</span>
+        <span class="n">lr</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">tr</span><span class="p">],</span> <span class="n">T</span><span class="p">[</span><span class="n">tr</span><span class="p">])</span>
+        <span class="n">e_hat</span><span class="p">[</span><span class="n">va</span><span class="p">]</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">va</span><span class="p">])[:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">Yr</span><span class="p">,</span> <span class="n">Tr</span> <span class="o">=</span> <span class="n">Y</span> <span class="o">-</span> <span class="n">m_hat</span><span class="p">,</span> <span class="n">T</span> <span class="o">-</span> <span class="n">e_hat</span>                 <span class="c1"># residuals (orthogonalized)</span>
+    <span class="n">ate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Tr</span> <span class="o">*</span> <span class="n">Yr</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Tr</span> <span class="o">*</span> <span class="n">Tr</span><span class="p">)</span>       <span class="c1"># residual-on-residual slope</span>
+    <span class="k">return</span> <span class="n">ate</span><span class="p">,</span> <span class="n">Yr</span><span class="p">,</span> <span class="n">Tr</span>
+
+<span class="n">ate_dml</span><span class="p">,</span> <span class="n">Yr</span><span class="p">,</span> <span class="n">Tr</span> <span class="o">=</span> <span class="n">dml_ate</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+<span class="n">naive</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">T</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">Y</span><span class="p">[</span><span class="n">T</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"True ATE                 : </span><span class="si">{</span><span class="n">true_cate</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Naive diff-in-means      : </span><span class="si">{</span><span class="n">naive</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">   (biased by confounding)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"DML cross-fitted ATE     : </span><span class="si">{</span><span class="n">ate_dml</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">econml.dml</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearDML</span>
+    <span class="n">dml</span> <span class="o">=</span> <span class="n">LinearDML</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">);</span> <span class="n">dml</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"EconML LinearDML ATE     : </span><span class="si">{</span><span class="n">dml</span><span class="o">.</span><span class="n">ate</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"EconML not installed - install with: pip install econml"</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">6.5</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">Tr</span><span class="p">,</span> <span class="n">Yr</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#16A085'</span><span class="p">)</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">Tr</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">Tr</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ate_dml</span><span class="o">*</span><span class="n">xs</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#E74C3C'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'slope = ATE = </span><span class="si">{</span><span class="n">ate_dml</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Treatment residual  (T - e(X))'</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Outcome residual  (Y - m(X))'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'DML: effect is the residual-on-residual slope'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'top'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'right'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'dml.png'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">'tight'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True ATE                 : 2.086
+Naive diff-in-means      : 3.231   (biased by confounding)
+DML cross-fitted ATE     : 1.993
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EconML LinearDML ATE     : 2.025
+</pre></div>
+</div>
+<img alt="../_images/9b3c46a63414c8cde6064bea67969045620447b701fc528436d66e35c13b80fe.png" src="../_images/9b3c46a63414c8cde6064bea67969045620447b701fc528436d66e35c13b80fe.png" />
+</div>
+</div>
+</section>
+<section id="interview-q-a">
+<h3>Interview Q&amp;A<a class="headerlink" href="#interview-q-a" title="Link to this heading">#</a></h3>
+<p><strong>S-Learner vs T-Learner — which is better?</strong></p>
+<ul class="simple">
+<li><p>T-Learner better when treatment effect is heterogeneous — separate models capture group differences</p></li>
+<li><p>S-Learner better when treatment effect is small — pooling increases sample size</p></li>
+<li><p>T-Learner can overfit with imbalanced treatment groups — use X-Learner then</p></li>
+</ul>
+<p><strong>What is the R-Learner’s key advantage?</strong></p>
+<ul class="simple">
+<li><p>Uses cross-fitting (like cross-validation) for nuisance estimation — avoids overfitting bias</p></li>
+<li><p>Robinson decomposition is semiparametrically efficient — best statistical properties</p></li>
+<li><p>Model-agnostic — any ML model can be the final CATE learner</p></li>
+</ul>
+<p><strong>How do you evaluate CATE estimates without ground truth?</strong></p>
+<ul class="simple">
+<li><p>AUUC on held-out data — rank by estimated CATE, check if top-ranked have higher outcomes</p></li>
+<li><p>Calibration — group units by estimated CATE decile, check if mean observed effect matches</p></li>
+<li><p>Refutation tests — adding a random confounder should not change estimates significantly</p></li>
+</ul>
+</section>
+<section id="gotchas">
+<h3>Gotchas<a class="headerlink" href="#gotchas" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>S-Learner shrinks CATE toward zero if treatment indicator is not given enough importance</p></li>
+<li><p>T-Learner needs sufficient data in each treatment arm — fails with very imbalanced treatment</p></li>
+<li><p>R-Learner requires cross-fitting — never fit nuisance models on the full dataset</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Causal ML"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="cml4_identification.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">How do you identify causal structure?</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="cml6_uplift_modeling.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">How do you do uplift modeling?</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

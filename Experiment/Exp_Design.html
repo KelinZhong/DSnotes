@@ -1,0 +1,1613 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Experiment Design &#8212; Data Science Interview Prep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Experiment/Exp_Design';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Experiment Analysis" href="Exp_Analysis.html" />
+    <link rel="prev" title="Experiments" href="exp0.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Science Interview Prep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    Topics
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Python%20Data%20Libs/Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Python%20Data%20Libs/Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Experiment Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Exp_Analysis.html">Experiment Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Exp_Beyond_AB.html">Beyond A/B Testing</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-table">Decision Table</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#foundations">§0 — Foundations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#potential-outcomes-neymanrubin">Potential Outcomes (Neyman–Rubin)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sutva-the-assumption-people-forget-a-b-tests-have">SUTVA — the assumption people forget A/B tests have</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#type-i-type-ii-errors-power">Type I / Type II Errors, α, Power</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#p-value-the-precise-definition">p-value — the precise definition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#confidence-interval-the-precise-definition">Confidence interval — the precise definition</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-design-checklist">§1 — The Design Checklist</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metric-selection">§2 — Metric Selection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-metric-hierarchy">The Metric Hierarchy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#counter-metrics-the-what-could-this-break-question">Counter-metrics — the “what could this break?” question</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-design-metrics-for-feature-x-pattern">The “design metrics for feature X” pattern</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#good-vs-bad-primary-metric">Good vs Bad Primary Metric</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-metric-mistakes">Common Metric Mistakes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unit-of-randomization-exposure">§3 — Unit of Randomization &amp; Exposure</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#units-and-when-to-use-each">Units and When to Use Each</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-the-unit-a-decision-rule">Choosing the unit: a decision rule</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#user-level-vs-session-level-the-decision-you-ll-be-asked-most">User-level vs session-level: the decision you’ll be asked most</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-distinct-unit-problems-don-t-conflate-them-in-an-interview">Two distinct unit problems — don’t conflate them in an interview</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#network-effects-cluster-randomization">Network Effects → Cluster Randomization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stratified-randomization">Stratified Randomization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#assignment-vs-exposure-trigger-analysis-and-dilution">Assignment vs Exposure — trigger analysis and dilution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#power-analysis-sample-size">§4 — Power Analysis &amp; Sample Size</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-canonical-case-binary-metric-50-50-split">4.1 — The canonical case: binary metric, 50/50 split</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-metrics">4.2 — Continuous metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#real-world-adjustments-dilution-clusters-unequal-allocation">4.3 — Real-world adjustments: dilution, clusters, unequal allocation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#planning-with-cuped-solving-for-mde-and-simulation-based-power">4.4 — Planning with CUPED, solving for MDE, and simulation-based power</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-estimate-mde-in-practice">How to Estimate MDE in Practice</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rules-of-thumb">Rules of Thumb</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validity-checks-infrastructure">§5 — Validity Checks &amp; Infrastructure</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-each-check-catches">What Each Check Catches</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-assignment-actually-works-hashing-bucketing">How assignment actually works: hashing &amp; bucketing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-guide">Decision Guide</a></li>
+</ul>
+  </nav></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../intro.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="exp0.html" class="nav-link">Experiments</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Experiment Design</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="experiment-design">
+<h1>Experiment Design<a class="headerlink" href="#experiment-design" title="Link to this heading">#</a></h1>
+<p><strong>Philosophy:</strong> Pattern-first, interview-oriented. Each section answers a question an interviewer would ask. §0 covers the foundational definitions interviewers probe verbatim (“explain a p-value to a PM”); everything after is design patterns.</p>
+<hr class="docutils" />
+<section id="decision-table">
+<h2>Decision Table<a class="headerlink" href="#decision-table" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>If you need to…</p></th>
+<th class="head text-left"><p>Go to</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Nail the definition questions (p-value, CI, Type I/II, SUTVA)</p></td>
+<td class="text-left"><p>§0 — Foundations</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Walk through designing a test end-to-end</p></td>
+<td class="text-left"><p>§1 — Design Checklist</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Choose what to measure</p></td>
+<td class="text-left"><p>§2 — Metric Selection</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Decide what to randomize, and who actually gets exposed</p></td>
+<td class="text-left"><p>§3 — Unit of Randomization &amp; Exposure</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Calculate how long to run the test (any design)</p></td>
+<td class="text-left"><p>§4 — Power Analysis &amp; Sample Size</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Verify the experiment is set up correctly + platform mechanics</p></td>
+<td class="text-left"><p>§5 — Validity Checks &amp; Infrastructure</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Shared dark plot theme (used by all plots in these notebooks) ────────────</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">BG</span><span class="p">,</span> <span class="n">PANEL</span><span class="p">,</span> <span class="n">GRID</span> <span class="o">=</span> <span class="s1">'#0b0e14'</span><span class="p">,</span> <span class="s1">'#13171f'</span><span class="p">,</span> <span class="s1">'#1e2433'</span>
+<span class="n">TXT</span><span class="p">,</span> <span class="n">MUT</span> <span class="o">=</span> <span class="s1">'#d4dbe8'</span><span class="p">,</span> <span class="s1">'#6b7a99'</span>
+<span class="n">CYAN</span><span class="p">,</span> <span class="n">AMBER</span><span class="p">,</span> <span class="n">GREEN</span><span class="p">,</span> <span class="n">RED</span><span class="p">,</span> <span class="n">PURPLE</span> <span class="o">=</span> <span class="s1">'#4fc4cf'</span><span class="p">,</span> <span class="s1">'#f0c674'</span><span class="p">,</span> <span class="s1">'#7ec98a'</span><span class="p">,</span> <span class="s1">'#f76f6f'</span><span class="p">,</span> <span class="s1">'#b294bb'</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">dark_fig</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">)):</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="n">BG</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">axes</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="n">PANEL</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">colors</span><span class="o">=</span><span class="n">MUT</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[:]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">GRID</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">GRID</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">style_labels</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">xlabel</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">TXT</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ylabel</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">TXT</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">title</span><span class="p">:</span>  <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">TXT</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">dark_legend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">labelcolor</span><span class="o">=</span><span class="n">TXT</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">PANEL</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="n">GRID</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="foundations">
+<h2>§0 — Foundations<a class="headerlink" href="#foundations" title="Link to this heading">#</a></h2>
+<p>The definitions interviewers ask for verbatim. Get these <em>precisely</em> right — the wrong phrasings below are the most common screen-out mistakes.</p>
+<section id="potential-outcomes-neymanrubin">
+<h3>Potential Outcomes (Neyman–Rubin)<a class="headerlink" href="#potential-outcomes-neymanrubin" title="Link to this heading">#</a></h3>
+<p>Every unit <em>i</em> has two potential outcomes: <strong>Y_i(1)</strong> if treated, <strong>Y_i(0)</strong> if not. The individual treatment effect is <code class="docutils literal notranslate"><span class="pre">Y_i(1)</span> <span class="pre">−</span> <span class="pre">Y_i(0)</span></code>.</p>
+<p><strong>The fundamental problem of causal inference:</strong> we only ever observe <em>one</em> of the two — the other is the <strong>counterfactual</strong>. Causal inference is a missing-data problem.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ATE = E[Y(1) − Y(0)]          ← what we want
+Naive diff = E[Y | T=1] − E[Y | T=0]   ← what we can compute
+
+Naive diff = ATE  +  selection bias
+                     (E[Y(0)|T=1] − E[Y(0)|T=0] — treated and untreated
+                      differ even without treatment)
+</pre></div>
+</div>
+<p><strong>Why randomization works:</strong> random assignment makes T independent of (Y(1), Y(0)), so <code class="docutils literal notranslate"><span class="pre">E[Y(0)|T=1]</span> <span class="pre">=</span> <span class="pre">E[Y(0)|T=0]</span></code> — selection bias is zero <em>by design</em> and the difference in means is an unbiased ATE estimate.</p>
+</section>
+<section id="sutva-the-assumption-people-forget-a-b-tests-have">
+<h3>SUTVA — the assumption people forget A/B tests have<a class="headerlink" href="#sutva-the-assumption-people-forget-a-b-tests-have" title="Link to this heading">#</a></h3>
+<p><strong>S</strong>table <strong>U</strong>nit <strong>T</strong>reatment <strong>V</strong>alue <strong>A</strong>ssumption, two parts:</p>
+<ol class="arabic simple">
+<li><p><strong>No interference</strong> — unit i’s outcome doesn’t depend on other units’ assignments. Violated by: social features, marketplaces (treated buyers deplete shared supply), shared resources. → fix with cluster/switchback designs (§3).</p></li>
+<li><p><strong>One version of treatment</strong> — “treatment” is the same thing for everyone. Violated by: rollout bugs on some devices, inconsistent feature behavior.</p></li>
+</ol>
+<p>When an interviewer asks <em>“what assumptions does an A/B test make?”</em> — SUTVA is the expected answer, with a network-effects example.</p>
+</section>
+<section id="type-i-type-ii-errors-power">
+<h3>Type I / Type II Errors, α, Power<a class="headerlink" href="#type-i-type-ii-errors-power" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>H₀ true (no effect)</p></th>
+<th class="head text-left"><p>H₀ false (real effect)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>Reject H₀</strong></p></td>
+<td class="text-left"><p>Type I error — prob. <strong>α</strong> (false positive)</p></td>
+<td class="text-left"><p>Correct — prob. <strong>1−β</strong> = <strong>power</strong></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Fail to reject</strong></p></td>
+<td class="text-left"><p>Correct — prob. 1−α</p></td>
+<td class="text-left"><p>Type II error — prob. <strong>β</strong> (false negative)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Standard: α = 0.05, power = 0.80 → you accept a 5% false-positive rate and a 20% chance of <em>missing</em> a true effect of exactly the MDE size.</p>
+</section>
+<section id="p-value-the-precise-definition">
+<h3>p-value — the precise definition<a class="headerlink" href="#p-value-the-precise-definition" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>The probability of observing a result <strong>at least as extreme</strong> as the one observed, <strong>assuming the null hypothesis is true</strong>.</p>
+</div></blockquote>
+<p>It is a statement about the data given H₀ — <em>never</em> about H₀ given the data.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>❌ Wrong (instant red flag)</p></th>
+<th class="head text-left"><p>Why it’s wrong</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>“p is the probability the null is true”</p></td>
+<td class="text-left"><p>That’s P(H₀ | data) — requires Bayes + a prior</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>“p = 0.03 means 3% chance the result is due to chance”</p></td>
+<td class="text-left"><p>Same inversion, different words</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>“1 − p is the probability the effect is real”</p></td>
+<td class="text-left"><p>No — p says nothing about P(effect)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>“p = 0.06 means there is no effect”</p></td>
+<td class="text-left"><p>Absence of evidence ≠ evidence of absence; check power</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>“Explain a p-value to a PM”:</strong> <em>“If the feature truly did nothing, a p-value of 0.03 means there’d only be a 3% chance of seeing a difference this large just from random noise. It’s small enough that noise is an unlikely explanation — it does not mean there’s a 97% chance the feature works.”</em></p>
+</section>
+<section id="confidence-interval-the-precise-definition">
+<h3>Confidence interval — the precise definition<a class="headerlink" href="#confidence-interval-the-precise-definition" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>A 95% CI is produced by a <strong>procedure</strong> that, over many repeated experiments, captures the true effect 95% of the time.</p>
+</div></blockquote>
+<p>For any <em>single</em> computed interval, the true effect is either in it or not — there is no 95% probability attached to one realized interval (that’s a Bayesian credible interval). The simulation below makes this concrete: the <em>procedure</em> has 95% coverage; individual intervals just hit or miss.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── What "95% confidence" actually means: coverage of the PROCEDURE ─────────</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">true_mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">n_sims</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span>
+
+<span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n_sims</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n_sims</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sims</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">true_mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">se</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">lo</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">hi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">se</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">+</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">se</span>
+
+<span class="n">miss</span> <span class="o">=</span> <span class="p">(</span><span class="n">true_mu</span> <span class="o">&lt;</span> <span class="n">lo</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">true_mu</span> <span class="o">&gt;</span> <span class="n">hi</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Coverage: </span><span class="si">{</span><span class="p">(</span><span class="o">~</span><span class="n">miss</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">n_sims</span><span class="si">}</span><span class="s2"> intervals contain the true mean "</span>
+      <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="p">(</span><span class="o">~</span><span class="n">miss</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">) — by design ≈ 95%"</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">dark_fig</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_sims</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">order</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">RED</span> <span class="k">if</span> <span class="n">miss</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">else</span> <span class="n">CYAN</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">lo</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">hi</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.4</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span> <span class="k">if</span> <span class="n">miss</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">else</span> <span class="mf">0.55</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">true_mu</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">AMBER</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'True mean = </span><span class="si">{</span><span class="n">true_mu</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">style_labels</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">'95% CI for the mean'</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">'Experiment #'</span><span class="p">,</span>
+             <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">'100 repeated experiments — </span><span class="si">{</span><span class="n">miss</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s1"> intervals miss the truth (red)'</span><span class="p">)</span>
+<span class="n">dark_legend</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Coverage: 96 / 100 intervals contain the true mean (96%) — by design ≈ 95%
+</pre></div>
+</div>
+<img alt="../_images/3c0fdb47bced6f0af96f8ca616963382c832c9ddcca2e48e73689a89be190c82.png" src="../_images/3c0fdb47bced6f0af96f8ca616963382c832c9ddcca2e48e73689a89be190c82.png" />
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="the-design-checklist">
+<h2>§1 — The Design Checklist<a class="headerlink" href="#the-design-checklist" title="Link to this heading">#</a></h2>
+<p>When an interviewer says <em>“walk me through how you’d design an experiment”</em>, this is the sequence they expect.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>1. Define the question        What decision will this experiment inform?
+2. Identify the unit          What gets randomized? (user, session, page, cluster)
+   ... and the exposure       Who actually triggers the feature? (§3 — dilution)
+3. Choose metrics             Primary metric + guardrail metrics
+4. Determine sample size      Power analysis → minimum detectable effect → duration
+5. Design randomization       Simple, stratified, or cluster?
+6. Set the stopping rule      Fixed horizon or sequential? Decide BEFORE launching.
+7. Run the experiment         Full weeks, no peeking
+8. Analyze                    SRM check → balance check → ATE + CI → segments
+9. Recommend                  Effect size + confidence + business impact → decision
+</pre></div>
+</div>
+<p><strong>Interviewer follow-ups to prepare for:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Question</p></th>
+<th class="head text-left"><p>Key point in your answer</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>How long would you run it?</p></td>
+<td class="text-left"><p>Power analysis — not “until significance”</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>What if the primary metric doesn’t move?</p></td>
+<td class="text-left"><p>Distinguish no effect vs underpowered</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>What if two metrics move in opposite directions?</p></td>
+<td class="text-left"><p>Guardrail triggered — do not ship</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>How do you handle novelty effect?</p></td>
+<td class="text-left"><p>Run for multiple weeks, check if effect decays</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>What if users in both groups interact?</p></td>
+<td class="text-left"><p>Network effect (SUTVA violation) — cluster randomization</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>What if only a few users ever see the feature?</p></td>
+<td class="text-left"><p>Trigger analysis — dilution changes power math (§3, §4)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="metric-selection">
+<h2>§2 — Metric Selection<a class="headerlink" href="#metric-selection" title="Link to this heading">#</a></h2>
+<p>Choosing the wrong metric is one of the most common interview failure points. The metric must be <strong>sensitive</strong> (moves when the treatment works), <strong>attributable</strong> (caused by the treatment, not confounders), and <strong>not gameable</strong> (can’t be optimized without delivering real value).</p>
+<section id="the-metric-hierarchy">
+<h3>The Metric Hierarchy<a class="headerlink" href="#the-metric-hierarchy" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>North Star Metric
+│  Long-run business goal — moves slowly, hard to optimize directly
+│  Example: annual revenue, DAU, LTV
+│
+├── Primary Metric (OEC — Overall Evaluation Criterion)
+│   What this experiment is designed to move
+│   Must be: sensitive enough to detect effect in the experiment window
+│   Example: 7-day retention, checkout conversion rate, session length
+│
+├── Guardrail Metrics
+│   Must NOT move (or must not move negatively)
+│   Protect against shipping something that wins locally but hurts globally
+│   Example: latency, crash rate, revenue per user, unsubscribe rate
+│
+└── Diagnostic / Debug Metrics
+    Help explain WHY the primary metric moved (or didn't)
+    Not used for the ship/no-ship decision
+    Example: click-through rate, funnel step completion rates
+</pre></div>
+</div>
+</section>
+<section id="counter-metrics-the-what-could-this-break-question">
+<h3>Counter-metrics — the “what could this break?” question<a class="headerlink" href="#counter-metrics-the-what-could-this-break-question" title="Link to this heading">#</a></h3>
+<p>For every primary metric, name the behavior you might be cannibalizing and add a counter-metric for it. Pattern: <em>push notifications ↑ sessions</em> → counter: unsubscribe / uninstall rate. <em>Aggressive upsell ↑ revenue per order</em> → counter: repeat purchase rate. Interviewers often phrase this as <em>“how would you know if you’re winning the metric but losing the user?”</em></p>
+</section>
+<section id="the-design-metrics-for-feature-x-pattern">
+<h3>The “design metrics for feature X” pattern<a class="headerlink" href="#the-design-metrics-for-feature-x-pattern" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>1. State the feature's intent in one sentence (what user behavior should change?)
+2. Primary  = closest measurable expression of that behavior, movable in 2–4 weeks
+3. Guardrails = the 2–3 things the feature could plausibly damage
+4. Counter-metric = the cannibalization risk
+5. Diagnostics = funnel steps that explain the mechanism
+</pre></div>
+</div>
+</section>
+<section id="good-vs-bad-primary-metric">
+<h3>Good vs Bad Primary Metric<a class="headerlink" href="#good-vs-bad-primary-metric" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Property</p></th>
+<th class="head text-left"><p>Good</p></th>
+<th class="head text-left"><p>Bad</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Sensitivity</p></td>
+<td class="text-left"><p>Moves within experiment window</p></td>
+<td class="text-left"><p>Takes months to show signal (LTV)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Attributability</p></td>
+<td class="text-left"><p>Directly caused by the feature</p></td>
+<td class="text-left"><p>Influenced by many external factors</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Not gameable</p></td>
+<td class="text-left"><p>Hard to inflate without real value</p></td>
+<td class="text-left"><p>Clicks, impressions (easy to fake)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Directional</p></td>
+<td class="text-left"><p>Clearly higher = better</p></td>
+<td class="text-left"><p>Ambiguous direction</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="common-metric-mistakes">
+<h3>Common Metric Mistakes<a class="headerlink" href="#common-metric-mistakes" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Vanity metrics</strong> — total page views looks good but doesn’t reflect value; use unique users or session depth instead</p></li>
+<li><p><strong>Proxy too far from the North Star</strong> — optimizing click rate may hurt purchase rate downstream</p></li>
+<li><p><strong>Ratio metrics with unequal denominators</strong> — average revenue per user can move just because user composition shifts; check both numerator and denominator (demo below)</p></li>
+<li><p><strong>Testing too many primary metrics</strong> — multiple testing inflates false positives; pick one primary metric and pre-register it</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Ratio-metric trap: ARPU moves with ZERO change in anyone's spending ─────</span>
+<span class="c1"># Treatment makes signup easier → attracts extra casual users.</span>
+<span class="c1"># Every user type spends exactly the same in both groups.</span>
+
+<span class="n">casual_spend</span><span class="p">,</span> <span class="n">power_spend</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">20.0</span>
+
+<span class="n">ctrl_casual</span><span class="p">,</span> <span class="n">ctrl_power</span> <span class="o">=</span> <span class="mi">8_000</span><span class="p">,</span> <span class="mi">2_000</span>       <span class="c1"># control: 20% power users</span>
+<span class="n">trt_casual</span><span class="p">,</span>  <span class="n">trt_power</span>  <span class="o">=</span> <span class="mi">11_000</span><span class="p">,</span> <span class="mi">2_000</span>      <span class="c1"># treatment: +3k casual users, same power users</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">n_c</span><span class="p">,</span> <span class="n">n_p</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'Control  '</span><span class="p">,</span> <span class="n">ctrl_casual</span><span class="p">,</span> <span class="n">ctrl_power</span><span class="p">),</span>
+                       <span class="p">(</span><span class="s1">'Treatment'</span><span class="p">,</span> <span class="n">trt_casual</span><span class="p">,</span>  <span class="n">trt_power</span><span class="p">)]:</span>
+    <span class="n">revenue</span> <span class="o">=</span> <span class="n">n_c</span> <span class="o">*</span> <span class="n">casual_spend</span> <span class="o">+</span> <span class="n">n_p</span> <span class="o">*</span> <span class="n">power_spend</span>
+    <span class="n">users</span>   <span class="o">=</span> <span class="n">n_c</span> <span class="o">+</span> <span class="n">n_p</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: revenue $</span><span class="si">{</span><span class="n">revenue</span><span class="si">:</span><span class="s2">&gt;8,.0f</span><span class="si">}</span><span class="s2"> | users </span><span class="si">{</span><span class="n">users</span><span class="si">:</span><span class="s2">&gt;6,</span><span class="si">}</span><span class="s2"> "</span>
+          <span class="sa">f</span><span class="s2">"| ARPU $</span><span class="si">{</span><span class="n">revenue</span><span class="o">/</span><span class="n">users</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"ARPU fell from $4.80 to $3.69 (−23%) — yet no user spends less, and"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"total revenue went UP. The denominator (user mix) shifted."</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Lesson: for ratio metrics, always decompose into numerator + denominator"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"before interpreting. (Variance of ratio metrics: delta method, Analysis §2.)"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Control  : revenue $  48,000 | users 10,000 | ARPU $4.80
+Treatment: revenue $  51,000 | users 13,000 | ARPU $3.92
+
+ARPU fell from $4.80 to $3.69 (−23%) — yet no user spends less, and
+total revenue went UP. The denominator (user mix) shifted.
+Lesson: for ratio metrics, always decompose into numerator + denominator
+before interpreting. (Variance of ratio metrics: delta method, Analysis §2.)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="unit-of-randomization-exposure">
+<h2>§3 — Unit of Randomization &amp; Exposure<a class="headerlink" href="#unit-of-randomization-exposure" title="Link to this heading">#</a></h2>
+<p>The unit of randomization is what gets assigned to treatment or control. Choosing the wrong unit causes <strong>false positives</strong> (analysis unit finer than randomization unit) or <strong>infeasibility</strong> (user-level when the treatment affects the whole platform).</p>
+<section id="units-and-when-to-use-each">
+<h3>Units and When to Use Each<a class="headerlink" href="#units-and-when-to-use-each" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Unit</p></th>
+<th class="head text-left"><p>Use when</p></th>
+<th class="head text-left"><p>Risk</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>User</strong></p></td>
+<td class="text-left"><p>Feature is user-specific, most common default</p></td>
+<td class="text-left"><p>Users interact with each other → spillover</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Session</strong></p></td>
+<td class="text-left"><p>Feature only affects a single visit</p></td>
+<td class="text-left"><p>Same user can be in both groups → contamination</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Page / Request</strong></p></td>
+<td class="text-left"><p>Server-side rendering change, no memory needed</p></td>
+<td class="text-left"><p>Very high contamination risk</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Cluster</strong> (geo, device, cohort)</p></td>
+<td class="text-left"><p>Network effects, social features, marketplace</p></td>
+<td class="text-left"><p>Lower statistical power, complex analysis</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Time</strong> (switchback)</p></td>
+<td class="text-left"><p>Marketplace / supply-demand coupling</p></td>
+<td class="text-left"><p>Carryover effects between periods</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="choosing-the-unit-a-decision-rule">
+<h3>Choosing the unit: a decision rule<a class="headerlink" href="#choosing-the-unit-a-decision-rule" title="Link to this heading">#</a></h3>
+<p>The table above lists the options; this is how you actually pick one. Ask these in order — the <strong>first</strong> condition that fires sets a floor on how coarse the unit must be, and you never go finer than that floor.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>1. Causal scope     Does the treatment change the UNIT's persistent state
+                    (memory, habit, account settings, what they'll see next)?
+                    → Yes: randomize by USER. A user must get one experience.
+
+2. Interference     Do treated units affect untreated ones (social graph,
+   (SUTVA)          marketplace supply/demand, shared inventory)?
+                    → Yes: go coarser — CLUSTER (geo, cohort) or TIME (switchback),
+                      coarse enough that the groups don't leak into each other.
+
+3. Denominator      Is the analysis unit (the metric's denominator) finer than
+                    the randomization unit? (e.g. randomize users, measure per-session)
+                    → Allowed, but you MUST aggregate to the randomization unit or
+                      use cluster-robust SEs — never a naive per-row test.
+                      Rule: randomization unit ≥ analysis unit, always.
+
+4. Consistency &amp;    Would a unit seeing DIFFERENT variants across visits be confusing,
+   novelty          or would one exposure change later behavior (learning, habit)?
+                    → Yes: USER, so assignment is stable across sessions.
+
+5. Power budget     Only after 1–4 are satisfied: finer units give more samples and
+                    more power, but the gain is real only when units are independent
+                    and carryover-free. Coarser units (clusters) cost power — budget
+                    for more clusters, not more users.
+</pre></div>
+</div>
+</section>
+<section id="user-level-vs-session-level-the-decision-you-ll-be-asked-most">
+<h3>User-level vs session-level: the decision you’ll be asked most<a class="headerlink" href="#user-level-vs-session-level-the-decision-you-ll-be-asked-most" title="Link to this heading">#</a></h3>
+<p>These two cover the majority of product experiments, and the choice turns on one question — <em>does being in treatment leave a trace on the user?</em></p>
+<p><strong>Randomize by USER when:</strong></p>
+<ul class="simple">
+<li><p>The experience must be <strong>consistent across visits</strong> — checkout flow, pricing, onboarding, navigation structure. Seeing variant A today and B tomorrow feels broken and erodes trust.</p></li>
+<li><p>The metric <strong>accumulates over the user</strong> — retention, LTV, subscription conversion, sessions-per-user.</p></li>
+<li><p>There’s a <strong>learning, habit, or novelty effect</strong> — the treatment’s impact builds (or fades) over repeated exposure, so a user needs a single consistent assignment to measure it.</p></li>
+<li><p><strong>Carryover is plausible</strong> — a prior treated session would contaminate a later control session for the same user.</p></li>
+<li><p>The product is <strong>logged-in</strong> with a stable identity to assign against.</p></li>
+</ul>
+<p><strong>Randomize by SESSION when:</strong></p>
+<ul class="simple">
+<li><p>Each session is a <strong>self-contained, independent interaction</strong> with no expectation of cross-session memory — one-off search, anonymous tool use.</p></li>
+<li><p>The metric is <strong>session-scoped</strong> — in-session conversion, task completion, clicks within a visit.</p></li>
+<li><p>Users are <strong>largely anonymous</strong> or cookies churn, so a durable user identity isn’t available anyway.</p></li>
+<li><p>You want <strong>more statistical power sooner</strong> — sessions accumulate far faster than unique users — <em>and</em> you’ve confirmed the treatment leaves no lasting trace (otherwise the power is bought with bias).</p></li>
+</ul>
+<p><strong>The decisive test:</strong> if showing the same person two different variants across visits would feel broken — or if being in treatment <em>once</em> changes how they behave later — randomize by <strong>user</strong>. If each session is a genuinely fresh interaction, <strong>session-level</strong> is fine and buys you power. The classic trap is choosing session-level for a feature that touches user state: it contaminates the estimate (bias) <em>and</em>, if then analyzed per session, inflates false positives — the two failure modes below.</p>
+</section>
+<section id="two-distinct-unit-problems-don-t-conflate-them-in-an-interview">
+<h3>Two distinct unit problems — don’t conflate them in an interview<a class="headerlink" href="#two-distinct-unit-problems-don-t-conflate-them-in-an-interview" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Randomization unit too fine (session-level for a user-level feature):</strong> the same user sees both experiences → carryover/contamination → <strong>biased</strong> effect estimate. Fix: randomize at the user level.</p></li>
+<li><p><strong>Analysis unit finer than randomization unit (randomize users, t-test sessions):</strong> sessions within a user are correlated; a naive t-test treats them as independent → <strong>underestimated SE → inflated false positives</strong>. Fix: aggregate to one number per user, use cluster-robust SEs, or the delta method (Analysis §2). The simulation below shows how bad this gets.</p></li>
+</ol>
+</section>
+<section id="network-effects-cluster-randomization">
+<h3>Network Effects → Cluster Randomization<a class="headerlink" href="#network-effects-cluster-randomization" title="Link to this heading">#</a></h3>
+<p>When treated users affect control users (social features, marketplaces, shared resources) — a SUTVA violation (§0):</p>
+<ul class="simple">
+<li><p>Assign entire clusters (cities, friend groups, cohorts) to treatment or control</p></li>
+<li><p>Clusters must be relatively isolated from each other</p></li>
+<li><p>Statistical power drops — need more clusters, not just more users (ICC math in §4)</p></li>
+<li><p>Analysis: cluster-robust standard errors or mixed-effects models</p></li>
+</ul>
+</section>
+<section id="stratified-randomization">
+<h3>Stratified Randomization<a class="headerlink" href="#stratified-randomization" title="Link to this heading">#</a></h3>
+<p>When you want to ensure balance on key covariates (platform, country, user tenure):</p>
+<ul class="simple">
+<li><p>Randomize within strata — each stratum gets exactly 50/50 split</p></li>
+<li><p>Reduces variance → increases power (similar to blocking in clinical trials)</p></li>
+<li><p>Must analyze with stratification weights to get unbiased estimates</p></li>
+</ul>
+</section>
+<section id="assignment-vs-exposure-trigger-analysis-and-dilution">
+<h3>Assignment vs Exposure — trigger analysis and dilution<a class="headerlink" href="#assignment-vs-exposure-trigger-analysis-and-dilution" title="Link to this heading">#</a></h3>
+<p><strong>Assignment</strong> = who was bucketed. <strong>Exposure (trigger)</strong> = who actually hit the feature’s code path. If the feature only fires on the checkout page, most assigned users never see it.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ITT (intention-to-treat)   Compare by ASSIGNMENT. Unbiased, answers "what happens
+                           if we ship?" — but the effect is diluted:
+                           effect_ITT ≈ trigger_rate × effect_on_triggered
+
+TOT / CACE                 Effect on those who actually triggered. With one-sided
+                           noncompliance: effect_TOT = effect_ITT / trigger_rate.
+
+Triggered-only analysis    Compare ONLY users who triggered, in both groups.
+                           Valid only if triggering itself can't be affected by
+                           treatment (otherwise you're conditioning on a
+                           post-treatment variable → selection bias).
+</pre></div>
+</div>
+<p>Dilution has a brutal power consequence: at a 20% trigger rate the ITT effect is 5× smaller, so the required sample size is <strong>25×</strong> larger (n scales with 1/effect², §4). The standard interview answer: <em>“I’d compute the trigger rate first, analyze ITT for the ship decision, and restrict to triggered users (with a counterfactual trigger check) for the mechanism.”</em></p>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Randomizing at the session level for features that affect user state — creates within-user contamination</p></li>
+<li><p>Analyzing sessions/pageviews with a naive t-test when randomization was by user — inflated false positive rate (see simulation)</p></li>
+<li><p>Using geo-level clusters that are not actually isolated — a user in NYC may interact with users in Boston, making clusters leaky</p></li>
+<li><p>Comparing triggered treatment users against ALL control users — selection bias; compare against the control users who <em>would have</em> triggered</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Simulation: analysis unit finer than randomization unit → inflated FPR ──</span>
+<span class="c1"># Users have persistent individual behavior (random effect). NO true treatment</span>
+<span class="c1"># effect anywhere. We measure how often a t-test falsely rejects at α = 0.05.</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">n_users</span><span class="p">,</span> <span class="n">n_sims</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">2000</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">one_sim</span><span class="p">(</span><span class="n">analysis_unit</span><span class="p">):</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">n_users</span><span class="p">)</span>                 <span class="c1"># user random effect</span>
+    <span class="n">n_sess</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">n_users</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">uid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_users</span><span class="p">),</span> <span class="n">n_sess</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">uid</span><span class="p">))</span>       <span class="c1"># session outcomes</span>
+    <span class="n">assign</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">n_users</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.5</span>                <span class="c1"># randomize by USER</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">assign</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">analysis_unit</span> <span class="o">==</span> <span class="s1">'session'</span><span class="p">:</span>                        <span class="c1"># naive: t-test on sessions</span>
+        <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">z</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="o">~</span><span class="n">z</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'uid'</span><span class="p">:</span> <span class="n">uid</span><span class="p">,</span> <span class="s1">'y'</span><span class="p">:</span> <span class="n">y</span><span class="p">,</span> <span class="s1">'z'</span><span class="p">:</span> <span class="n">z</span><span class="p">})</span>       <span class="c1"># correct: 1 row per user</span>
+    <span class="n">agg</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'uid'</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="p">(</span><span class="s1">'y'</span><span class="p">,</span> <span class="s1">'mean'</span><span class="p">),</span> <span class="n">z</span><span class="o">=</span><span class="p">(</span><span class="s1">'z'</span><span class="p">,</span> <span class="s1">'first'</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">agg</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">agg</span><span class="o">.</span><span class="n">z</span><span class="p">],</span> <span class="n">agg</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="o">~</span><span class="n">agg</span><span class="o">.</span><span class="n">z</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">fpr</span> <span class="o">=</span> <span class="p">{</span><span class="n">unit</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">one_sim</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.05</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sims</span><span class="p">)])</span>
+       <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'user'</span><span class="p">,</span> <span class="s1">'session'</span><span class="p">]}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"FPR, user-level analysis (correct):       </span><span class="si">{</span><span class="n">fpr</span><span class="p">[</span><span class="s1">'user'</span><span class="p">]</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">   ← ≈ nominal 5%"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"FPR, session-level analysis (naive):      </span><span class="si">{</span><span class="n">fpr</span><span class="p">[</span><span class="s1">'session'</span><span class="p">]</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">   ← badly inflated"</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">dark_fig</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">bars</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">([</span><span class="s1">'User-level</span><span class="se">\n</span><span class="s1">(aggregate per user)'</span><span class="p">,</span> <span class="s1">'Session-level</span><span class="se">\n</span><span class="s1">(naive t-test)'</span><span class="p">],</span>
+              <span class="p">[</span><span class="n">fpr</span><span class="p">[</span><span class="s1">'user'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">fpr</span><span class="p">[</span><span class="s1">'session'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="n">GREEN</span><span class="p">,</span> <span class="n">RED</span><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">AMBER</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Nominal α = 5%'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">b</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bars</span><span class="p">,</span> <span class="p">[</span><span class="n">fpr</span><span class="p">[</span><span class="s1">'user'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">fpr</span><span class="p">[</span><span class="s1">'session'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">]):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">v</span> <span class="o">+</span> <span class="mf">0.6</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%'</span><span class="p">,</span>
+            <span class="n">ha</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">TXT</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">style_labels</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">'False positive rate (%)'</span><span class="p">,</span>
+             <span class="n">title</span><span class="o">=</span><span class="s1">'Randomize by user, analyze by session → false positives explode'</span><span class="p">)</span>
+<span class="n">dark_legend</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FPR, user-level analysis (correct):       4.8%   ← ≈ nominal 5%
+FPR, session-level analysis (naive):      28.7%   ← badly inflated
+</pre></div>
+</div>
+<img alt="../_images/cd98d9605c11a15207b90491643e44d850428eb8baed19990009695f79b003f5.png" src="../_images/cd98d9605c11a15207b90491643e44d850428eb8baed19990009695f79b003f5.png" />
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="power-analysis-sample-size">
+<h2>§4 — Power Analysis &amp; Sample Size<a class="headerlink" href="#power-analysis-sample-size" title="Link to this heading">#</a></h2>
+<p>Sample size must be determined <strong>before</strong> the experiment runs. Running until you see significance is peeking — it inflates the false positive rate (Analysis §4).</p>
+<section id="the-canonical-case-binary-metric-50-50-split">
+<h3>4.1 — The canonical case: binary metric, 50/50 split<a class="headerlink" href="#the-canonical-case-binary-metric-50-50-split" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── The four inputs — fix three, solve for one ───────────────────────────────</span>
+<span class="c1"># alpha  (α) — false positive rate — standard: 0.05</span>
+<span class="c1"># power  (1-β) — true positive rate — standard: 0.80</span>
+<span class="c1"># effect_size (MDE) — minimum effect worth detecting</span>
+<span class="c1"># n — sample size per group</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_size_per_group</span><span class="p">(</span><span class="n">baseline</span><span class="p">,</span> <span class="n">mde_relative</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mf">0.80</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Required sample size per group, two-sample z-test on proportions.</span>
+<span class="sd">    baseline     : baseline conversion rate (e.g. 0.10 for 10%)</span>
+<span class="sd">    mde_relative : minimum detectable effect as relative lift (e.g. 0.05 for +5%)</span>
+<span class="sd">    """</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="n">baseline</span>
+    <span class="n">p2</span> <span class="o">=</span> <span class="n">baseline</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">mde_relative</span><span class="p">)</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">p2</span> <span class="o">-</span> <span class="n">p1</span>
+    <span class="n">z_alpha</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">z_beta</span>  <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">power</span><span class="p">)</span>
+    <span class="n">pooled_p</span> <span class="o">=</span> <span class="p">(</span><span class="n">p1</span> <span class="o">+</span> <span class="n">p2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="n">z_alpha</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pooled_p</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">pooled_p</span><span class="p">))</span> <span class="o">+</span>
+         <span class="n">z_beta</span>  <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">p1</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p1</span><span class="p">)</span> <span class="o">+</span> <span class="n">p2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p2</span><span class="p">)))</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">delta</span><span class="o">**</span><span class="mi">2</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+
+<span class="c1"># Example: checkout page redesign</span>
+<span class="n">baseline</span>      <span class="o">=</span> <span class="mf">0.10</span>    <span class="c1"># 10% conversion rate</span>
+<span class="n">mde_relative</span>  <span class="o">=</span> <span class="mf">0.05</span>    <span class="c1"># detect +5% relative lift (10% → 10.5%)</span>
+<span class="n">daily_traffic</span> <span class="o">=</span> <span class="mi">5000</span>    <span class="c1"># users/day exposed to the test</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="n">sample_size_per_group</span><span class="p">(</span><span class="n">baseline</span><span class="p">,</span> <span class="n">mde_relative</span><span class="p">)</span>
+<span class="n">days</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span> <span class="o">/</span> <span class="n">daily_traffic</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Baseline conversion:    </span><span class="si">{</span><span class="n">baseline</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Target conversion:      </span><span class="si">{</span><span class="n">baseline</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">mde_relative</span><span class="p">)</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Required n per group:   </span><span class="si">{</span><span class="n">n</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Total users needed:     </span><span class="si">{</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Duration at </span><span class="si">{</span><span class="n">daily_traffic</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">/day:  </span><span class="si">{</span><span class="n">days</span><span class="si">}</span><span class="s2"> days (</span><span class="si">{</span><span class="n">days</span><span class="o">/</span><span class="mi">7</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> weeks)"</span><span class="p">)</span>
+
+<span class="c1"># ── MDE curve + power curve ──────────────────────────────────────────────────</span>
+<span class="n">mde_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">n_values</span>   <span class="o">=</span> <span class="p">[</span><span class="n">sample_size_per_group</span><span class="p">(</span><span class="n">baseline</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">mde_values</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">dark_fig</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mde_values</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">n_values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">CYAN</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">mde_relative</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">AMBER</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'Target MDE = </span><span class="si">{</span><span class="n">mde_relative</span><span class="si">:</span><span class="s1">.0%</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">GREEN</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'n = </span><span class="si">{</span><span class="n">n</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">style_labels</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">'MDE (relative %)'</span><span class="p">,</span> <span class="s1">'Sample size per group'</span><span class="p">,</span> <span class="s1">'Sample Size vs MDE'</span><span class="p">)</span>
+<span class="n">dark_legend</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">n_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">20000</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">p1</span><span class="p">,</span> <span class="n">p2</span>  <span class="o">=</span> <span class="n">baseline</span><span class="p">,</span> <span class="n">baseline</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">mde_relative</span><span class="p">)</span>
+<span class="n">se_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">p1</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p1</span><span class="p">)</span><span class="o">/</span><span class="n">n_range</span> <span class="o">+</span> <span class="n">p2</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p2</span><span class="p">)</span><span class="o">/</span><span class="n">n_range</span><span class="p">)</span>
+<span class="n">power_vals</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">((</span><span class="n">p2</span> <span class="o">-</span> <span class="n">p1</span><span class="p">)</span> <span class="o">/</span> <span class="n">se_vals</span> <span class="o">-</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.975</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_range</span><span class="p">,</span> <span class="n">power_vals</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">CYAN</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">AMBER</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'80% power'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">n</span><span class="p">,</span>  <span class="n">color</span><span class="o">=</span><span class="n">GREEN</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'n = </span><span class="si">{</span><span class="n">n</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">style_labels</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">'Sample size per group'</span><span class="p">,</span> <span class="s1">'Power (%)'</span><span class="p">,</span> <span class="s1">'Power Curve'</span><span class="p">)</span>
+<span class="n">dark_legend</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Baseline conversion:    10.0%
+Target conversion:      10.50%
+Required n per group:   57,763
+Total users needed:     115,526
+Duration at 5,000/day:  24 days (3.4 weeks)
+</pre></div>
+</div>
+<img alt="../_images/dc079ed90937c19775d6af836ceb61a44a6b082f3626e341f0e404570155bd6b.png" src="../_images/dc079ed90937c19775d6af836ceb61a44a6b082f3626e341f0e404570155bd6b.png" />
+</div>
+</div>
+</section>
+<section id="continuous-metrics">
+<h3>4.2 — Continuous metrics<a class="headerlink" href="#continuous-metrics" title="Link to this heading">#</a></h3>
+<p>For continuous metrics (revenue per user, session length) the formula needs the metric’s <strong>standard deviation σ</strong>, which you estimate from historical data — the part interviewers probe: <em>“where does σ come from?”</em> Answer: pull the metric for the same population over a recent comparable window and compute its SD (and check stability across weeks). High-variance metrics like revenue are why revenue experiments are chronically underpowered — and why variance reduction (CUPED, Analysis §3) matters.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sample_size_continuous</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="n">mde_abs</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mf">0.80</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""n per group for a two-sample t-test: n = 2σ²(z_α/2 + z_β)² / δ²"""</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">power</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">sigma</span> <span class="o">*</span> <span class="n">z</span> <span class="o">/</span> <span class="n">mde_abs</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="c1"># Step 1: estimate σ from historical data (here: simulated 4-week pull)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">hist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">lognormal</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">50_000</span><span class="p">)</span>   <span class="c1"># revenue/user, skewed</span>
+<span class="n">sigma_hat</span> <span class="o">=</span> <span class="n">hist</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Step 2: pick an MDE worth caring about</span>
+<span class="n">mu_hat</span>  <span class="o">=</span> <span class="n">hist</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">mde_abs</span> <span class="o">=</span> <span class="mf">0.03</span> <span class="o">*</span> <span class="n">mu_hat</span>                  <span class="c1"># +3% relative lift on the mean</span>
+
+<span class="n">n_cont</span> <span class="o">=</span> <span class="n">sample_size_continuous</span><span class="p">(</span><span class="n">sigma_hat</span><span class="p">,</span> <span class="n">mde_abs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Historical mean: $</span><span class="si">{</span><span class="n">mu_hat</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">   SD: $</span><span class="si">{</span><span class="n">sigma_hat</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">   CV = </span><span class="si">{</span><span class="n">sigma_hat</span><span class="o">/</span><span class="n">mu_hat</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"MDE (absolute):  $</span><span class="si">{</span><span class="n">mde_abs</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">  (+3% relative)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"n per group:     </span><span class="si">{</span><span class="n">n_cont</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Same setup with Winsorized metric (cap at P99): "</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">hist</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">hist</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"σ drops </span><span class="si">{</span><span class="n">sigma_hat</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">w</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, "</span>
+      <span class="sa">f</span><span class="s2">"n drops to </span><span class="si">{</span><span class="n">sample_size_continuous</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="mf">0.03</span><span class="o">*</span><span class="n">w</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Historical mean: $4.93   SD: $7.40   CV = 1.5
+MDE (absolute):  $0.15  (+3% relative)
+n per group:     39,319
+
+Same setup with Winsorized metric (cap at P99): σ drops 7.40 → 5.89, n drops to 26,881
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="real-world-adjustments-dilution-clusters-unequal-allocation">
+<h3>4.3 — Real-world adjustments: dilution, clusters, unequal allocation<a class="headerlink" href="#real-world-adjustments-dilution-clusters-unequal-allocation" title="Link to this heading">#</a></h3>
+<p>Three corrections that turn a textbook power calculation into a credible one. All three are plotted below.</p>
+<p><strong>(a) Trigger rate / dilution.</strong> If only a fraction <code class="docutils literal notranslate"><span class="pre">r</span></code> of assigned users trigger the feature, the ITT effect is <code class="docutils literal notranslate"><span class="pre">r</span> <span class="pre">×</span> <span class="pre">δ</span></code>, so per-group n scales by <strong>1/r²</strong>. (Alternative: power on the <em>triggered</em> population — same n of triggered users, but you must wait <code class="docutils literal notranslate"><span class="pre">1/r</span></code> times longer to collect them.)</p>
+<p><strong>(b) Cluster randomization.</strong> Outcomes within a cluster are correlated (ICC = intra-cluster correlation). The <strong>design effect</strong> <code class="docutils literal notranslate"><span class="pre">DE</span> <span class="pre">=</span> <span class="pre">1</span> <span class="pre">+</span> <span class="pre">(m</span> <span class="pre">−</span> <span class="pre">1)</span> <span class="pre">×</span> <span class="pre">ICC</span></code> (m = avg units per cluster) inflates required n: <code class="docutils literal notranslate"><span class="pre">n_clustered</span> <span class="pre">=</span> <span class="pre">n_simple</span> <span class="pre">×</span> <span class="pre">DE</span></code>. Even tiny ICCs hurt when clusters are large — and power is driven by the <strong>number of clusters</strong>, not users per cluster.</p>
+<p><strong>(c) Unequal allocation.</strong> Variance of the difference ∝ <code class="docutils literal notranslate"><span class="pre">1/n_t</span> <span class="pre">+</span> <span class="pre">1/n_c</span></code>. Relative to 50/50, a <code class="docutils literal notranslate"><span class="pre">q</span> <span class="pre">:</span> <span class="pre">(1−q)</span></code> split needs <code class="docutils literal notranslate"><span class="pre">0.25</span> <span class="pre">/</span> <span class="pre">(q(1−q))</span></code> times the total traffic for equal power — a 90/10 split costs 2.78× the total sample.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">dark_fig</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="c1"># (a) dilution: n_assigned per group vs trigger rate (ITT analysis)</span>
+<span class="n">r_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+<span class="n">n_base</span> <span class="o">=</span> <span class="n">sample_size_per_group</span><span class="p">(</span><span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>          <span class="c1"># n if everyone triggered</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">r_grid</span><span class="p">,</span> <span class="n">n_base</span> <span class="o">/</span> <span class="n">r_grid</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">CYAN</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">AMBER</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'20% trigger → 25× n'</span><span class="p">)</span>
+<span class="n">style_labels</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">'Trigger rate'</span><span class="p">,</span> <span class="s1">'n per group (millions)'</span><span class="p">,</span> <span class="s1">'(a) Dilution: n ∝ 1/r²'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">'log'</span><span class="p">);</span> <span class="n">dark_legend</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># (b) clusters: power vs number of clusters, fixed cluster size m=500</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">power_clustered</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">icc</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
+    <span class="n">de</span>   <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">icc</span>
+    <span class="n">n_eff</span> <span class="o">=</span> <span class="p">(</span><span class="n">K</span> <span class="o">*</span> <span class="n">m</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">de</span>                         <span class="c1"># effective n per group</span>
+    <span class="n">se</span>   <span class="o">=</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="n">n_eff</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">delta</span> <span class="o">/</span> <span class="n">se</span> <span class="o">-</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.975</span><span class="p">))</span>
+
+<span class="n">K_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">icc</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">[(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">GREEN</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">CYAN</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">AMBER</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">RED</span><span class="p">)]:</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">K_grid</span><span class="p">,</span> <span class="p">[</span><span class="n">power_clustered</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="n">icc</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">for</span> <span class="n">K</span> <span class="ow">in</span> <span class="n">K_grid</span><span class="p">],</span>
+                 <span class="n">color</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'ICC = </span><span class="si">{</span><span class="n">icc</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">TXT</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">':'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">style_labels</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">'Total number of clusters'</span><span class="p">,</span> <span class="s1">'Power (%)'</span><span class="p">,</span>
+             <span class="s1">'(b) Clusters: ICC eats power'</span><span class="p">)</span>
+<span class="n">dark_legend</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># (c) allocation: total-traffic multiplier vs treatment share</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">q</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mf">0.25</span> <span class="o">/</span> <span class="p">(</span><span class="n">q</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">q</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="n">CYAN</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">GREEN</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'50/50 (optimal)'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">RED</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'90/10 → 2.78×'</span><span class="p">)</span>
+<span class="n">style_labels</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">'Treatment share (%)'</span><span class="p">,</span> <span class="s1">'Total-N multiplier vs 50/50'</span><span class="p">,</span>
+             <span class="s1">'(c) Unequal split cost'</span><span class="p">)</span>
+<span class="n">dark_legend</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Design effect, m=500, ICC=0.01:  DE = </span><span class="si">{</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">499</span><span class="o">*</span><span class="mf">0.01</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> → ~6× more users needed"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/3fb83bb75cdd5e2bbb6dbe3c6e098adecbe3ead487f3fa3a382e77563559f081.png" src="../_images/3fb83bb75cdd5e2bbb6dbe3c6e098adecbe3ead487f3fa3a382e77563559f081.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Design effect, m=500, ICC=0.01:  DE = 5.99 → ~6× more users needed
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="planning-with-cuped-solving-for-mde-and-simulation-based-power">
+<h3>4.4 — Planning with CUPED, solving for MDE, and simulation-based power<a class="headerlink" href="#planning-with-cuped-solving-for-mde-and-simulation-based-power" title="Link to this heading">#</a></h3>
+<p><strong>CUPED-aware planning.</strong> If a pre-experiment covariate correlates with the outcome at ρ, CUPED (Analysis §3) cuts variance by ρ², so <code class="docutils literal notranslate"><span class="pre">n_adjusted</span> <span class="pre">≈</span> <span class="pre">n</span> <span class="pre">×</span> <span class="pre">(1</span> <span class="pre">−</span> <span class="pre">ρ²)</span></code> — plan the experiment <em>assuming</em> the adjustment. ρ = 0.7 → ~half the sample (or half the duration).</p>
+<p><strong>The inverse problem.</strong> Often traffic is fixed and the real question is <em>“what’s the smallest effect we could detect in 4 weeks?”</em> — same equation, solved for MDE. If that MDE is bigger than any plausible effect, the experiment isn’t worth running — a strong thing to say in an interview.</p>
+<p><strong>Simulation-based power — the universal fallback.</strong> Closed forms exist only for clean designs. For skewed metrics, Mann–Whitney, ratio metrics, or clustered data, the honest method: simulate data under the assumed effect, run your <em>actual</em> analysis pipeline many times, count rejections. Works for any design, and doubles as a check on your analytic formula.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── CUPED-aware planning ─────────────────────────────────────────────────────</span>
+<span class="n">rho</span> <span class="o">=</span> <span class="mf">0.7</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"n without CUPED: </span><span class="si">{</span><span class="n">n_cont</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">   with CUPED (ρ=</span><span class="si">{</span><span class="n">rho</span><span class="si">}</span><span class="s2">): "</span>
+      <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">n_cont</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">rho</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">  (</span><span class="si">{</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">rho</span><span class="o">**</span><span class="mi">2</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2"> of original)"</span><span class="p">)</span>
+
+<span class="c1"># ── Inverse problem: fixed traffic → solve for MDE ───────────────────────────</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">mde_given_n</span><span class="p">(</span><span class="n">n_per_group</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mf">0.80</span><span class="p">):</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">power</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">z</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="n">n_per_group</span><span class="p">)</span>
+
+<span class="n">n_fixed</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">7</span> <span class="o">*</span> <span class="n">daily_traffic</span> <span class="o">//</span> <span class="mi">2</span>                  <span class="c1"># 4 weeks of traffic, per group</span>
+<span class="n">mde_min</span> <span class="o">=</span> <span class="n">mde_given_n</span><span class="p">(</span><span class="n">n_fixed</span><span class="p">,</span> <span class="n">sigma_hat</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">With </span><span class="si">{</span><span class="n">n_fixed</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">/group in 4 weeks, smallest detectable lift on revenue: "</span>
+      <span class="sa">f</span><span class="s2">"$</span><span class="si">{</span><span class="n">mde_min</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">mde_min</span><span class="o">/</span><span class="n">mu_hat</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2"> relative)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"→ if plausible effects are smaller than this, don't run the test as designed."</span><span class="p">)</span>
+
+<span class="c1"># ── Simulation-based power: works for ANY metric + ANY test ─────────────────</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">simulate_power</span><span class="p">(</span><span class="n">gen_data</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">n_sims</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""gen_data() → (ctrl, trt) arrays; test(c, t) → p-value."""</span>
+    <span class="n">rej</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">test</span><span class="p">(</span><span class="o">*</span><span class="n">gen_data</span><span class="p">())</span> <span class="o">&lt;</span> <span class="n">alpha</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sims</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">rej</span> <span class="o">/</span> <span class="n">n_sims</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">n_grp</span><span class="p">,</span> <span class="n">lift</span> <span class="o">=</span> <span class="mi">3000</span><span class="p">,</span> <span class="mf">1.05</span>
+<span class="n">gen</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">lognormal</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="n">n_grp</span><span class="p">),</span>
+               <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">lognormal</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">lift</span><span class="p">),</span> <span class="mf">1.1</span><span class="p">,</span> <span class="n">n_grp</span><span class="p">))</span>
+
+<span class="n">p_t</span>  <span class="o">=</span> <span class="n">simulate_power</span><span class="p">(</span><span class="n">gen</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">c</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">c</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">p_mw</span> <span class="o">=</span> <span class="n">simulate_power</span><span class="p">(</span><span class="n">gen</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">c</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">stats</span><span class="o">.</span><span class="n">mannwhitneyu</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">c</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Simulated power @ n=</span><span class="si">{</span><span class="n">n_grp</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">/group, +5% lift on lognormal revenue:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  t-test:         </span><span class="si">{</span><span class="n">p_t</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Mann-Whitney U: </span><span class="si">{</span><span class="n">p_mw</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">   ← rank test beats t-test on heavy-tailed data"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>n without CUPED: 39,319   with CUPED (ρ=0.7): 20,052  (51% of original)
+
+With 70,000/group in 4 weeks, smallest detectable lift on revenue: $0.11 (2.2% relative)
+→ if plausible effects are smaller than this, don't run the test as designed.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated power @ n=3,000/group, +5% lift on lognormal revenue:
+  t-test:         24%
+  Mann-Whitney U: 35%   ← rank test beats t-test on heavy-tailed data
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="how-to-estimate-mde-in-practice">
+<h3>How to Estimate MDE in Practice<a class="headerlink" href="#how-to-estimate-mde-in-practice" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>1. Pull baseline metric from historical data (last 4 weeks)
+2. Ask: what effect is meaningful for this business decision?
+   - Below MDE → not worth shipping even if real
+   - At or above MDE → worth shipping if statistically significant
+3. Apply the adjustments: trigger rate, clustering, allocation, CUPED
+4. Check if the required sample size is feasible given traffic
+   - If duration &gt; 4–6 weeks → increase MDE, increase allocation, or
+     solve the inverse problem and renegotiate
+5. Round up to full weeks to avoid day-of-week bias
+</pre></div>
+</div>
+</section>
+<section id="rules-of-thumb">
+<h3>Rules of Thumb<a class="headerlink" href="#rules-of-thumb" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Parameter</p></th>
+<th class="head text-left"><p>Standard</p></th>
+<th class="head text-left"><p>When to adjust</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>α (false positive rate)</p></td>
+<td class="text-left"><p>0.05</p></td>
+<td class="text-left"><p>Lower to 0.01 for high-stakes / irreversible decisions</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Power (1-β)</p></td>
+<td class="text-left"><p>0.80</p></td>
+<td class="text-left"><p>Raise to 0.90 for high-stakes decisions</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Traffic allocation</p></td>
+<td class="text-left"><p>50/50</p></td>
+<td class="text-left"><p>Use &lt;50% treatment if feature is risky — and pay the traffic cost knowingly</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Minimum duration</p></td>
+<td class="text-left"><p>Full weeks</p></td>
+<td class="text-left"><p>Always run at least 1–2 full weeks regardless of power</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Setting MDE to the smallest effect you could <em>imagine</em> detecting, not the smallest effect worth <em>caring</em> about — produces impractically large sample sizes</p></li>
+<li><p>Forgetting dilution — powering for the triggered effect but analyzing ITT makes the experiment ~1/r² underpowered</p></li>
+<li><p>Sizing a cluster experiment with the simple formula — ICC of even 0.01 with large clusters multiplies required n severalfold</p></li>
+<li><p>Not accounting for the fact that you need traffic in both groups — total users needed is <code class="docutils literal notranslate"><span class="pre">2n</span></code>, not <code class="docutils literal notranslate"><span class="pre">n</span></code></p></li>
+<li><p>Running for a fixed number of days that isn’t a multiple of 7 — captures a biased day-of-week mix</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="validity-checks-infrastructure">
+<h2>§5 — Validity Checks &amp; Infrastructure<a class="headerlink" href="#validity-checks-infrastructure" title="Link to this heading">#</a></h2>
+<p>Run these <strong>before looking at the primary metric</strong>. If any check fails, stop — the experiment results are invalid.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Check 1: Sample Ratio Mismatch (SRM) ─────────────────────────────────────</span>
+<span class="c1"># Expected: 50/50 split. Actual split deviating significantly = broken randomization.</span>
+<span class="c1"># Causes: bot traffic filtered differently, logging bugs, redirect issues.</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">check_srm</span><span class="p">(</span><span class="n">n_control</span><span class="p">,</span> <span class="n">n_treatment</span><span class="p">,</span> <span class="n">expected_split</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
+    <span class="n">n_total</span>  <span class="o">=</span> <span class="n">n_control</span> <span class="o">+</span> <span class="n">n_treatment</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="p">[</span><span class="n">n_total</span> <span class="o">*</span> <span class="n">expected_split</span><span class="p">,</span> <span class="n">n_total</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">expected_split</span><span class="p">)]</span>
+    <span class="n">chi2</span><span class="p">,</span> <span class="n">p</span>  <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">chisquare</span><span class="p">([</span><span class="n">n_control</span><span class="p">,</span> <span class="n">n_treatment</span><span class="p">],</span> <span class="n">expected</span><span class="p">)</span>
+    <span class="n">srm</span>      <span class="o">=</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="n">alpha</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Control:   </span><span class="si">{</span><span class="n">n_control</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">  (</span><span class="si">{</span><span class="n">n_control</span><span class="o">/</span><span class="n">n_total</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Treatment: </span><span class="si">{</span><span class="n">n_treatment</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">  (</span><span class="si">{</span><span class="n">n_treatment</span><span class="o">/</span><span class="n">n_total</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Chi² = </span><span class="si">{</span><span class="n">chi2</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">,  p = </span><span class="si">{</span><span class="n">p</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"SRM detected: </span><span class="si">{</span><span class="s1">'YES — experiment invalid'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">srm</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'No'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">srm</span>
+
+<span class="n">check_srm</span><span class="p">(</span><span class="n">n_control</span><span class="o">=</span><span class="mi">10_012</span><span class="p">,</span> <span class="n">n_treatment</span><span class="o">=</span><span class="mi">9_487</span><span class="p">)</span>   <span class="c1"># imbalanced — SRM likely</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="n">check_srm</span><span class="p">(</span><span class="n">n_control</span><span class="o">=</span><span class="mi">10_021</span><span class="p">,</span> <span class="n">n_treatment</span><span class="o">=</span><span class="mi">9_979</span><span class="p">)</span>   <span class="c1"># balanced — OK</span>
+
+<span class="c1"># ── Check 2: Covariate Balance (AA Check) ────────────────────────────────────</span>
+<span class="c1"># Verify treatment and control have the same pre-experiment characteristics.</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">balance_check</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">group_col</span><span class="p">,</span> <span class="n">covariates</span><span class="p">):</span>
+    <span class="n">ctrl</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">group_col</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'control'</span><span class="p">]</span>
+    <span class="n">trt</span>  <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">group_col</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'treatment'</span><span class="p">]</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">covariates</span><span class="p">:</span>
+        <span class="n">t_stat</span><span class="p">,</span> <span class="n">p_val</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">ctrl</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">(),</span> <span class="n">trt</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">())</span>
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">'covariate'</span><span class="p">:</span> <span class="n">col</span><span class="p">,</span> <span class="s1">'ctrl_mean'</span><span class="p">:</span> <span class="n">ctrl</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+                     <span class="s1">'trt_mean'</span><span class="p">:</span> <span class="n">trt</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="s1">'p_value'</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">p_val</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+                     <span class="s1">'imbalanced'</span><span class="p">:</span> <span class="n">p_val</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">})</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    <span class="n">n_imb</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">'imbalanced'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="si">{</span><span class="n">n_imb</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">covariates</span><span class="p">)</span><span class="si">}</span><span class="s2"> covariates imbalanced at p&lt;0.05"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n_imb</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">covariates</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.05</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"WARNING: more imbalance than expected by chance — check randomization"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="c1"># ── Check 3: AA Test ─────────────────────────────────────────────────────────</span>
+<span class="c1"># Run the analysis pipeline with NO treatment (both groups see control).</span>
+<span class="c1"># If significant: the pipeline has a bug. Use historical data, not live traffic.</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">aa_ctrl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">,</span> <span class="mi">10_000</span><span class="p">)</span>
+<span class="n">aa_trt</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">,</span> <span class="mi">10_000</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">p_aa</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">aa_ctrl</span><span class="p">,</span> <span class="n">aa_trt</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">AA test p-value: </span><span class="si">{</span><span class="n">p_aa</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"AA test result: </span><span class="si">{</span><span class="s1">'FAIL — check analysis pipeline'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">p_aa</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.05</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'PASS'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Control:   10,012  (51.35%)
+Treatment: 9,487  (48.65%)
+Chi² = 14.14,  p = 0.0002
+SRM detected: YES — experiment invalid
+
+Control:   10,021  (50.10%)
+Treatment: 9,979  (49.90%)
+Chi² = 0.09,  p = 0.7665
+SRM detected: No
+
+AA test p-value: 0.8508
+AA test result: PASS
+</pre></div>
+</div>
+</div>
+</div>
+<section id="what-each-check-catches">
+<h3>What Each Check Catches<a class="headerlink" href="#what-each-check-catches" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Check</p></th>
+<th class="head text-left"><p>What it detects</p></th>
+<th class="head text-left"><p>Action if it fails</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>SRM</p></td>
+<td class="text-left"><p>Broken assignment, logging bug, bot filtering</p></td>
+<td class="text-left"><p>Stop experiment, investigate pipeline</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Covariate balance</p></td>
+<td class="text-left"><p>Biased randomization, self-selection</p></td>
+<td class="text-left"><p>Stop experiment, check assignment mechanism</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>AA test</p></td>
+<td class="text-left"><p>Inflated false positive rate in analysis</p></td>
+<td class="text-left"><p>Fix analysis pipeline before running any AB test</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="how-assignment-actually-works-hashing-bucketing">
+<h3>How assignment actually works: hashing &amp; bucketing<a class="headerlink" href="#how-assignment-actually-works-hashing-bucketing" title="Link to this heading">#</a></h3>
+<p>Production platforms don’t store random draws — assignment is a <strong>deterministic hash</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>bucket = hash(salt + ":" + user_id) mod 100      →  buckets 0–49 control, 50–99 treatment
+</pre></div>
+</div>
+<p>Properties this buys you: (1) <strong>deterministic</strong> — same user always gets the same variant, no lookup table; (2) <strong>stateless</strong> — any server computes it; (3) <strong>uniform</strong> — a good hash spreads users evenly. The <strong>salt</strong> (usually the experiment ID) is what makes experiments independent — reusing a salt across two experiments gives them <em>perfectly correlated</em> assignments, confounding the two treatments. The demo below shows it.</p>
+<p><strong>Layers / overlapping experiments:</strong> to run many experiments at once, traffic is divided into layers — each experiment owns one layer’s salt, so assignments across layers are independent and every user can be in many experiments simultaneously. Mutually exclusive experiments (two checkout redesigns that would collide) must share a layer.</p>
+<p><strong>Carryover:</strong> if bucket ranges are reused, last experiment’s treatment group becomes this experiment’s treatment group, and lingering effects contaminate the new test. Fix: re-salt every experiment (re-shuffles users), and consider a washout period for features with persistent effects.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">bucket</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">n_buckets</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">salt</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">"</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span> <span class="o">%</span> <span class="n">n_buckets</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">assign</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">salt</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s1">'treatment'</span> <span class="k">if</span> <span class="n">bucket</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">salt</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">50</span> <span class="k">else</span> <span class="s1">'control'</span>
+
+<span class="n">users</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"user_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20_000</span><span class="p">)]</span>
+
+<span class="c1"># Deterministic + uniform</span>
+<span class="n">a1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">assign</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="s1">'exp_checkout_v2'</span><span class="p">)</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">users</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Deterministic: user_42 →"</span><span class="p">,</span> <span class="n">assign</span><span class="p">(</span><span class="s1">'user_42'</span><span class="p">,</span> <span class="s1">'exp_checkout_v2'</span><span class="p">),</span>
+      <span class="s2">"(every call, every server)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Split:"</span><span class="p">,</span> <span class="n">a1</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+
+<span class="c1"># Salt reuse → perfectly confounded experiments</span>
+<span class="n">same_salt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">assign</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="s1">'exp_checkout_v2'</span><span class="p">)</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">users</span><span class="p">])</span>
+<span class="n">new_salt</span>  <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">assign</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="s1">'exp_ranking_v7'</span><span class="p">)</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">users</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Same salt reused  → agreement with exp 1:"</span><span class="p">,</span> <span class="p">(</span><span class="n">a1</span> <span class="o">==</span> <span class="n">same_salt</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+      <span class="s2">" (identical groups — confounded!)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Different salt    → agreement with exp 1:"</span><span class="p">,</span> <span class="nb">round</span><span class="p">((</span><span class="n">a1</span> <span class="o">==</span> <span class="n">new_salt</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="mi">3</span><span class="p">),</span>
+      <span class="s2">"(≈ 0.5 — independent, as it should be)"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Deterministic: user_42 → control (every call, every server)
+Split: {'treatment': 0.501, 'control': 0.499}
+
+Same salt reused  → agreement with exp 1: 1.0  (identical groups — confounded!)
+Different salt    → agreement with exp 1: 0.496 (≈ 0.5 — independent, as it should be)
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Looking at the primary metric before running SRM check — if SRM exists, the result is meaningless</p></li>
+<li><p>Setting SRM alpha at 0.05 — use 0.01 or lower; SRM is so consequential that you want to be conservative</p></li>
+<li><p>Running the AA test on live traffic — this wastes real experiment traffic; use historical data simulation instead</p></li>
+<li><p>Reusing a salt (or fixed bucket ranges) across experiments — correlated assignments and carryover contamination</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="decision-guide">
+<h2>Decision Guide<a class="headerlink" href="#decision-guide" title="Link to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Asked for a definition?
+└── §0: p-value = P(data this extreme | H₀) — never P(H₀ | data)
+        95% CI = the PROCEDURE covers truth 95% of the time
+        SUTVA = no interference + one treatment version
+
+Designing an experiment?
+└── Always: question → unit &amp; exposure → metrics → sample size → randomization
+            → stopping rule                                                     (§1)
+
+Choosing what to measure?
+├── One primary metric (pre-registered)                                          (§2)
+├── 2–3 guardrail metrics + a counter-metric for cannibalization                 (§2)
+└── Diagnostic metrics (explain why, not for ship decision)                      (§2)
+
+Choosing the unit of randomization?
+├── Feature is user-specific, no social interaction  → user-level               (§3)
+├── Users interact with each other (SUTVA violation) → cluster-level            (§3)
+├── Marketplace / supply-demand coupling             → geo or time (switchback) (§3)
+├── Analysis unit finer than randomization unit?     → aggregate or robust SEs  (§3)
+└── Low trigger rate?                                → ITT vs TOT, dilution     (§3)
+
+Calculating sample size?
+├── Binary metric:     proportions formula                                      (§4.1)
+├── Continuous metric: n = 2σ²(z_α/2+z_β)²/δ², σ from historical data           (§4.2)
+├── Adjust: ÷r² dilution, ×DE clusters, ×0.25/q(1-q) allocation, ×(1−ρ²) CUPED  (§4.3–4.4)
+├── Weird design? → simulate power on the actual pipeline                       (§4.4)
+└── Traffic fixed? → solve for MDE; if implausible, don't run                   (§4.4)
+
+Verifying the experiment is valid?
+├── SRM check first — if fails, stop entirely                                   (§5)
+├── Covariate balance check — before looking at primary metric                  (§5)
+├── AA test — on historical data, before launching the platform                 (§5)
+└── Fresh salt per experiment; layers for overlap; washout for carryover        (§5)
+</pre></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Experiment"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="exp0.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Experiments</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Exp_Analysis.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Experiment Analysis</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

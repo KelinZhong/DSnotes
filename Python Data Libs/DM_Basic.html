@@ -1,0 +1,1499 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Data Manipulation — Basic &#8212; Data Science Interview Prep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Python Data Libs/DM_Basic';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data Manipulation — Intermediate" href="DM_Intermediate.html" />
+    <link rel="prev" title="Performance &amp; Memory — Technical Reference" href="Reference_Performance.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Science Interview Prep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    Topics
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="Python_Data_Libs.html">
+    Python Data Library & Data Manipulation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Metrics/metrics0.html">
+    Business Metrics
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Machine%20Learning/ML0.html">
+    Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Experiment/exp0.html">
+    Experiment in Python
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Causal%20ML/cml0.html">
+    Causal Machine Learning Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Data%20Science%20Workflow/ds0.html">
+    Data Science Workflow
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../Business%20Decisions/bd0_overview.html">
+    Business Decisions on Model Results
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Reference_Pandas.html">Pandas — Technical Reference</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Reference_NumPy.html">NumPy — Technical Reference</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Reference_Performance.html">Performance &amp; Memory — Technical Reference</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Data Manipulation — Basic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DM_Intermediate.html">Data Manipulation — Intermediate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DM_Advanced.html">Data Manipulation — Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Reference_Sampling.html">Sampling Methods – DS Interview Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Reference_Inference.html">Statistical Inference – DS Interview Reference</a></li>
+
+
+
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-cleaning-quality-control">Data Cleaning &amp; Quality Control</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-table">Decision Table</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#series-map">Series Map</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#audit-a-new-dataset">§1 — Audit a New Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-dtypes">§2 — Fix dtypes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#handle-missing-values">§3 — Handle Missing Values</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#handle-duplicates">§4 — Handle Duplicates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-string-categorical-inconsistencies">§5 — Fix String &amp; Categorical Inconsistencies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#handle-outliers">§6 — Handle Outliers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clean-column-names">§7 — Clean Column Names</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-contracts">§8 — Validation Contracts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interview-q-a">Interview Q&amp;A</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gotchas">Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-guide">Decision Guide</a></li>
+</ul>
+  </nav></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../intro.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="Python_Data_Libs.html" class="nav-link">Python Data Libraries</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Data Manipulation — Basic</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="data-manipulation-basic">
+<h1>Data Manipulation — Basic<a class="headerlink" href="#data-manipulation-basic" title="Link to this heading">#</a></h1>
+<section id="data-cleaning-quality-control">
+<h2>Data Cleaning &amp; Quality Control<a class="headerlink" href="#data-cleaning-quality-control" title="Link to this heading">#</a></h2>
+<p><strong>Philosophy:</strong> This note is pattern-first, not syntax-first. It assumes you know the Pandas/NumPy API. Each section answers: <em>you have data that looks like X — here is the full pipeline to fix it.</em></p>
+</section>
+<hr class="docutils" />
+<section id="decision-table">
+<h2>Decision Table<a class="headerlink" href="#decision-table" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>If your data has…</p></th>
+<th class="head text-left"><p>Go to</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Unknown shape, types, or quality</p></td>
+<td class="text-left"><p>§1 — Audit</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Dates as strings, IDs as floats, booleans as objects</p></td>
+<td class="text-left"><p>§2 — Fix dtypes</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Missing values and unsure what to do</p></td>
+<td class="text-left"><p>§3 — Missing Values</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Suspected duplicate rows</p></td>
+<td class="text-left"><p>§4 — Duplicates</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Inconsistent category labels (<code class="docutils literal notranslate"><span class="pre">&quot;US&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;us&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">USA</span> <span class="pre">&quot;</span></code>)</p></td>
+<td class="text-left"><p>§5 — String &amp; Categorical</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Extreme values distorting results</p></td>
+<td class="text-left"><p>§6 — Outliers</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Column names with spaces, caps, or special characters</p></td>
+<td class="text-left"><p>§7 — Column Names</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="series-map">
+<h2>Series Map<a class="headerlink" href="#series-map" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Notebook</p></th>
+<th class="head text-left"><p>Use it for</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">DM_Basic</span></code> <strong>(this note)</strong></p></td>
+<td class="text-left"><p>Cleaning &amp; QC — audit, dtypes, nulls, dupes, strings, outliers, column names</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><a class="reference internal" href="DM_Intermediate.html"><span class="doc">DM_Intermediate</span></a></p></td>
+<td class="text-left"><p>Reshaping &amp; combining — wide/long, groupby, multi-table joins, time-series, nested, many files</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><a class="reference internal" href="DM_Advanced.html"><span class="doc">DM_Advanced</span></a></p></td>
+<td class="text-left"><p>Feature engineering — encoding, transforms, binning, date, lag/window, interactions, text, leakage</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">{doc}</span></code>Reference_Pandas &lt;Reference_Pandas&gt;<code class="docutils literal notranslate"> <span class="pre">/</span> <span class="pre">{doc}</span></code>Reference_NumPy &lt;Reference_NumPy&gt;``</p></td>
+<td class="text-left"><p>Syntax lookups for individual methods</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<div><p><strong>Environment:</strong> pandas 3.x / numpy 2.x. Under pandas 3.0 <strong>Copy-on-Write</strong> is the default, so chained assignment (<code class="docutils literal notranslate"><span class="pre">df[mask]['col']</span> <span class="pre">=</span> <span class="pre">v</span></code>) is a silent no-op — use <code class="docutils literal notranslate"><span class="pre">df.loc[mask,</span> <span class="pre">'col']</span> <span class="pre">=</span> <span class="pre">v</span></code>. <code class="docutils literal notranslate"><span class="pre">inplace=True</span></code> no longer saves time or memory; prefer reassignment. A sample frame is defined below so the patterns are runnable.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Sample messy frame to run the cleaning patterns against.</span>
+<span class="c1"># Replace with your own:  df = pd.read_csv('data.csv')</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">'user_id'</span><span class="p">:</span>    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+    <span class="s1">'event_date'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'2024-01-05'</span><span class="p">,</span><span class="s1">'2024-01-06'</span><span class="p">,</span><span class="s1">'2024/01/07'</span><span class="p">,</span><span class="s1">'08-01-2024'</span><span class="p">,</span><span class="s1">'08-01-2024'</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+    <span class="s1">'age'</span><span class="p">:</span>        <span class="p">[</span><span class="mi">34</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">130</span><span class="p">],</span>
+    <span class="s1">'revenue'</span><span class="p">:</span>    <span class="p">[</span><span class="s1">'$1,200'</span><span class="p">,</span> <span class="s1">'950'</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="s1">'2,000'</span><span class="p">,</span> <span class="s1">'2,000'</span><span class="p">,</span> <span class="s1">'15'</span><span class="p">],</span>
+    <span class="s1">'country'</span><span class="p">:</span>    <span class="p">[</span><span class="s1">'US'</span><span class="p">,</span> <span class="s1">' us '</span><span class="p">,</span> <span class="s1">'USA'</span><span class="p">,</span> <span class="s1">'Canada'</span><span class="p">,</span> <span class="s1">'Canada'</span><span class="p">,</span> <span class="s1">'cnaada'</span><span class="p">],</span>
+    <span class="s1">'platform'</span><span class="p">:</span>   <span class="p">[</span><span class="s1">'iOS'</span><span class="p">,</span><span class="s1">'Android'</span><span class="p">,</span><span class="s1">'Web'</span><span class="p">,</span><span class="s1">'iOS'</span><span class="p">,</span><span class="s1">'iOS'</span><span class="p">,</span><span class="s1">'Web'</span><span class="p">],</span>
+<span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   user_id  event_date  age revenue country platform
+0        1  2024-01-05   34  $1,200      US      iOS
+1        2  2024-01-06   28     950     us   Android
+2        3  2024/01/07   -5             USA      Web
+3        4  08-01-2024   41   2,000  Canada      iOS
+4        4  08-01-2024   41   2,000  Canada      iOS
+5        5         NaN  130      15  cnaada      Web
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="audit-a-new-dataset">
+<h2>§1 — Audit a New Dataset<a class="headerlink" href="#audit-a-new-dataset" title="Link to this heading">#</a></h2>
+<p>Run this sequence every time you load a new dataset — before touching anything. The goal is to build a complete picture of what you have and what needs fixing.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'data.csv'</span><span class="p">)</span>
+
+<span class="c1"># ── Step 1: Shape and preview ───────────────────────────────────────────────</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>          <span class="c1"># How many rows and columns?</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>                <span class="c1"># Does the data look as expected?</span>
+<span class="n">df</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>                <span class="c1"># Does the end of the file look clean (no trailing junk rows)?</span>
+
+<span class="c1"># ── Step 2: Types and nulls ─────────────────────────────────────────────────</span>
+<span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>                <span class="c1"># Dtypes + non-null count — the fastest signal of type problems</span>
+
+<span class="c1"># ── Step 3: Null summary ────────────────────────────────────────────────────</span>
+<span class="n">null_summary</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">'null_count'</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+    <span class="s1">'null_rate'</span><span class="p">:</span>  <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="p">})</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">'null_count &gt; 0'</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'null_rate'</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">null_summary</span><span class="p">)</span>
+<span class="c1"># Interpretation:</span>
+<span class="c1"># null_rate &lt; 0.05  → likely safe to drop or fill</span>
+<span class="c1"># null_rate &gt; 0.50  → question whether the column is usable at all</span>
+
+<span class="c1"># ── Step 4: Duplicate check ─────────────────────────────────────────────────</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Full duplicates:'</span><span class="p">,</span>    <span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Key-level duplicates:'</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="s1">'date'</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="c1"># ── Step 5: Cardinality and distributions ───────────────────────────────────</span>
+<span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>                              <span class="c1"># Numeric: spot impossible min/max</span>
+<span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s1">'object'</span><span class="p">)</span>              <span class="c1"># Categorical: top value and frequency</span>
+
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="s1">'object'</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2"> unique — </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># Look for: unexpectedly high cardinality (ID masquerading as category)</span>
+<span class="c1"># and low cardinality numerics that should be categorical</span>
+
+<span class="c1"># ── Step 6: Value range sanity checks ──────────────────────────────────────</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">df</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>    <span class="c1"># Negative age? Age &gt; 120?</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>                 <span class="c1"># Negative revenue — refund or error?</span>
+<span class="nb">print</span><span class="p">((</span><span class="n">df</span><span class="p">[</span><span class="s1">'rate'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>             <span class="c1"># Rate column — should be 0–1 or 0–100?</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>What each step is looking for:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Step</p></th>
+<th class="head text-left"><p>Red flags to catch</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Shape + preview</p></td>
+<td class="text-left"><p>Extra header rows, merged cells exported from Excel, trailing commas</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">.info()</span></code></p></td>
+<td class="text-left"><p>Date columns as <code class="docutils literal notranslate"><span class="pre">object</span></code>, ID columns as <code class="docutils literal notranslate"><span class="pre">float64</span></code> (signals nulls present), boolean as <code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Null summary</p></td>
+<td class="text-left"><p>Columns with &gt;50% nulls — question if they’re usable</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Duplicates</p></td>
+<td class="text-left"><p>Full duplicates = data pipeline bug; key-level = fan-out from a join</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Cardinality</p></td>
+<td class="text-left"><p>String columns with thousands of unique values — probably IDs, not categories</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Value ranges</p></td>
+<td class="text-left"><p>Impossible values: negative age, rate &gt; 100%, future dates in historical data</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Skipping the audit and jumping straight to analysis — silent errors propagate and are hard to trace back</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">df.describe()</span></code> alone — it silently skips non-numeric columns; always pair with <code class="docutils literal notranslate"><span class="pre">df.info()</span></code> and a categorical loop</p></li>
+<li><p>Treating a high null rate as always bad — sometimes nulls are meaningful (e.g. <code class="docutils literal notranslate"><span class="pre">cancellation_date</span></code> is null = not cancelled)</p></li>
+</ul>
+<p><strong>Three more audit checks for §1:</strong> detect columns that secretly mix Python types, measure true memory use, and turn ad-hoc checks into reusable assertions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span><span class="o">,</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'id'</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>
+                  <span class="s1">'mixed'</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'two'</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">],</span>            <span class="c1"># object col holding int/str/float</span>
+                  <span class="s1">'platform'</span><span class="p">:[</span><span class="s1">'ios'</span><span class="p">,</span><span class="s1">'android'</span><span class="p">,</span><span class="s1">'ios'</span><span class="p">,</span><span class="s1">'web'</span><span class="p">],</span>
+                  <span class="s1">'revenue'</span><span class="p">:[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mf">40.0</span><span class="p">]})</span>
+
+<span class="c1"># 1) Columns that secretly mix Python types — a silent source of sort/compare bugs</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">mixed_type_cols</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">out</span><span class="o">=</span><span class="p">{}</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="s1">'object'</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">kinds</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kinds</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="n">out</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">=</span><span class="n">kinds</span>
+    <span class="k">return</span> <span class="n">out</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'mixed-type columns:'</span><span class="p">,</span> <span class="n">mixed_type_cols</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+
+<span class="c1"># 2) True memory footprint — deep=True counts actual string bytes, not just pointers</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">memory_usage</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+
+<span class="c1"># 3) Reusable validation: promote ad-hoc checks to assertions you re-run after each step</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">df</span><span class="p">[</span><span class="s1">'id'</span><span class="p">]</span><span class="o">.</span><span class="n">is_unique</span><span class="p">,</span>                  <span class="s1">'id must be unique'</span>
+    <span class="k">assert</span> <span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">ge</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span>  <span class="s1">'revenue must be non-negative'</span>
+    <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'platform'</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="p">{</span><span class="s1">'ios'</span><span class="p">,</span><span class="s1">'android'</span><span class="p">,</span><span class="s1">'web'</span><span class="p">},</span> <span class="s1">'unexpected platform'</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'all checks passed'</span><span class="p">)</span>
+<span class="n">validate</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mixed-type columns: {'mixed': ['int', 'str', 'float']}
+{'Index': 132, 'id': 32, 'mixed': 156, 'platform': 212, 'revenue': 32}
+all checks passed
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="fix-dtypes">
+<h2>§2 — Fix dtypes<a class="headerlink" href="#fix-dtypes" title="Link to this heading">#</a></h2>
+<p>Wrong dtypes are the silent cause of failed joins, incorrect aggregations, and broken date math. Fix them immediately after the audit — everything downstream depends on correct types.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Pattern 1: Date columns loaded as strings ────────────────────────────────</span>
+<span class="c1"># Symptom: df.info() shows dtype=object for a date column</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'event_date'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'event_date'</span><span class="p">])</span>                    <span class="c1"># auto-detect format</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'event_date'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'event_date'</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s1">'%Y-%m-</span><span class="si">%d</span><span class="s1">'</span><span class="p">)</span> <span class="c1"># explicit — faster + safer</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'ts'</span><span class="p">]</span>         <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'ts'</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s1">'ms'</span><span class="p">)</span>                 <span class="c1"># Unix ms timestamp</span>
+
+<span class="c1"># Verify:</span>
+<span class="k">assert</span> <span class="n">df</span><span class="p">[</span><span class="s1">'event_date'</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="s1">'datetime64[ns]'</span><span class="p">,</span> <span class="s2">"Date parse failed"</span>
+
+<span class="c1"># ── Pattern 2: ID columns loaded as float (signals nulls were present) ───────</span>
+<span class="c1"># Symptom: user_id shows as float64 in .info()</span>
+<span class="c1"># Why: pandas upcasts int → float when nulls exist (int can't hold NaN natively)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>   <span class="c1"># fill nulls first, then cast</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>              <span class="c1"># or keep as string if used as a key</span>
+
+<span class="c1"># ── Pattern 3: Boolean columns loaded as int or object ──────────────────────</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'is_active'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'is_active'</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>         <span class="c1"># from 0/1 int</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'is_active'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'is_active'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s1">'True'</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">'False'</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">'true'</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">'false'</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+
+<span class="c1"># ── Pattern 4: Numeric columns loaded as object (has non-numeric chars) ─────</span>
+<span class="c1"># Symptom: revenue shows as object — likely has '$', ',', or '' values</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span>
+    <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">r</span><span class="s1">'[\$,]'</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>   <span class="c1"># strip currency symbols and commas</span>
+    <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>                     <span class="c1"># empty string → NaN before casting</span>
+    <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># ── Pattern 5: Low-cardinality strings as object → category ─────────────────</span>
+<span class="c1"># When: column has &lt; ~50 unique values and appears in groupby/filter frequently</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'platform'</span><span class="p">,</span> <span class="s1">'region'</span><span class="p">,</span> <span class="s1">'status'</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">:</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'category'</span><span class="p">)</span>
+<span class="c1"># Memory saving: 'category' dtype stores integers internally with a lookup table</span>
+
+<span class="c1"># ── Pattern 6: Cast multiple columns at once ────────────────────────────────</span>
+<span class="n">type_map</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'age'</span><span class="p">:</span>      <span class="nb">int</span><span class="p">,</span>
+    <span class="s1">'score'</span><span class="p">:</span>    <span class="nb">float</span><span class="p">,</span>
+    <span class="s1">'user_id'</span><span class="p">:</span>  <span class="nb">str</span><span class="p">,</span>
+    <span class="s1">'platform'</span><span class="p">:</span> <span class="s1">'category'</span>
+<span class="p">}</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">type_map</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>dtype fix decision tree:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Column shows as object in .info()?
+├── Looks like a date                → pd.to_datetime()
+├── Has $, %, commas in values       → str.replace() then .astype(float)
+├── Has True/False/Yes/No strings    → .map() then .astype(bool)
+├── Few unique values (&lt;50)          → .astype('category')
+└── Should be numeric but has blanks → .replace('', np.nan) then .astype(float)
+
+Numeric column shows as float but should be int?
+└── Fill or drop NaNs first, then .astype(int)
+</pre></div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">df['col'].astype(int)</span></code> when the column has NaNs — raises <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>; fill or drop nulls first</p></li>
+<li><p>Parsing ambiguous date formats like <code class="docutils literal notranslate"><span class="pre">01/02/03</span></code> without specifying <code class="docutils literal notranslate"><span class="pre">format=</span></code> — pandas guesses and often guesses wrong</p></li>
+<li><p>Converting ID columns to <code class="docutils literal notranslate"><span class="pre">int</span></code> when they have leading zeros (zip codes, product codes) — use <code class="docutils literal notranslate"><span class="pre">str</span></code> instead</p></li>
+</ul>
+<p><strong>Timezone handling (a §2 dtype landmine).</strong> A naive timestamp carries no zone; mixing tz-aware and tz-naive values in a comparison or join raises. <code class="docutils literal notranslate"><span class="pre">tz_localize</span></code> <em>attaches</em> a zone (use once, on naive data); <code class="docutils literal notranslate"><span class="pre">tz_convert</span></code> <em>changes</em> an already-aware one.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="n">naive</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="s1">'2024-06-10 14:30'</span><span class="p">,</span> <span class="s1">'2024-06-10 18:30'</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'naive dtype     :'</span><span class="p">,</span> <span class="n">naive</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="n">aware</span> <span class="o">=</span> <span class="n">naive</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="s1">'America/New_York'</span><span class="p">)</span>   <span class="c1"># attach a zone (naive -&gt; aware)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'tz-aware dtype  :'</span><span class="p">,</span> <span class="n">aware</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'converted to UTC:'</span><span class="p">,</span> <span class="n">aware</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="s1">'UTC'</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>naive dtype     : datetime64[us]
+tz-aware dtype  : datetime64[us, America/New_York]
+converted to UTC: [Timestamp('2024-06-10 18:30:00+0000', tz='UTC'), Timestamp('2024-06-10 22:30:00+0000', tz='UTC')]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="handle-missing-values">
+<h2>§3 — Handle Missing Values<a class="headerlink" href="#handle-missing-values" title="Link to this heading">#</a></h2>
+<p>The syntax for filling/dropping nulls is in the Pandas reference (§3). This section focuses on the decision: <strong>which strategy to use and when.</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Strategy 1: Drop — when nulls are random and few ────────────────────────</span>
+<span class="c1"># Use when: null_rate &lt; 5% and nulls appear to be random (not systematic)</span>
+<span class="c1"># Risk: if nulls are NOT random, dropping introduces bias</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="s1">'event_date'</span><span class="p">])</span>   <span class="c1"># only drop on key columns</span>
+
+<span class="c1"># ── Strategy 2: Fill with a constant ────────────────────────────────────────</span>
+<span class="c1"># Use when: null means "zero" or "unknown" by business logic</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>            <span class="c1"># null revenue → 0 spend (not missing, literally zero)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'category'</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">'Unknown'</span><span class="p">)</span>   <span class="c1"># null category → explicit Unknown label</span>
+
+<span class="c1"># ── Strategy 3: Fill with a statistic ───────────────────────────────────────</span>
+<span class="c1"># Use when: value is missing at random, distribution is roughly symmetric</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">())</span>              <span class="c1"># median — robust to skew</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'score'</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'score'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>            <span class="c1"># mean — only if no outliers</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'platform'</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'platform'</span><span class="p">]</span><span class="o">.</span><span class="n">mode</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>   <span class="c1"># mode — for categoricals</span>
+
+<span class="c1"># ── Strategy 4: Group-conditional fill ──────────────────────────────────────</span>
+<span class="c1"># Use when: the right fill value depends on a grouping variable</span>
+<span class="c1"># Example: fill missing salary with the median salary for that job title</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'salary'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'job_title'</span><span class="p">)[</span><span class="s1">'salary'</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">median</span><span class="p">())</span>
+<span class="p">)</span>
+
+<span class="c1"># ── Strategy 5: Forward / backward fill ─────────────────────────────────────</span>
+<span class="c1"># Use when: data is time-ordered and nulls should carry the last known value</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="s1">'date'</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'subscription_status'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'user_id'</span><span class="p">)[</span><span class="s1">'subscription_status'</span><span class="p">]</span><span class="o">.</span><span class="n">ffill</span><span class="p">()</span>
+
+<span class="c1"># ── Strategy 6: Flag then fill ──────────────────────────────────────────────</span>
+<span class="c1"># Use when: the fact that a value is missing is itself informative</span>
+<span class="c1"># (common in churn models — missing last_login_date may signal disengagement)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'income_missing'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'income'</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>   <span class="c1"># 1 = was missing</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'income'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'income'</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'income'</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">())</span> <span class="c1"># then fill for modeling</span>
+
+<span class="c1"># ── Strategy 7: Drop the column entirely ────────────────────────────────────</span>
+<span class="c1"># Use when: null_rate &gt; 60–70% and no business justification to keep it</span>
+<span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.6</span>
+<span class="n">cols_to_drop</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">cols_to_drop</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Dropped </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">cols_to_drop</span><span class="p">)</span><span class="si">}</span><span class="s1"> columns: </span><span class="si">{</span><span class="n">cols_to_drop</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Strategy selection guide:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Null rate</p></th>
+<th class="head text-left"><p>Null mechanism</p></th>
+<th class="head text-left"><p>Recommended strategy</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>&lt; 5%</p></td>
+<td class="text-left"><p>Random</p></td>
+<td class="text-left"><p>Drop the rows</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Any</p></td>
+<td class="text-left"><p>Business-defined zero</p></td>
+<td class="text-left"><p>Fill with 0 or ‘Unknown’</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Any</p></td>
+<td class="text-left"><p>Time-ordered carry-forward</p></td>
+<td class="text-left"><p>Forward fill (sort first)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Any</p></td>
+<td class="text-left"><p>Depends on group</p></td>
+<td class="text-left"><p>Group-conditional fill</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Any</p></td>
+<td class="text-left"><p>Missingness is informative</p></td>
+<td class="text-left"><p>Flag + fill</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>&gt; 60%</p></td>
+<td class="text-left"><p>Any</p></td>
+<td class="text-left"><p>Drop the column</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Filling with the global mean when group means differ significantly — always check if group-conditional fill is more appropriate</p></li>
+<li><p>Forward-filling without sorting by date first — fills in row order, not time order, producing wrong values</p></li>
+<li><p>Dropping rows with any null (<code class="docutils literal notranslate"><span class="pre">dropna()</span></code>) when only a few columns matter — use <code class="docutils literal notranslate"><span class="pre">subset=</span></code> to be precise</p></li>
+<li><p>Forgetting to add a missingness flag before filling when the null pattern is predictive</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="handle-duplicates">
+<h2>§4 — Handle Duplicates<a class="headerlink" href="#handle-duplicates" title="Link to this heading">#</a></h2>
+<p>Two distinct types of duplicates — full row duplicates (data pipeline bugs) and key-level duplicates (fan-out from joins or intentional multi-row data). They require different fixes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Detect duplicates ────────────────────────────────────────────────────────</span>
+<span class="c1"># Full duplicates — every column is identical</span>
+<span class="n">n_full</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Full duplicates: </span><span class="si">{</span><span class="n">n_full</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">n_full</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">:</span><span class="s1">.1%</span><span class="si">}</span><span class="s1">)'</span><span class="p">)</span>
+
+<span class="c1"># Key-level duplicates — same key but potentially different other columns</span>
+<span class="n">key</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="s1">'order_id'</span><span class="p">]</span>
+<span class="n">n_key</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Key-level duplicates: </span><span class="si">{</span><span class="n">n_key</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+
+<span class="c1"># Inspect the duplicated records before acting</span>
+<span class="n">dup_mask</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>   <span class="c1"># keep=False flags ALL copies</span>
+<span class="n">df</span><span class="p">[</span><span class="n">dup_mask</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>             <span class="c1"># look at them side by side</span>
+
+<span class="c1"># ── Fix 1: Drop full duplicates ──────────────────────────────────────────────</span>
+<span class="c1"># Use when: rows are identical — clearly a pipeline or loading bug</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+
+<span class="c1"># ── Fix 2: Keep first or last occurrence ─────────────────────────────────────</span>
+<span class="c1"># Use when: one record per key is correct, duplicates are re-submissions or updates</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'updated_at'</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>   <span class="c1"># latest record first</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">],</span> <span class="n">keep</span><span class="o">=</span><span class="s1">'first'</span><span class="p">)</span>  <span class="c1"># keep the most recent</span>
+
+<span class="c1"># ── Fix 3: Aggregate to resolve ─────────────────────────────────────────────</span>
+<span class="c1"># Use when: duplicates exist because one user has multiple rows that should be summed</span>
+<span class="n">df</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+      <span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+          <span class="n">total_spend</span>  <span class="o">=</span> <span class="p">(</span><span class="s1">'spend'</span><span class="p">,</span>   <span class="s1">'sum'</span><span class="p">),</span>
+          <span class="n">visit_count</span>  <span class="o">=</span> <span class="p">(</span><span class="s1">'visit_id'</span><span class="p">,</span><span class="s1">'count'</span><span class="p">),</span>
+          <span class="n">last_seen</span>    <span class="o">=</span> <span class="p">(</span><span class="s1">'date'</span><span class="p">,</span>    <span class="s1">'max'</span><span class="p">)</span>
+      <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># ── Fix 4: Diagnose why duplicates exist ────────────────────────────────────</span>
+<span class="c1"># Check if duplication is caused by a join fanout</span>
+<span class="c1"># Before join:</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Users before join:'</span><span class="p">,</span> <span class="n">df_users</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+<span class="n">merged</span> <span class="o">=</span> <span class="n">df_users</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_orders</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Users after join: '</span><span class="p">,</span> <span class="n">merged</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+<span class="c1"># If these differ, the right table has multiple rows per user_id</span>
+<span class="c1"># Check the right table:</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_orders</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'user_id'</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Duplicate type decision tree:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Are all columns identical?
+├── Yes → data pipeline bug → drop_duplicates()
+└── No  → key-level duplicates → inspect why
+         ├── One should be the "truth" (latest update)  → sort + keep='first'
+         ├── All rows have valid data (transactions)     → aggregate (sum, count, max)
+         └── Caused by a join                            → fix the join, not the output
+</pre></div>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Dropping duplicates before understanding why they exist — if caused by a bad join, the fix is upstream, not a <code class="docutils literal notranslate"><span class="pre">drop_duplicates</span></code> bandage</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">keep='first'</span></code> without sorting first — “first” means first in current row order, which may be arbitrary</p></li>
+<li><p>Checking only full duplicates and missing key-level duplicates — the more dangerous type is usually the key-level one</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="fix-string-categorical-inconsistencies">
+<h2>§5 — Fix String &amp; Categorical Inconsistencies<a class="headerlink" href="#fix-string-categorical-inconsistencies" title="Link to this heading">#</a></h2>
+<p>The same real-world entity appearing under different labels is one of the most common data quality issues. Groupby and merge operations silently fail when <code class="docutils literal notranslate"><span class="pre">&quot;US&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;us&quot;</span></code> are treated as different groups.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Step 1: Always inspect the raw unique values first ──────────────────────</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'country'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1"># Look for: trailing spaces, mixed case, abbreviations vs full names, typos</span>
+
+<span class="c1"># ── Fix 1: Normalize case and whitespace — do this first, always ────────────</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'country'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'country'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="c1"># Before: 'US', ' us', 'US ', 'us' → After: 'us' (all unified)</span>
+
+<span class="c1"># ── Fix 2: Map known variants to a canonical value ──────────────────────────</span>
+<span class="n">country_map</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'us'</span><span class="p">:</span>            <span class="s1">'United States'</span><span class="p">,</span>
+    <span class="s1">'usa'</span><span class="p">:</span>           <span class="s1">'United States'</span><span class="p">,</span>
+    <span class="s1">'united states'</span><span class="p">:</span> <span class="s1">'United States'</span><span class="p">,</span>
+    <span class="s1">'u.s.'</span><span class="p">:</span>          <span class="s1">'United States'</span><span class="p">,</span>
+    <span class="s1">'uk'</span><span class="p">:</span>            <span class="s1">'United Kingdom'</span><span class="p">,</span>
+    <span class="s1">'united kingdom'</span><span class="p">:</span><span class="s1">'United Kingdom'</span><span class="p">,</span>
+    <span class="s1">'gb'</span><span class="p">:</span>            <span class="s1">'United Kingdom'</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'country'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'country'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">country_map</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'country'</span><span class="p">])</span>
+<span class="c1"># .fillna(df['country']) preserves values not in the map (don't silently nullify them)</span>
+
+<span class="c1"># ── Fix 3: Replace known typos ──────────────────────────────────────────────</span>
+<span class="n">typo_map</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'cnaada'</span><span class="p">:</span>  <span class="s1">'canada'</span><span class="p">,</span>
+    <span class="s1">'germny'</span><span class="p">:</span>  <span class="s1">'germany'</span><span class="p">,</span>
+    <span class="s1">'brazill'</span><span class="p">:</span> <span class="s1">'brazil'</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'country'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'country'</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">typo_map</span><span class="p">)</span>
+
+<span class="c1"># ── Fix 4: Bucket sparse categories into 'Other' ───────────────────────────</span>
+<span class="c1"># Use when: long tail of rare categories that don't merit their own group</span>
+<span class="n">top_countries</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'country'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">index</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'country_grouped'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'country'</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'country'</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">top_countries</span><span class="p">),</span> <span class="n">other</span><span class="o">=</span><span class="s1">'Other'</span>
+<span class="p">)</span>
+
+<span class="c1"># ── Fix 5: Standardize boolean-like categoricals ─────────────────────────────</span>
+<span class="c1"># Common in survey or CRM data</span>
+<span class="n">bool_map</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'yes'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'no'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s1">'y'</span><span class="p">:</span>   <span class="mi">1</span><span class="p">,</span> <span class="s1">'n'</span><span class="p">:</span>  <span class="mi">0</span><span class="p">,</span>
+    <span class="s1">'1'</span><span class="p">:</span>   <span class="mi">1</span><span class="p">,</span> <span class="s1">'0'</span><span class="p">:</span>  <span class="mi">0</span><span class="p">,</span>
+    <span class="s1">'true'</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'false'</span><span class="p">:</span> <span class="mi">0</span>
+<span class="p">}</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'subscribed'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'subscribed'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">bool_map</span><span class="p">)</span>
+
+<span class="c1"># ── Fix 6: Enforce a controlled vocabulary ──────────────────────────────────</span>
+<span class="c1"># Catch unexpected values after cleaning</span>
+<span class="n">valid_platforms</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'ios'</span><span class="p">,</span> <span class="s1">'android'</span><span class="p">,</span> <span class="s1">'web'</span><span class="p">,</span> <span class="s1">'other'</span><span class="p">}</span>
+<span class="n">unexpected</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'platform'</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span> <span class="o">-</span> <span class="n">valid_platforms</span>
+<span class="k">if</span> <span class="n">unexpected</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'WARNING: unexpected platform values: </span><span class="si">{</span><span class="n">unexpected</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Cleaning sequence — always in this order:</strong></p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">.str.strip()</span></code> — remove whitespace</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.str.lower()</span></code> — normalize case</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.replace(typo_map)</span></code> — fix known typos</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.map(canonical_map)</span></code> — unify synonyms</p></li>
+<li><p>Bucket rare values into <code class="docutils literal notranslate"><span class="pre">'Other'</span></code></p></li>
+<li><p>Validate against controlled vocabulary</p></li>
+</ol>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">.map()</span></code> without <code class="docutils literal notranslate"><span class="pre">.fillna(df['col'])</span></code> — values not in the map become NaN, silently nullifying valid data</p></li>
+<li><p>Normalizing case after mapping — map first on lowercase, not on mixed-case raw values</p></li>
+<li><p>Forgetting that <code class="docutils literal notranslate"><span class="pre">pd.Series.replace()</span></code> replaces exact matches only; <code class="docutils literal notranslate"><span class="pre">.str.replace()</span></code> uses substring/regex matching — they are different methods</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="handle-outliers">
+<h2>§6 — Handle Outliers<a class="headerlink" href="#handle-outliers" title="Link to this heading">#</a></h2>
+<p>Outliers are not always errors. The decision is: is this value impossible, implausible, or just extreme? Each case requires a different response.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Step 1: Detect outliers ──────────────────────────────────────────────────</span>
+
+<span class="c1"># Method A: IQR — robust, distribution-free</span>
+<span class="n">Q1</span>  <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">Q3</span>  <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
+<span class="n">IQR</span> <span class="o">=</span> <span class="n">Q3</span> <span class="o">-</span> <span class="n">Q1</span>
+<span class="n">lower</span> <span class="o">=</span> <span class="n">Q1</span> <span class="o">-</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span>
+<span class="n">upper</span> <span class="o">=</span> <span class="n">Q3</span> <span class="o">+</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span>
+<span class="n">outliers_iqr</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">lower</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">upper</span><span class="p">)]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'IQR outliers: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">outliers_iqr</span><span class="p">)</span><span class="si">}</span><span class="s1"> rows'</span><span class="p">)</span>
+
+<span class="c1"># Method B: Z-score — works well for roughly normal distributions</span>
+<span class="c1"># Compute index-aligned: passing .dropna() into df[...] makes the mask shorter than</span>
+<span class="c1"># df and raises "Item wrong length". Done this way, NaN rows become False in the mask.</span>
+<span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">outliers_z</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">z</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Z-score outliers (|z|&gt;3): </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">outliers_z</span><span class="p">)</span><span class="si">}</span><span class="s1"> rows'</span><span class="p">)</span>
+
+<span class="c1"># Method C: Domain threshold — clearest when business rules exist</span>
+<span class="n">outliers_domain</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">120</span><span class="p">)]</span>
+
+<span class="c1"># ── Step 2: Decide what to do ───────────────────────────────────────────────</span>
+
+<span class="c1"># Treatment A: Remove — only if value is impossible or a clear data error</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">120</span><span class="p">)]</span>
+
+<span class="c1"># Treatment B: Winsorize (cap) — clip to plausible bounds, keep the row</span>
+<span class="c1"># Use when: extreme but real values exist (e.g. one user spent $1M)</span>
+<span class="n">p01</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="n">p99</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.99</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'revenue_capped'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">lower</span><span class="o">=</span><span class="n">p01</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="n">p99</span><span class="p">)</span>
+
+<span class="c1"># Treatment C: Flag and keep — preserve the outlier, mark it for downstream</span>
+<span class="c1"># Use when: the outlier may be real and important (e.g. a whale customer)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'is_revenue_outlier'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">upper</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1"># Treatment D: Log transform — compress the scale, don't remove</span>
+<span class="c1"># Use when: data is right-skewed (common for spend, income, counts)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'log_revenue'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">])</span>   <span class="c1"># log1p = log(x+1), handles zeros safely</span>
+
+<span class="c1"># ── Summary: check the effect of your treatment ─────────────────────────────</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'revenue_capped'</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Treatment decision guide:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Outlier type</p></th>
+<th class="head text-left"><p>Treatment</p></th>
+<th class="head text-left"><p>Reason</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Impossible value (age = -5)</p></td>
+<td class="text-left"><p>Remove</p></td>
+<td class="text-left"><p>Data entry error — the row is invalid</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Plausible but extreme (spend = $1M)</p></td>
+<td class="text-left"><p>Winsorize or flag</p></td>
+<td class="text-left"><p>Real event — removing distorts the picture</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Right-skewed distribution</p></td>
+<td class="text-left"><p>Log transform</p></td>
+<td class="text-left"><p>Compresses scale without losing data</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Extreme but informative (whale user)</p></td>
+<td class="text-left"><p>Flag + keep</p></td>
+<td class="text-left"><p>May be the most important segment</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Removing outliers reflexively — always ask “is this impossible or just unexpected?”</p></li>
+<li><p>Using Z-score on heavily skewed data — Z-score assumes normality; IQR is more robust for skewed distributions</p></li>
+<li><p>Winsorizing before splitting train/test — compute the percentile bounds on train set only, then apply to test to avoid leakage</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">np.log()</span></code> on columns with zeros — raises a warning and produces <code class="docutils literal notranslate"><span class="pre">-inf</span></code>; always use <code class="docutils literal notranslate"><span class="pre">np.log1p()</span></code></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="clean-column-names">
+<h2>§7 — Clean Column Names<a class="headerlink" href="#clean-column-names" title="Link to this heading">#</a></h2>
+<p>Messy column names break <code class="docutils literal notranslate"><span class="pre">.query()</span></code>, attribute-style access (<code class="docutils literal notranslate"><span class="pre">df.column_name</span></code>), and SQL integrations. Fix them once, right after loading.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="c1"># ── The standard cleaning pipeline ──────────────────────────────────────────</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">clean_column_names</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+          <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>                        <span class="c1"># remove leading/trailing whitespace</span>
+          <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>                        <span class="c1"># lowercase everything</span>
+          <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">r</span><span class="s1">'[^\w\s]'</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># remove special chars (keep letters, digits, _)</span>
+          <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">r</span><span class="s1">'\s+'</span><span class="p">,</span> <span class="s1">'_'</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>      <span class="c1"># spaces → underscores</span>
+          <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">r</span><span class="s1">'_+'</span><span class="p">,</span> <span class="s1">'_'</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>       <span class="c1"># collapse multiple underscores</span>
+          <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">'_'</span><span class="p">)</span>                     <span class="c1"># remove leading/trailing underscores</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">clean_column_names</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="c1"># Example transformation:</span>
+<span class="c1"># ' Total Revenue ($) ' → 'total_revenue'   (trailing _ removed by .str.strip('_'))</span>
+<span class="c1"># 'User ID'             → 'user_id'</span>
+<span class="c1"># 'Q1 2024 Sales'       → 'q1_2024_sales'</span>
+<span class="c1"># '__internal__'        → 'internal'</span>
+
+<span class="c1"># ── Handle duplicate column names after cleaning ─────────────────────────────</span>
+<span class="c1"># Can happen when 'Revenue $' and 'Revenue %' both become 'revenue'</span>
+<span class="n">cols</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">dup</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">[</span><span class="n">cols</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+    <span class="n">dup_idx</span> <span class="o">=</span> <span class="n">cols</span><span class="p">[</span><span class="n">cols</span> <span class="o">==</span> <span class="n">dup</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dup_idx</span><span class="p">):</span>
+        <span class="n">cols</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">dup</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">'</span>
+<span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">cols</span>
+
+<span class="c1"># ── Rename specific columns with a map ──────────────────────────────────────</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span>
+    <span class="s1">'cust_id'</span><span class="p">:</span> <span class="s1">'customer_id'</span><span class="p">,</span>
+    <span class="s1">'rev'</span><span class="p">:</span>     <span class="s1">'revenue'</span><span class="p">,</span>
+    <span class="s1">'dt'</span><span class="p">:</span>      <span class="s1">'event_date'</span>
+<span class="p">})</span>
+
+<span class="c1"># ── Validate final column names ──────────────────────────────────────────────</span>
+<span class="n">bad_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">'^[a-z][a-z0-9_]*$'</span><span class="p">,</span> <span class="n">c</span><span class="p">)]</span>
+<span class="k">if</span> <span class="n">bad_cols</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'WARNING: non-standard column names remain: </span><span class="si">{</span><span class="n">bad_cols</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="validation-contracts">
+<h2>§8 — Validation Contracts<a class="headerlink" href="#validation-contracts" title="Link to this heading">#</a></h2>
+<p>§1 audits a dataset once, by eye. A <strong>contract</strong> turns those same checks into
+something that runs on every refresh and fails loudly when the data drifts.</p>
+<p>The distinction that matters in an interview: cleaning is a one-off, validation
+is a control. Anything you discovered in §1–§7 should end up here so it cannot
+silently regress.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── A contract as a plain function: no dependencies, works anywhere ─────────</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Return a list of contract violations. Empty list == data is good."""</span>
+    <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># 1. Schema: required columns present</span>
+    <span class="n">required</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="s1">'event_date'</span><span class="p">,</span> <span class="s1">'age'</span><span class="p">,</span> <span class="s1">'revenue'</span><span class="p">,</span> <span class="s1">'country'</span><span class="p">}</span>
+    <span class="n">missing</span> <span class="o">=</span> <span class="n">required</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
+        <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"missing columns: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="c1"># 2. Uniqueness: the primary key really is a key</span>
+    <span class="k">if</span> <span class="s1">'user_id'</span> <span class="ow">in</span> <span class="n">df</span> <span class="ow">and</span> <span class="n">df</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">]</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">]</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"user_id not unique: </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> duplicate rows"</span><span class="p">)</span>
+
+    <span class="c1"># 3. Nullability: columns that must never be null</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="s1">'country'</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span> <span class="ow">and</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2"> has </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2"> nulls"</span><span class="p">)</span>
+
+    <span class="c1"># 4. Range: values inside plausible bounds</span>
+    <span class="k">if</span> <span class="s1">'age'</span> <span class="ow">in</span> <span class="n">df</span><span class="p">:</span>
+        <span class="n">bad</span> <span class="o">=</span> <span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">df</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">bad</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"age out of [0,120] in </span><span class="si">{</span><span class="n">bad</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2"> rows"</span><span class="p">)</span>
+
+    <span class="c1"># 5. Membership: categoricals restricted to a known set</span>
+    <span class="n">allowed</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'US'</span><span class="p">,</span> <span class="s1">'Canada'</span><span class="p">,</span> <span class="s1">'UK'</span><span class="p">,</span> <span class="s1">'EU'</span><span class="p">}</span>
+    <span class="k">if</span> <span class="s1">'country'</span> <span class="ow">in</span> <span class="n">df</span><span class="p">:</span>
+        <span class="n">unknown</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'country'</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">())</span> <span class="o">-</span> <span class="n">allowed</span>
+        <span class="k">if</span> <span class="n">unknown</span><span class="p">:</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"unexpected country values: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">unknown</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="c1"># 6. Freshness: the data actually covers recent dates</span>
+    <span class="k">if</span> <span class="s1">'event_date'</span> <span class="ow">in</span> <span class="n">df</span> <span class="ow">and</span> <span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">is_datetime64_any_dtype</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'event_date'</span><span class="p">]):</span>
+        <span class="n">stale</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">'event_date'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="o">.</span><span class="n">days</span>
+        <span class="k">if</span> <span class="n">stale</span> <span class="o">&gt;</span> <span class="mi">7</span><span class="p">:</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"stale data: newest row is </span><span class="si">{</span><span class="n">stale</span><span class="si">}</span><span class="s2"> days old"</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">errors</span>
+
+
+<span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">validate</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"FAIL:"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── assert_frame_equal — the regression test for a cleaning pipeline ────────</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas.testing</span><span class="w"> </span><span class="kn">import</span> <span class="n">assert_frame_equal</span><span class="p">,</span> <span class="n">assert_series_equal</span>
+
+<span class="n">expected</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'user_id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s1">'revenue'</span><span class="p">:</span> <span class="p">[</span><span class="mf">1200.0</span><span class="p">,</span> <span class="mf">950.0</span><span class="p">]})</span>
+<span class="n">actual</span>   <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'user_id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s1">'revenue'</span><span class="p">:</span> <span class="p">[</span><span class="mf">1200.0</span><span class="p">,</span> <span class="mf">950.0</span><span class="p">]})</span>
+
+<span class="n">assert_frame_equal</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>                      <span class="c1"># raises on any difference</span>
+<span class="n">assert_frame_equal</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">expected</span><span class="p">,</span> <span class="n">check_dtype</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>   <span class="c1"># ignore int64 vs float64</span>
+<span class="n">assert_frame_equal</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">expected</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>           <span class="c1"># float tolerance</span>
+<span class="n">assert_frame_equal</span><span class="p">(</span><span class="n">actual</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                   <span class="n">expected</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>           <span class="c1"># ignore column order</span>
+
+<span class="c1"># Pin the whole schema in one assertion</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">assert_schema</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">schema</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="nb">set</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="n">schema</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">assert</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">dtype</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2"> != </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="c1"># assert_schema(clean, {'user_id': 'int64', 'revenue': 'float64'})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Declarative alternative — <code class="docutils literal notranslate"><span class="pre">pandera</span></code>.</strong> Once the checks outgrow a function,
+a schema object is easier to read and produces better error messages:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandera.pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pa</span>
+
+<span class="n">schema</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">DataFrameSchema</span><span class="p">({</span>
+    <span class="s2">"user_id"</span><span class="p">:</span>    <span class="n">pa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+    <span class="s2">"age"</span><span class="p">:</span>        <span class="n">pa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">pa</span><span class="o">.</span><span class="n">Check</span><span class="o">.</span><span class="n">in_range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">120</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="s2">"revenue"</span><span class="p">:</span>    <span class="n">pa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">pa</span><span class="o">.</span><span class="n">Check</span><span class="o">.</span><span class="n">ge</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span>
+    <span class="s2">"country"</span><span class="p">:</span>    <span class="n">pa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">pa</span><span class="o">.</span><span class="n">Check</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">"US"</span><span class="p">,</span> <span class="s2">"Canada"</span><span class="p">,</span> <span class="s2">"UK"</span><span class="p">,</span> <span class="s2">"EU"</span><span class="p">])),</span>
+    <span class="s2">"event_date"</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s2">"datetime64[ns]"</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+<span class="p">})</span>
+
+<span class="n">clean</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">lazy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>   <span class="c1"># lazy=True collects ALL failures at once</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">lazy=True</span></code> matters: without it validation stops at the first failure, so you
+fix one problem per run instead of seeing the whole picture.</p>
+<p><strong>Where each check belongs:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Check</p></th>
+<th class="head text-left"><p>Contract</p></th>
+<th class="head text-left"><p>Runs when</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Required columns exist</p></td>
+<td class="text-left"><p>schema</p></td>
+<td class="text-left"><p>every load</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Primary key unique</p></td>
+<td class="text-left"><p>uniqueness</p></td>
+<td class="text-left"><p>every load</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Value in range</p></td>
+<td class="text-left"><p>range</p></td>
+<td class="text-left"><p>every load</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Category in allowed set</p></td>
+<td class="text-left"><p>membership</p></td>
+<td class="text-left"><p>every load</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Row count within ±20% of yesterday</p></td>
+<td class="text-left"><p>volume</p></td>
+<td class="text-left"><p>scheduled refresh</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Null rate stable vs last week</p></td>
+<td class="text-left"><p>drift</p></td>
+<td class="text-left"><p>scheduled refresh</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Validating <em>after</em> cleaning only — the interesting failures happen at ingest, so check both ends</p></li>
+<li><p>Raising on the first error instead of collecting all of them, which turns debugging into a loop</p></li>
+<li><p>Hard-coding thresholds that were true once; volume and null-rate checks should be relative to a recent baseline</p></li>
+<li><p>Treating validation as a data-quality nicety — silent schema drift is one of the most common causes of a model degrading in production (<a class="reference internal" href="../Data%20Science%20Workflow/ds7_deployment.html"><span class="doc">ds7_deployment</span></a>)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="interview-q-a">
+<h2>Interview Q&amp;A<a class="headerlink" href="#interview-q-a" title="Link to this heading">#</a></h2>
+<p><strong>Q: A CSV column reads as <code class="docutils literal notranslate"><span class="pre">object</span></code> but should be numeric. Walk me through it.</strong>
+A: I’d look before converting. <code class="docutils literal notranslate"><span class="pre">df['col'].str.replace(r'[\d.,-]',</span> <span class="pre">'',</span> <span class="pre">regex=True)</span> <span class="pre">.value_counts()</span></code> shows exactly which non-numeric characters are present — usually
+currency symbols, thousands separators, or a literal <code class="docutils literal notranslate"><span class="pre">'N/A'</span></code>. Then strip those and
+use <code class="docutils literal notranslate"><span class="pre">pd.to_numeric(...,</span> <span class="pre">errors='coerce')</span></code>, and finally count how many rows became
+NaN. Converting first and inspecting later hides the size of the problem.</p>
+<p><strong>Q: 30% of a column is missing. Drop it?</strong>
+A: Not on the percentage alone — the mechanism matters more than the rate. If it
+is missing at random and the column is weak, dropping is fine. If missingness is
+itself informative — income blank because the user declined — then the null <em>is</em>
+the signal and I’d add an indicator column rather than impute. I’d also check
+whether missingness correlates with the target before deciding.</p>
+<p><strong>Q: How do you handle outliers?</strong>
+A: First establish whether it is an error or a real extreme value. A 130-year-old
+user is an error; a $50,000 order might be your best customer. Errors get fixed or
+removed; genuine extremes get kept, and I’d change the <em>model</em> instead — winsorise,
+log-transform, or use a robust loss. Deleting real extremes because they are
+inconvenient is how you build a model that fails on exactly the rows that matter.</p>
+<p><strong>Q: <code class="docutils literal notranslate"><span class="pre">drop_duplicates()</span></code> removed fewer rows than expected. Why?</strong>
+A: It compares all columns by default, so rows differing in a timestamp or an id
+are not duplicates. The fix is <code class="docutils literal notranslate"><span class="pre">subset=</span></code> on the columns that define identity, plus
+<code class="docutils literal notranslate"><span class="pre">keep='last'</span></code> if recency wins. Trailing whitespace and case differences also
+defeat it, which is why string normalisation comes before dedup.</p>
+<p><strong>Q: What is the first thing you run on a new dataset?</strong>
+A: <code class="docutils literal notranslate"><span class="pre">.info()</span></code> for shape, dtypes and null counts, then <code class="docutils literal notranslate"><span class="pre">.describe(include='all')</span></code>,
+then <code class="docutils literal notranslate"><span class="pre">.nunique()</span></code> per column. Those three answer: is it the size I expected, did
+anything load as the wrong type, and which columns are keys versus categoricals.</p>
+<section id="gotchas">
+<h3>Gotchas<a class="headerlink" href="#gotchas" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">df.dropna()</span></code> with no arguments drops any row with a null anywhere — usually far more than intended</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">astype(int)</span></code> on a column containing NaN raises; use <code class="docutils literal notranslate"><span class="pre">Int64</span></code> or fill first</p></li>
+<li><p>Cleaning strings after deduplicating means <code class="docutils literal notranslate"><span class="pre">'</span> <span class="pre">us</span> <span class="pre">'</span></code> and <code class="docutils literal notranslate"><span class="pre">'US'</span></code> survive as separate rows — normalise first, then dedup</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">replace()</span></code> without <code class="docutils literal notranslate"><span class="pre">regex=True</span></code> matches whole values only, which is a frequent silent no-op</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pd.to_numeric(errors='coerce')</span></code> converts failures to NaN silently; always count them</p></li>
+</ul>
+<p><strong>Common mistakes:</strong></p>
+<ul class="simple">
+<li><p>Cleaning column names in the middle of a pipeline — do it immediately after loading, before any selection or filtering</p></li>
+<li><p>Forgetting to handle duplicate column names after cleaning — two different columns silently collapse to the same name</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">.str.replace('</span> <span class="pre">',</span> <span class="pre">'_')</span></code> without collapsing multiple spaces first — <code class="docutils literal notranslate"><span class="pre">'Total</span>&#160; <span class="pre">Revenue'</span></code> becomes <code class="docutils literal notranslate"><span class="pre">'Total__Revenue'</span></code></p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="decision-guide">
+<h2>Decision Guide<a class="headerlink" href="#decision-guide" title="Link to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Just loaded a new dataset?
+└── Always run: shape → .info() → null summary → duplicates → .describe() → value ranges  (§1)
+
+Column dtype is wrong?
+├── Date stored as string           → pd.to_datetime()                               (§2)
+├── ID stored as float              → fill nulls → .astype(int) or .astype(str)      (§2)
+├── Number has $, commas            → .str.replace() → .astype(float)                (§2)
+└── String with &lt;50 unique values   → .astype('category')                            (§2)
+
+Column has missing values?
+├── Null rate &lt; 5%, random          → dropna(subset=[...])                           (§3)
+├── Null means zero by logic        → fillna(0)                                      (§3)
+├── Null should carry forward       → sort first → groupby().ffill()                 (§3)
+├── Null depends on group           → groupby().transform(lambda x: x.fillna(...))   (§3)
+├── Null is informative             → flag column + fill                             (§3)
+└── Null rate &gt; 60%                 → drop the column                                (§3)
+
+Duplicate rows detected?
+├── All columns identical           → drop_duplicates()                              (§4)
+├── Same key, need latest record    → sort by date → drop_duplicates(keep='first')   (§4)
+├── Same key, all rows are valid    → groupby().agg()                                (§4)
+└── Caused by a join                → fix the join upstream                          (§4)
+
+Category labels are inconsistent?
+└── strip → lower → replace typos → map synonyms → bucket rare values               (§5)
+
+Outliers detected?
+├── Impossible value                → remove the row                                 (§6)
+├── Plausible but extreme           → .clip() to winsorize                           (§6)
+├── Right-skewed distribution       → np.log1p() transform                           (§6)
+└── Extreme but meaningful          → flag column and keep                           (§6)
+
+Column names are messy?
+└── strip → lower → special chars → spaces→underscore → deduplicate                 (§7)
+</pre></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Python Data Libs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Reference_Performance.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Performance &amp; Memory — Technical Reference</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="DM_Intermediate.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Data Manipulation — Intermediate</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
