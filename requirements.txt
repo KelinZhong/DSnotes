@@ -12,6 +12,7 @@ matplotlib
 scipy
 scikit-learn
 statsmodels
+pyarrow        # Parquet I/O in Reference_Performance §6; also backs pandas 3.x strings
 
 # ─── Chapter-specific ─────────────────────────────────────────────────────────
 networkx        # Causal ML: DAGs (cml4_identification)

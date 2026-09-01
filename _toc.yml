@@ -6,6 +6,7 @@ chapters:
     sections:
       - file: Python Data Libs/Reference_Pandas
       - file: Python Data Libs/Reference_NumPy
+      - file: Python Data Libs/Reference_Performance
       - file: Python Data Libs/DM_Basic
       - file: Python Data Libs/DM_Intermediate
       - file: Python Data Libs/DM_Advanced
