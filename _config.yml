@@ -26,7 +26,7 @@ execute:
     # With allow_errors left at its default (false), the first NameError would
     # abort the entire book build. The handful of self-contained cells in these
     # files ship with stored outputs instead -- do NOT strip those outputs, as
-    # they are never regenerated. See tools/normalize_notebooks.py.
+    # they are never regenerated.
     - "Python Data Libs/DM_*.ipynb"
     - "Python Data Libs/Reference_Pandas.ipynb"
     - "Python Data Libs/Reference_NumPy.ipynb"
